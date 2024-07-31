@@ -11,11 +11,9 @@ import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import SideMenu from "@modules/layout/components/side-menu";
+import { Region as MedusaRegion } from "@medusajs/medusa";
 
-interface Region {
-  id: string;
-  name: string;
-}
+interface Region extends MedusaRegion {}
 
 interface NavProps {
   regions: Region[];
