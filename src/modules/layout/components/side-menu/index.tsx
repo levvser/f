@@ -43,9 +43,9 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                 leaveTo="opacity-0"
               >
                 <Popover.Panel className="flex flex-col absolute w-full pr-4 sm:pr-0 sm:w-1/3 2xl:w-1/4 sm:min-w-min h-[calc(100vh-1rem)] z-30 inset-x-0 text-sm text-ui-fg-on-color m-2 backdrop-blur-2xl">
-                  <div data-testid="nav-menu-popup" className="flex flex-col h-full bg-[rgba(3,7,18,0.5)] rounded-rounded justify-between p-6">
+                  <div data-testid="nav-menu-popup" className="flex flex-col h-full bg-[rgba(3,7,18,0.5)] rounded-xl justify-between p-6">
                     <div className="flex justify-end" id="xmark">
-                      <button data-testid="close-menu-button" onClick={close}>
+                      <button data-testid="close-menu-button" onClick={close} className="text-white">
                         <XMark />
                       </button>
                     </div>
@@ -55,7 +55,7 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                           <li key={name}>
                             <LocalizedClientLink
                               href={href}
-                              className="text-3xl leading-10 hover:text-ui-fg-disabled"
+                              className="text-3xl leading-10 hover:text-ui-fg-disabled text-white"
                               onClick={close}
                               data-testid={`${name.toLowerCase()}-link`}
                             >
@@ -67,7 +67,7 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                     </ul>
                     <div className="flex flex-col gap-y-6">
                       <div
-                        className="flex justify-between"
+                        className="flex justify-between items-center"
                         onMouseEnter={toggleState.open}
                         onMouseLeave={toggleState.close}
                       >
@@ -79,14 +79,13 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                         )}
                         <ArrowRightMini
                           className={clx(
-                            "transition-transform duration-150",
+                            "transition-transform duration-150 text-white",
                             toggleState.state ? "-rotate-90" : ""
                           )}
                         />
                       </div>
-                      <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Medusa Store. All rights
-                        reserved.
+                      <Text className="flex justify-between txt-compact-small text-white">
+                        © {new Date().getFullYear()} CUCICUCI store. Tutti i diritti riservati.
                       </Text>
                     </div>
                   </div>
