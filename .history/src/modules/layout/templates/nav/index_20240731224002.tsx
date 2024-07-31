@@ -70,7 +70,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             className="text-lg sm:text-xl font-bold hover:text-violet-950 uppercase"
             data-testid="nav-store-link"
           >
-            CUCICUCI STORE
+            ARTECUCIRE STORE
           </LocalizedClientLink>
         </div>
 
