@@ -10,12 +10,14 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import CountrySelect from "../country-select"
 
 const SideMenuItems = {
-  Home: "/",
-  Store: "/store",
-  Search: "/search",
-  Account: "/account",
-  Cart: "/cart",
+  PerCucire: "it/collections/macchine-per-cucire",
+  PerRicamare: "it/collections/macchine-per-cucire",
+  CuciRicama: "it/collections/macchine-per-cucire-e-ricamare",
+  ScanTaglia: "it/collections/scannerizza-taglia",
+  Termopresse: "it/collections/termopresse",
+  Stiro: "it/collections/Stiro",
 }
+
 
 const SideMenu = ({ regions }: { regions: Region[] | null }) => {
   const toggleState = useToggleState()
