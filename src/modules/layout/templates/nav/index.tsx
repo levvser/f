@@ -67,7 +67,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         <div className="flex-1 h-full flex items-center justify-start px-4">
           <LocalizedClientLink
             href="/"
-            className="text-lg sm:text-xl font-bold hover:text-violet-950 uppercase"
+            className="text-lg sm:text-xl font-bold hover:text-violet-950 uppercase whitespace-nowrap"
             data-testid="nav-store-link"
           >
             ARTECUCIRE STORE
