@@ -53,12 +53,12 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   }, []);
 
   const collectionLinks = [
-    { href: "/us/collections/merch", label: "Merch" },
-    { href: "/us/collections/clothing", label: "Clothing" },
-    { href: "/us/collections/accessories", label: "Accessories" },
-    { href: "/us/collections/shoes", label: "Shoes" },
-    { href: "/us/collections/sale", label: "Sale" },
-    { href: "/us/collections/new", label: "New Arrivals" },
+    { href: "it/collections/macchine-per-cucire", label: "Per Cucire" },
+    { href: "it/collections/macchine-per-cucire", label: "Per Ricamare" },
+    { href: "it/collections/macchine-per-cucire-e-ricamare", label: "Cucire e Ricama" },
+    { href: "it/collections/scannerizza-taglia", label: "Scan e Taglia" },
+    { href: "it/collections/termopresse", label: "Termopresse" },
+    { href: "it/collections/Stiro", label: "Stiro" },
   ];
 
   return (
