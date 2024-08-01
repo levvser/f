@@ -13,13 +13,15 @@ const Hero = () => {
         <span>
           <Heading
             level="h1"
-            className="text-5xl leading-tight text-white font-bold drop-shadow-lg shadow-black"
+            className="text-5xl leading-tight text-white font-bold drop-shadow-lg"
+            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)" }}
           >
             Scopri gli strumenti giusti per te
           </Heading>
           <Heading
             level="h2"
-            className="text-2xl leading-tight text-gray-100 font-light mt-2 drop-shadow-lg shadow-black"
+            className="text-4xl leading-tight text-gray-100 font-light mt-2 drop-shadow-lg"
+            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)" }}
           >
             nel nostro ricco catalogo
           </Heading>
@@ -29,7 +31,7 @@ const Hero = () => {
           target="_blank"
         >
           <Button variant="secondary" className="mt-4 flex items-center gap-2">
-            View on GitHub
+            Prodotti
             <Github />
           </Button>
         </a>
