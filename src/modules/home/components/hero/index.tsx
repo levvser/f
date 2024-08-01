@@ -3,27 +3,27 @@ import { Button, Heading } from "@medusajs/ui"
 
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
+    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-cover bg-center" style={{ backgroundImage: "url('your-image-url.jpg')" }}>
+      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 small:p-32 gap-4 backdrop-blur-md bg-black bg-opacity-50">
         <span>
           <Heading
             level="h1"
-            className="text-3xl leading-10 text-ui-fg-base font-normal"
+            className="text-5xl leading-tight text-white font-bold drop-shadow-lg"
           >
-            Ecommerce Starter Template
+            Scopri gli strumenti giusti per te
           </Heading>
           <Heading
             level="h2"
-            className="text-3xl leading-10 text-ui-fg-subtle font-normal"
+            className="text-2xl leading-tight text-gray-200 font-light mt-2 drop-shadow-lg"
           >
-            Powered by Medusa and Next.js
+            Shop with Medusa and Next.js
           </Heading>
         </span>
         <a
           href="https://github.com/medusajs/nextjs-starter-medusa"
           target="_blank"
         >
-          <Button variant="secondary">
+          <Button variant="secondary" className="mt-4 flex items-center gap-2">
             View on GitHub
             <Github />
           </Button>
