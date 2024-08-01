@@ -65,10 +65,7 @@ export default async function ProductPreview({
                 <span className="inline-block bg-blue-100 bg-opacity-30 backdrop-filter backdrop-blur-lg text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded shadow-sm">
                   Principiante
                 </span>
-                <PreviewPrice
-                  price={cheapestPrice}
-                  className="text-xl font-semibold text-gray-900 ml-auto"
-                />
+                <PreviewPrice price={cheapestPrice} />
               </>
             )}
           </div>
