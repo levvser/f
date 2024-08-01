@@ -9,7 +9,7 @@ const Hero = () => {
         backgroundImage: "url('https://ac-bucket.fra1.digitaloceanspaces.com/Sewing_Machines-164-2_Chapstick_HOlder.webp')",
       }}
     >
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 small:p-32 gap-4 backdrop-blur-md bg-black bg-opacity-50">
+      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 small:p-32 gap-4 bg-black bg-opacity-30">
         <span>
           <Heading
             level="h1"
@@ -21,7 +21,7 @@ const Hero = () => {
             level="h2"
             className="text-2xl leading-tight text-gray-200 font-light mt-2 drop-shadow-lg"
           >
-            Scopri il nostro catalogo!
+            nel nostro ricco catalogo
           </Heading>
         </span>
         <a
