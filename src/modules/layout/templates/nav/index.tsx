@@ -42,9 +42,9 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 48) {
-        setNavClass("fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-3xl bg-white bg-opacity-70");
+        setNavClass("fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-3xl bg-white bg-opacity-60");
       } else {
-        setNavClass("absolute top-12 transition-transform duration-300 ease-in-out bg-white bg-opacity-70");
+        setNavClass("absolute top-12 transition-transform duration-300 ease-in-out");
       }
     };
 
@@ -62,7 +62,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   ];
 
   return (
-    <header className={`w-full z-50 ${navClass}`}>
+    <header className={w-full bg-opacity-60 z-50 ${navClass}}>
       <nav className="content-container text-violet-900 flex items-center justify-between h-16 text-xs sm:text-base">
         <div className="flex-1 h-full flex items-center justify-start px-4">
           <LocalizedClientLink
