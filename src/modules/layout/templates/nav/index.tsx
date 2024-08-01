@@ -62,7 +62,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   ];
 
   return (
-    <header className={w-full bg-opacity-60 z-50 ${navClass}}>
+    <header className={`w-full bg-opacity-60 z-50 ${navClass}`}>
       <nav className="content-container text-violet-900 flex items-center justify-between h-16 text-xs sm:text-base">
         <div className="flex-1 h-full flex items-center justify-start px-4">
           <LocalizedClientLink
@@ -70,7 +70,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             className="text-lg sm:text-xl font-bold hover:text-violet-950 uppercase whitespace-nowrap"
             data-testid="nav-store-link"
           >
-            ARTECUCIRE STORE
+            ARTECUCIRE
           </LocalizedClientLink>
         </div>
 
