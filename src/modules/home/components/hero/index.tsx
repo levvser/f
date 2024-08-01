@@ -13,13 +13,13 @@ const Hero = () => {
         <span>
           <Heading
             level="h1"
-            className="text-5xl leading-tight text-white font-bold drop-shadow-lg"
+            className="text-5xl leading-tight text-white font-bold drop-shadow-lg shadow-black"
           >
             Scopri gli strumenti giusti per te
           </Heading>
           <Heading
             level="h2"
-            className="text-2xl leading-tight text-gray-200 font-light mt-2 drop-shadow-lg"
+            className="text-2xl leading-tight text-gray-100 font-light mt-2 drop-shadow-lg shadow-black"
           >
             nel nostro ricco catalogo
           </Heading>
