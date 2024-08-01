@@ -21,7 +21,7 @@ const Hero = () => {
             level="h2"
             className="text-2xl leading-tight text-gray-200 font-light mt-2 drop-shadow-lg"
           >
-            Shop with Medusa and Next.js
+            Scopri il nostro catalogo!
           </Heading>
         </span>
         <a
