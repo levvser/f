@@ -86,7 +86,8 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} ArteCucire Store. Tutti i diritti riservati.
+                        © {new Date().getFullYear()} Medusa Store. All rights
+                        reserved.
                       </Text>
                     </div>
                   </div>
