@@ -1,9 +1,14 @@
-import { Github } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
+import { Github } from "@medusajs/icons";
+import { Button, Heading } from "@medusajs/ui";
 
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-cover bg-center" style={{ backgroundImage: "url('your-image-url.jpg')" }}>
+    <div
+      className="h-[75vh] w-full border-b border-ui-border-base relative bg-cover bg-center"
+      style={{
+        backgroundImage: "url('https://ac-bucket.fra1.digitaloceanspaces.com/Sewing_Machines-164-2_Chapstick_HOlder.webp')",
+      }}
+    >
       <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 small:p-32 gap-4 backdrop-blur-md bg-black bg-opacity-50">
         <span>
           <Heading
@@ -30,7 +35,7 @@ const Hero = () => {
         </a>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;
