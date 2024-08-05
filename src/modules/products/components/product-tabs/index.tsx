@@ -1,12 +1,13 @@
+
 "use client"
 
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+
 import Back from "@modules/common/icons/back"
 import FastDelivery from "@modules/common/icons/fast-delivery"
 import Refresh from "@modules/common/icons/refresh"
+
 import Accordion from "./accordion"
-import ProductInfo from "@modules/products/templates/product-info"
-import ImageGallery from "@modules/products/components/image-gallery"
 
 type ProductTabsProps = {
   product: PricedProduct
@@ -124,16 +125,6 @@ const ShippingInfoTab = () => {
   )
 }
 
-const IndexPage = ({ product }: { product: PricedProduct }) => {
-  return (
-    <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
-      <ProductInfo product={product} />
-      <ProductTabs product={product} />
-      <div className="block w-full relative">
-        <ImageGallery images={product?.images || []} />
-      </div>
-    </div>
-  )
-}
+export default ProductTabs
 
-export default IndexPage
+
