@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
 import Back from "@modules/common/icons/back"
@@ -9,41 +8,11 @@ import Refresh from "@modules/common/icons/refresh"
 
 import Accordion from "./accordion"
 
-interface CustomAttribute {
-  id: string;
-  value: string;
-  attribute: {
-    name: string;
-  };
-}
-
-interface ProductTag {
-  id: string;
-  name: string;
-}
-
-interface ProductType {
-  id: string;
-  value: string;
-}
-
 type ProductTabsProps = {
-  productId: string;
+  product: PricedProduct
 }
 
-const ProductTabs = ({ productId }: ProductTabsProps) => {
-  const [product, setProduct] = useState<PricedProduct | null>(null)
-
-  useEffect(() => {
-    fetch(`https://ac-k6jsi.ondigitalocean.app/store/products/${productId}`)
-      .then(response => response.json())
-      .then(data => {
-        setProduct(data.product)
-      })
-  }, [productId])
-
-  if (!product) return <div>Loading...</div>
-
+const ProductTabs = ({ product }: ProductTabsProps) => {
   const tabs = [
     {
       label: "Product Information",
@@ -73,32 +42,22 @@ const ProductTabs = ({ productId }: ProductTabsProps) => {
   )
 }
 
-const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
-  const customAttributes: CustomAttribute[] = (product as any).attribute_values || [];
-  const tags: ProductTag[] = (product as any).tags || [];
-  const type: ProductType = (product as any).type || { id: "", value: "" };
-
+const ProductInfoTab = ({ product }: ProductTabsProps) => {
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
-          {customAttributes.map((attr) => (
-            <div key={attr.id}>
-              <span className="font-semibold">{attr.attribute.name}</span>
-              <p>{attr.value}</p>
-            </div>
-          ))}
           <div>
             <span className="font-semibold">Material</span>
-            <p>{(product as any).material ? (product as any).material : "-"}</p>
+            <p>{product.material ? product.material : "-"}</p>
           </div>
           <div>
             <span className="font-semibold">Country of origin</span>
-            <p>{(product as any).origin_country ? (product as any).origin_country : "-"}</p>
+            <p>{product.origin_country ? product.origin_country : "-"}</p>
           </div>
           <div>
             <span className="font-semibold">Type</span>
-            <p>{type.value ? type.value : "-"}</p>
+            <p>{product.type ? product.type.value : "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
@@ -116,10 +75,9 @@ const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
           </div>
         </div>
       </div>
-      {tags.length ? (
+      {product.tags?.length ? (
         <div>
           <span className="font-semibold">Tags</span>
-          <div>{tags.map(tag => tag.name).join(', ')}</div>
         </div>
       ) : null}
     </div>
@@ -167,3 +125,4 @@ const ShippingInfoTab = () => {
 }
 
 export default ProductTabs
+
