@@ -2,23 +2,15 @@
 
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
-type ExtendedPricedProduct = PricedProduct & {
-  attribute_values?: Array<{
-    id: string;
-    attribute: { name: string };
-    value: string;
-  }>;
-}
-
-type ProductTabsProps = {
-  product: ExtendedPricedProduct
-}
-
 import Back from "@modules/common/icons/back"
 import FastDelivery from "@modules/common/icons/fast-delivery"
 import Refresh from "@modules/common/icons/refresh"
 
 import Accordion from "./accordion"
+
+type ProductTabsProps = {
+  product: PricedProduct
+}
 
 const ProductTabs = ({ product }: ProductTabsProps) => {
   const tabs = [
@@ -51,20 +43,14 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 }
 
 const ProductInfoTab = ({ product }: ProductTabsProps) => {
-  const customAttributes = product.attribute_values || [];
-
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-2 gap-x-8">
-        {customAttributes.map((attr) => (
-          <div key={attr.id} className="flex flex-col gap-y-4">
-            <div>
-              <span className="font-semibold">{attr.attribute.name}</span>
-              <p>{attr.value}</p>
-            </div>
-          </div>
-        ))}
         <div className="flex flex-col gap-y-4">
+          <div>
+            <span className="font-semibold">Material</span>
+            <p>{product.material ? product.material : "-"}</p>
+          </div>
           <div>
             <span className="font-semibold">Country of origin</span>
             <p>{product.origin_country ? product.origin_country : "-"}</p>
@@ -73,6 +59,8 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
             <span className="font-semibold">Type</span>
             <p>{product.type ? product.type.value : "-"}</p>
           </div>
+        </div>
+        <div className="flex flex-col gap-y-4">
           <div>
             <span className="font-semibold">Weight</span>
             <p>{product.weight ? `${product.weight} g` : "-"}</p>
@@ -90,13 +78,11 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
       {product.tags?.length ? (
         <div>
           <span className="font-semibold">Tags</span>
-          <div>{product.tags.map(tag => tag.name).join(', ')}</div>
         </div>
       ) : null}
     </div>
   )
 }
-
 
 const ShippingInfoTab = () => {
   return (
