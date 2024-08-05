@@ -76,7 +76,7 @@ const ProductTabs = ({ productId }: ProductTabsProps) => {
 const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
   const customAttributes: CustomAttribute[] = (product as any).attribute_values || [];
   const tags: ProductTag[] = (product as any).tags || [];
-  const type: ProductType = (product as any).type || {};
+  const type: ProductType = (product as any).type || { id: "", value: "" };
 
   return (
     <div className="text-small-regular py-8">
@@ -90,11 +90,11 @@ const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
           ))}
           <div>
             <span className="font-semibold">Material</span>
-            <p>{product.material ? product.material : "-"}</p>
+            <p>{(product as any).material ? (product as any).material : "-"}</p>
           </div>
           <div>
             <span className="font-semibold">Country of origin</span>
-            <p>{product.origin_country ? product.origin_country : "-"}</p>
+            <p>{(product as any).origin_country ? (product as any).origin_country : "-"}</p>
           </div>
           <div>
             <span className="font-semibold">Type</span>
