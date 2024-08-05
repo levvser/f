@@ -23,7 +23,7 @@ const AlertBar: React.FC = () => (
   <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-3 px-1 text-violet-900 flex justify-center items-center text-xs sm:text-sm shadow-none">
     <div className="flex items-center mx-2">
       <FaInfoCircle size={12} className="mr-1 text-violet-700 hover:text-violet-900" />
-      <span className="text-violet-700">Spedizione gratuita</span>
+      <span className="text-violet-700">Spedizione gratuita da € 100</span>
     </div>
     <div className="flex items-center mx-2">
       <FaCheckCircle size={12} className="mr-1 text-violet-700 hover:text-violet-900" />
