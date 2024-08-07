@@ -14,7 +14,7 @@ type CustomAttribute = {
   description: string
   type: string
   handle: string
-  filterable: boolean
+  filterable: boolean | null
   metadata: any
   values: {
     id: string
@@ -65,9 +65,13 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 }
 
 const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
-  const customAttribute = product.custom_attributes?.find(
+  const customAttribute1 = product.custom_attributes?.find(
     (attr) => attr.name === "name_provaattribute"
-  )
+  )?.values.find(value => value.value === "value_1_provaattribute")
+
+  const customAttribute2 = product.custom_attributes?.find(
+    (attr) => attr.name === "prova"
+  )?.values.find(value => value.value === "prova1")
 
   return (
     <div className="text-small-regular py-8">
@@ -86,8 +90,12 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
             <p>{product.type ? product.type.value : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Custom Attribute</span>
-            <p>{customAttribute ? customAttribute.values[1].value : "-"}</p>
+            <span className="font-semibold">Custom Attribute 1</span>
+            <p>{customAttribute1 ? customAttribute1.value : "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Custom Attribute 2</span>
+            <p>{customAttribute2 ? customAttribute2.value : "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
