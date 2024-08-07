@@ -22,15 +22,8 @@ const ProductTabs = ({ productId }: ProductTabsProps) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get("https://ac-k6jsi.ondigitalocean.app/store/products", {
-          params: {
-            attributes: [
-              "attr_val_01HDZX4VRNP8PNB3FYJXHAGMWG",
-              "attr_val_BQDHQ342NB3FYJXHA4353",
-            ],
-          },
-        })
-        const productData = response.data.find((p: PricedProduct) => p.id === productId)
+        const response = await axios.get("https://ac-k6jsi.ondigitalocean.app/store/products")
+        const productData = response.data.products.find((p: PricedProduct) => p.id === productId)
         setProduct(productData)
       } catch (err) {
         setError("Failed to fetch product data.")
@@ -138,11 +131,11 @@ const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
           </div>
           <div>
             <span className="font-semibold">Created At</span>
-            <p>{formatDate(product.created_at ? product.created_at.toString() : null)}</p>
+            <p>{formatDate(product.created_at?.toString() || null)}</p>
           </div>
           <div>
             <span className="font-semibold">Updated At</span>
-            <p>{formatDate(product.updated_at ? product.updated_at.toString() : null)}</p>
+            <p>{formatDate(product.updated_at?.toString() || null)}</p>
           </div>
         </div>
       </div>
@@ -150,6 +143,40 @@ const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
         <div>
           <span className="font-semibold">Tags</span>
           <p>{product.tags.join(", ")}</p>
+        </div>
+      ) : null}
+      {product.images?.length ? (
+        <div className="mt-4">
+          <span className="font-semibold">Images</span>
+          <div className="flex gap-x-4">
+            {product.images.map((image) => (
+              <img key={image.id} src={image.url} alt={product.title} className="w-24 h-24 object-cover" />
+            ))}
+          </div>
+        </div>
+      ) : null}
+      {product.options?.length ? (
+        <div className="mt-4">
+          <span className="font-semibold">Options</span>
+          <ul>
+            {product.options.map((option) => (
+              <li key={option.id}>
+                {option.title}: {option.values.map((value) => value.value).join(", ")}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+      {product.variants?.length ? (
+        <div className="mt-4">
+          <span className="font-semibold">Variants</span>
+          <ul>
+            {product.variants.map((variant) => (
+              <li key={variant.id}>
+                {variant.title} - {variant.inventory_quantity} in stock
+              </li>
+            ))}
+          </ul>
         </div>
       ) : null}
     </div>
@@ -196,4 +223,4 @@ const ShippingInfoTab = () => {
   )
 }
 
-export default ProductTabs
+export { ProductTabs, ProductInfoTab, ShippingInfoTab }
