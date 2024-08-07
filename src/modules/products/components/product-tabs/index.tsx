@@ -1,6 +1,7 @@
-
 "use client"
 
+import React, { useEffect, useState } from "react"
+import axios from "axios"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
 import Back from "@modules/common/icons/back"
@@ -10,10 +11,49 @@ import Refresh from "@modules/common/icons/refresh"
 import Accordion from "./accordion"
 
 type ProductTabsProps = {
-  product: PricedProduct
+  productId: string
 }
 
-const ProductTabs = ({ product }: ProductTabsProps) => {
+const ProductTabs = ({ productId }: ProductTabsProps) => {
+  const [product, setProduct] = useState<PricedProduct | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get("https://ac-k6jsi.ondigitalocean.app/store/products", {
+          params: {
+            attributes: [
+              "attr_val_01HDZX4VRNP8PNB3FYJXHAGMWG",
+              "attr_val_BQDHQ342NB3FYJXHA4353",
+            ],
+          },
+        })
+        const productData = response.data.find((p: PricedProduct) => p.id === productId)
+        setProduct(productData)
+      } catch (err) {
+        setError("Failed to fetch product data.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProduct()
+  }, [productId])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>{error}</div>
+  }
+
+  if (!product) {
+    return <div>Product not found</div>
+  }
+
   const tabs = [
     {
       label: "Product Information",
@@ -43,11 +83,29 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   )
 }
 
-const ProductInfoTab = ({ product }: ProductTabsProps) => {
+const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return "-"
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
+    return new Date(dateString).toLocaleDateString(undefined, options)
+  }
+
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
+          <div>
+            <span className="font-semibold">Title</span>
+            <p>{product.title}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Subtitle</span>
+            <p>{product.subtitle}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Description</span>
+            <p>{product.description}</p>
+          </div>
           <div>
             <span className="font-semibold">Material</span>
             <p>{product.material ? product.material : "-"}</p>
@@ -59,6 +117,10 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
           <div>
             <span className="font-semibold">Type</span>
             <p>{product.type ? product.type.value : "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Collection</span>
+            <p>{product.collection ? product.collection.title : "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
@@ -74,11 +136,20 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
                 : "-"}
             </p>
           </div>
+          <div>
+            <span className="font-semibold">Created At</span>
+            <p>{formatDate(product.created_at ? product.created_at.toString() : null)}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Updated At</span>
+            <p>{formatDate(product.updated_at ? product.updated_at.toString() : null)}</p>
+          </div>
         </div>
       </div>
       {product.tags?.length ? (
         <div>
           <span className="font-semibold">Tags</span>
+          <p>{product.tags.join(", ")}</p>
         </div>
       ) : null}
     </div>
@@ -126,5 +197,3 @@ const ShippingInfoTab = () => {
 }
 
 export default ProductTabs
-
-
