@@ -1,52 +1,28 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import axios from "axios"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-
 import Back from "@modules/common/icons/back"
 import FastDelivery from "@modules/common/icons/fast-delivery"
 import Refresh from "@modules/common/icons/refresh"
-
 import Accordion from "./accordion"
 
-type ProductTabsProps = {
-  productId: string
+type CustomPricedProduct = PricedProduct & {
+  attribute_values?: {
+    id: string
+    value: string
+    attribute: {
+      id: string
+      name: string
+      type: string
+    }
+  }[]
 }
 
-const ProductTabs = ({ productId }: ProductTabsProps) => {
-  const [product, setProduct] = useState<PricedProduct | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
+type ProductTabsProps = {
+  product: CustomPricedProduct
+}
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.get("https://ac-k6jsi.ondigitalocean.app/store/products")
-        const productData = response.data.products.find((p: PricedProduct) => p.id === productId)
-        setProduct(productData)
-      } catch (err) {
-        setError("Failed to fetch product data.")
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchProduct()
-  }, [productId])
-
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (error) {
-    return <div>{error}</div>
-  }
-
-  if (!product) {
-    return <div>Product not found</div>
-  }
-
+const ProductTabs = ({ product }: ProductTabsProps) => {
   const tabs = [
     {
       label: "Product Information",
@@ -76,29 +52,15 @@ const ProductTabs = ({ productId }: ProductTabsProps) => {
   )
 }
 
-const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "-"
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
-    return new Date(dateString).toLocaleDateString(undefined, options)
-  }
+const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
+  const customAttribute = product.attribute_values?.find(
+    (attr) => attr.attribute.name === "name_provaattribute"
+  )
 
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
-          <div>
-            <span className="font-semibold">Title</span>
-            <p>{product.title}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Subtitle</span>
-            <p>{product.subtitle}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Description</span>
-            <p>{product.description}</p>
-          </div>
           <div>
             <span className="font-semibold">Material</span>
             <p>{product.material ? product.material : "-"}</p>
@@ -112,8 +74,8 @@ const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
             <p>{product.type ? product.type.value : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Collection</span>
-            <p>{product.collection ? product.collection.title : "-"}</p>
+            <span className="font-semibold">Custom Attribute</span>
+            <p>{customAttribute ? customAttribute.value : "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
@@ -129,54 +91,12 @@ const ProductInfoTab = ({ product }: { product: PricedProduct }) => {
                 : "-"}
             </p>
           </div>
-          <div>
-            <span className="font-semibold">Created At</span>
-            <p>{formatDate(product.created_at?.toString() || null)}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Updated At</span>
-            <p>{formatDate(product.updated_at?.toString() || null)}</p>
-          </div>
         </div>
       </div>
       {product.tags?.length ? (
         <div>
           <span className="font-semibold">Tags</span>
           <p>{product.tags.join(", ")}</p>
-        </div>
-      ) : null}
-      {product.images?.length ? (
-        <div className="mt-4">
-          <span className="font-semibold">Images</span>
-          <div className="flex gap-x-4">
-            {product.images.map((image) => (
-              <img key={image.id} src={image.url} alt={product.title} className="w-24 h-24 object-cover" />
-            ))}
-          </div>
-        </div>
-      ) : null}
-      {product.options?.length ? (
-        <div className="mt-4">
-          <span className="font-semibold">Options</span>
-          <ul>
-            {product.options.map((option) => (
-              <li key={option.id}>
-                {option.title}: {option.values.map((value) => value.value).join(", ")}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-      {product.variants?.length ? (
-        <div className="mt-4">
-          <span className="font-semibold">Variants</span>
-          <ul>
-            {product.variants.map((variant) => (
-              <li key={variant.id}>
-                {variant.title} - {variant.inventory_quantity} in stock
-              </li>
-            ))}
-          </ul>
         </div>
       ) : null}
     </div>
@@ -223,4 +143,4 @@ const ShippingInfoTab = () => {
   )
 }
 
-export { ProductTabs, ProductInfoTab, ShippingInfoTab }
+export default ProductTabs
