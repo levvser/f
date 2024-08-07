@@ -6,16 +6,28 @@ import FastDelivery from "@modules/common/icons/fast-delivery"
 import Refresh from "@modules/common/icons/refresh"
 import Accordion from "./accordion"
 
-type CustomPricedProduct = PricedProduct & {
-  attribute_values?: {
+type CustomAttribute = {
+  id: string
+  created_at: string
+  updated_at: string
+  name: string
+  description: string
+  type: string
+  handle: string
+  filterable: boolean
+  metadata: any
+  values: {
     id: string
+    created_at: string
+    updated_at: string
     value: string
-    attribute: {
-      id: string
-      name: string
-      type: string
-    }
+    metadata: any
+    rank: number
   }[]
+}
+
+type CustomPricedProduct = PricedProduct & {
+  custom_attributes?: CustomAttribute[]
 }
 
 type ProductTabsProps = {
@@ -53,8 +65,8 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 }
 
 const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
-  const customAttribute = product.attribute_values?.find(
-    (attr) => attr.attribute.name === "name_provaattribute"
+  const customAttribute = product.custom_attributes?.find(
+    (attr) => attr.name === "name_provaattribute"
   )
 
   return (
@@ -75,7 +87,7 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
           </div>
           <div>
             <span className="font-semibold">Custom Attribute</span>
-            <p>{customAttribute ? customAttribute.value : "-"}</p>
+            <p>{customAttribute ? customAttribute.values[0].value : "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
