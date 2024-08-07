@@ -87,7 +87,7 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
           </div>
           <div>
             <span className="font-semibold">Custom Attribute</span>
-            <p>{customAttribute ? customAttribute.values[0].value : "-"}</p>
+            <p>{customAttribute ? customAttribute.values[1].value : "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
