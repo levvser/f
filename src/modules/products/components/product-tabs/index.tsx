@@ -66,12 +66,14 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 
 const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
   const customAttribute1 = product.custom_attributes?.find(
-    (attr) => attr.name === "name_provaattribute"
-  )?.values.find(value => value.value === "value_1_provaattribute")
+    (attr) => attr.name === "MARCHE"
+  )?.values.find(value => value.value === "ALTRO")
 
   const customAttribute2 = product.custom_attributes?.find(
-    (attr) => attr.name === "prova"
-  )?.values.find(value => value.value === "prova1")
+    (attr) => attr.name === "TIPO"
+  )?.values.find(value => value.value === "COPERTURA")
+
+
 
   return (
     <div className="text-small-regular py-8">
