@@ -82,13 +82,13 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
     (attr) => attr.name === "LIVELLO"
   )?.values.find(value => tipoValues.includes(value.value));
 
-  const descrizioneValues = [
-    "PRINCIPIANTE",
-    "INTERMEDIO",
-    "ESPERTO"
+  const caratteristicheValues = [
+    "Trasporto differenziale",
+    "15 Punti",
+    "Overlock piatto"
   ];
-  const descrizione_attribute = product.custom_attributes?.find(
-    (attr) => attr.name === "DESCRIZIONE"
+  const caratteristiche_attribute = product.custom_attributes?.find(
+    (attr) => attr.name === "CARATTERISTICHE"
   )?.values.find(value => tipoValues.includes(value.value));
 
 
@@ -98,8 +98,8 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
           <div>
-          <span className="font-semibold">Descrizione</span>
-          <p>{descrizione_attribute ? descrizione_attribute.value : "-"}</p>
+          <span className="font-semibold">Caratteristiche</span>
+          <p>{caratteristiche_attribute ? caratteristiche_attribute.value : "-"}</p>
           </div>
           <div>
             <span className="font-semibold">Livello</span>
