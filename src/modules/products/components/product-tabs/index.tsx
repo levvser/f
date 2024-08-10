@@ -65,24 +65,17 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 }
 
 
-
-
 const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
-  const targetValues = ["ALTRO", "JUKI", "VALUE1", "VALUE2", "VALUE3", "VALUE4", "VALUE5", "VALUE6", "VALUE7", "VALUE8", "VALUE9", "VALUE10", "VALUE11", "VALUE12", "VALUE13", "VALUE14", "VALUE15", "VALUE16", "VALUE17", "VALUE18", "VALUE19", "VALUE20"];
+  const marcheValues = ["ALTRO", "JUKI", "VALUE1", "VALUE2", "VALUE3", "VALUE4", "VALUE5", "VALUE6", "VALUE7", "VALUE8", "VALUE9", "VALUE10"];
+  const tipoValues = ["COPERTURA", "VALUE11", "VALUE12", "VALUE13", "VALUE14", "VALUE15", "VALUE16", "VALUE17", "VALUE18", "VALUE19", "VALUE20"];
 
   const customAttribute1 = product.custom_attributes?.find(
     (attr) => attr.name === "MARCHE"
-  )?.values.find(value => targetValues.includes(value.value));
-
+  )?.values.find(value => marcheValues.includes(value.value));
 
   const customAttribute2 = product.custom_attributes?.find(
     (attr) => attr.name === "TIPO"
-  )?.values.find(value => value.value === "COPERTURA")
-  // customAttribute1 will now contain the first match from the targetValues array
-};
-
-
-
+  )?.values.find(value => tipoValues.includes(value.value));
 
 
 
@@ -103,11 +96,11 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
             <p>{product.type ? product.type.value : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Custom Attribute 1</span>
+            <span className="font-semibold">MARCHE</span>
             <p>{customAttribute1 ? customAttribute1.value : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Custom Attribute 2</span>
+            <span className="font-semibold">TIPO</span>
             <p>{customAttribute2 ? customAttribute2.value : "-"}</p>
           </div>
         </div>
