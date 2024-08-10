@@ -80,16 +80,12 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
   const livelloValues = ["PRINCIPIANTE", "INTERMEDIO", "ESPERTO"];
   const livello_attribute = product.custom_attributes?.find(
     (attr) => attr.name === "LIVELLO"
-  )?.values.find(value => tipoValues.includes(value.value));
+  )?.values.find(value => livelloValues.includes(value.value));
 
-  const caratteristicheValues = [
-    "Trasporto differenziale",
-    "15 Punti",
-    "Overlock piatto"
-  ];
+  const caratteristicheValues = ["Trasporto differenziale", "15 Punti", "Overlock piatto"];
   const caratteristiche_attribute = product.custom_attributes?.find(
     (attr) => attr.name === "CARATTERISTICHE"
-  )?.values.find(value => tipoValues.includes(value.value));
+  )?.values.find(value => caratteristicheValues.includes(value.value));
 
 
 
