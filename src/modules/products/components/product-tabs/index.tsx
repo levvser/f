@@ -77,9 +77,18 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
     (attr) => attr.name === "TIPO"
   )?.values.find(value => tipoValues.includes(value.value));
 
-  const liveloValues = ["PRINCIPIANTE", "INTERMEDIO", "ESPERTO"];
+  const livelloValues = ["PRINCIPIANTE", "INTERMEDIO", "ESPERTO"];
   const livello_attribute = product.custom_attributes?.find(
     (attr) => attr.name === "LIVELLO"
+  )?.values.find(value => tipoValues.includes(value.value));
+
+  const descrizioneValues = [
+    "PRINCIPIANTE",
+    "INTERMEDIO",
+    "ESPERTO"
+  ];
+  const descrizione_attribute = product.custom_attributes?.find(
+    (attr) => attr.name === "DESCRIZIONE"
   )?.values.find(value => tipoValues.includes(value.value));
 
 
@@ -89,11 +98,11 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">Material</span>
-            <p>{product.material ? product.material : "-"}</p>
+          <span className="font-semibold">Descrizione</span>
+          <p>{descrizione_attribute ? descrizione_attribute.value : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">LIVELLO</span>
+            <span className="font-semibold">Livello</span>
             <p>{livello_attribute ? livello_attribute.value : "-"}</p>
           </div>
           <div>
@@ -101,21 +110,21 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
             <p>{product.type ? product.type.value : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">MARCA</span>
+            <span className="font-semibold">Marca</span>
             <p>{marche_attribute ? marche_attribute.value : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">TIPO</span>
+            <span className="font-semibold">Tipo</span>
             <p>{tipo_attribute ? tipo_attribute.value : "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">Weight</span>
+            <span className="font-semibold">Peso</span>
             <p>{product.weight ? `${product.weight} g` : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Dimensions</span>
+            <span className="font-semibold">Dimensioni</span>
             <p>
               {product.length && product.width && product.height
                 ? `${product.length}L x ${product.width}W x ${product.height}H`
