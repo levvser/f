@@ -67,14 +67,19 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 
 const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
   const marcheValues = ["ALTRO", "JUKI", "EFFECI", "VALUE2", "VALUE3", "VALUE4", "VALUE5", "VALUE6", "VALUE7", "VALUE8", "VALUE9", "VALUE10"];
-  const tipoValues = ["COPERTURA", "VALUE11", "VALUE12", "VALUE13", "VALUE14", "VALUE15", "VALUE16", "VALUE17", "VALUE18", "VALUE19", "VALUE20"];
-
   const marche_attribute = product.custom_attributes?.find(
     (attr) => attr.name === "MARCHE"
   )?.values.find(value => marcheValues.includes(value.value));
 
+
+  const tipoValues = ["COPERTURA", "VALUE11", "VALUE12", "VALUE13", "VALUE14", "VALUE15", "VALUE16", "VALUE17", "VALUE18", "VALUE19", "VALUE20"];
   const tipo_attribute = product.custom_attributes?.find(
     (attr) => attr.name === "TIPO"
+  )?.values.find(value => tipoValues.includes(value.value));
+
+  const liveloValues = ["PRINCIPIANTE", "INTERMEDIO", "ESPERTO"];
+  const livello_attribute = product.custom_attributes?.find(
+    (attr) => attr.name === "LIVELLO"
   )?.values.find(value => tipoValues.includes(value.value));
 
 
@@ -88,8 +93,8 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
             <p>{product.material ? product.material : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Country of origin</span>
-            <p>{product.origin_country ? product.origin_country : "-"}</p>
+            <span className="font-semibold">LIVELLO</span>
+            <p>{livello_attribute ? livello_attribute.value : "-"}</p>
           </div>
           <div>
             <span className="font-semibold">Type</span>
