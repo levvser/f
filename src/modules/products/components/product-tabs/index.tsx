@@ -64,14 +64,25 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   )
 }
 
+
+
+
 const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
+  const targetValues = ["ALTRO", "JUKI", "VALUE1", "VALUE2", "VALUE3", "VALUE4", "VALUE5", "VALUE6", "VALUE7", "VALUE8", "VALUE9", "VALUE10", "VALUE11", "VALUE12", "VALUE13", "VALUE14", "VALUE15", "VALUE16", "VALUE17", "VALUE18", "VALUE19", "VALUE20"];
+
   const customAttribute1 = product.custom_attributes?.find(
     (attr) => attr.name === "MARCHE"
-  )?.values.find(value => value.value === "ALTRO")
+  )?.values.find(value => targetValues.includes(value.value));
+
 
   const customAttribute2 = product.custom_attributes?.find(
     (attr) => attr.name === "TIPO"
   )?.values.find(value => value.value === "COPERTURA")
+  // customAttribute1 will now contain the first match from the targetValues array
+};
+
+
+
 
 
 
