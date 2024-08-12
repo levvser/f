@@ -71,7 +71,6 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
     (attr) => attr.name === "MARCHE"
   )?.values.find(value => marcheValues.includes(value.value));
 
-
   const tipoValues = ["COPERTURA", "VALUE11", "VALUE12", "VALUE13", "VALUE14", "VALUE15", "VALUE16", "VALUE17", "VALUE18", "VALUE19", "VALUE20"];
   const tipo_attribute = product.custom_attributes?.find(
     (attr) => attr.name === "TIPO"
