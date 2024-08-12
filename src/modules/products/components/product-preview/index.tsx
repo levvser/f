@@ -2,7 +2,7 @@ import { Text } from "@medusajs/ui";
 import { ProductPreviewType } from "types/global";
 import { retrievePricedProductById } from "@lib/data";
 import { getProductPrice } from "@lib/util/get-product-price";
-import { Region} from "@medusajs/medusa"; // Assuming correct import
+import { Region } from "@medusajs/medusa";
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import Thumbnail from "../thumbnail";
@@ -30,7 +30,6 @@ type CustomAttribute = {
   values: CustomAttributeValue[];
 };
 
-// Extend PricedProduct with custom attributes
 type CustomPricedProduct = PricedProduct & {
   custom_attributes?: CustomAttribute[];
 };
@@ -67,10 +66,11 @@ export default async function ProductPreview({
       ?.values.find((value: CustomAttributeValue) => allowedValues.includes(value.value))?.value;
   };
 
-  const livelloValues = ["PRINCIPIANTE", "INTERMEDIO", "ESPERTO"];
+  // Accessing environment variables
+  const livelloValues = process.env.LIVELLO_VALUES?.split(",") || [];
   const livello_attribute = getAttributeValue("LIVELLO", livelloValues);
 
-  const marcheValues = ["ALTRO", "JUKI", "EFFECI", "VALUE2", "VALUE3", "VALUE4", "VALUE5", "VALUE6", "VALUE7", "VALUE8", "VALUE9", "VALUE10"];
+  const marcheValues = process.env.MARCHE_VALUES?.split(",") || [];
   const marche_attribute = getAttributeValue("MARCHE", marcheValues);
 
   return (
