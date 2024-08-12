@@ -70,6 +70,9 @@ export default async function ProductPreview({
   const livelloValues = ["PRINCIPIANTE", "INTERMEDIO", "ESPERTO"];
   const livello_attribute = getAttributeValue("LIVELLO", livelloValues);
 
+  const marcheValues = ["ALTRO", "JUKI", "EFFECI", "VALUE2", "VALUE3", "VALUE4", "VALUE5", "VALUE6", "VALUE7", "VALUE8", "VALUE9", "VALUE10"];
+  const marche_attribute = getAttributeValue("MARCHE", marcheValues);
+
   return (
     <div className="bg-white border border-[color:#F8F8FF] overflow-hidden transition-transform duration-300">
       <LocalizedClientLink
@@ -97,7 +100,7 @@ export default async function ProductPreview({
             className="mt-1 text-sm text-gray-600"
             data-testid="product-marca"
           >
-            {livello_attribute || "N/A"}
+            {marche_attribute || "N/A"}
           </p>
           <div className="flex items-baseline justify-between mt-4">
             {cheapestPrice && (
