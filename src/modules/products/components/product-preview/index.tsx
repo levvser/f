@@ -97,7 +97,7 @@ export default async function ProductPreview({
             className="mt-1 text-sm text-gray-600"
             data-testid="product-marca"
           >
-            Marca
+            {livello_attribute || "N/A"}
           </p>
           <div className="flex items-baseline justify-between mt-4">
             {cheapestPrice && (
