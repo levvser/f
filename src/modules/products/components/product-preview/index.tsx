@@ -67,10 +67,10 @@ export default async function ProductPreview({
   };
 
   // Accessing environment variables
-  const livelloValues = process.env.LIVELLO_VALUES?.split(",") || [];
+  const livelloValues = process.env.NEXT_PUBLIC_LIVELLO_VALUES?.split(",") || [];
   const livello_attribute = getAttributeValue("LIVELLO", livelloValues);
 
-  const marcheValues = process.env.MARCHE_VALUES?.split(",") || [];
+  const marcheValues = process.env.NEXT_PUBLIC_MARCHE_VALUES?.split(",") || [];
   const marche_attribute = getAttributeValue("MARCHE", marcheValues);
 
   return (
