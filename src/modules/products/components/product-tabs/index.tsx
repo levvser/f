@@ -45,16 +45,16 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   };
 
   // Accessing environment variables
-  const marcheValues = process.env.NEXT_PUBLIC_MARCHE_VALUES?.split(",") || [];
+  const marcheValues = process.env.MARCHE_VALUES?.split(",") || [];
   const marche_attribute = getAttributeValue("MARCHE", marcheValues);
 
-  const tipoValues = process.env.NEXT_PUBLIC_TIPO_VALUES?.split(",") || [];
+  const tipoValues = process.env.TIPO_VALUES?.split(",") || [];
   const tipo_attribute = getAttributeValue("TIPO", tipoValues);
 
-  const livelloValues = process.env.NEXT_PUBLIC_LIVELLO_VALUES?.split(",") || [];
+  const livelloValues = process.env.LIVELLO_VALUES?.split(",") || [];
   const livello_attribute = getAttributeValue("LIVELLO", livelloValues);
 
-  const caratteristicheValues = process.env.NEXT_PUBLIC_CARATTERISTICHE_VALUES?.split(",") || [];
+  const caratteristicheValues = process.env.CARATTERISTICHE_VALUES?.split(",") || [];
   const caratteristiche_attribute = getAttributeValue("CARATTERISTICHE", caratteristicheValues);
 
   const tabs = [
