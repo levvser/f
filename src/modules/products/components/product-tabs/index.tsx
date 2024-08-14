@@ -81,7 +81,7 @@ const ProductInfoTab = ({ product }: { product: CustomPricedProduct }) => {
     (attr) => attr.name === "LIVELLO"
   )?.values.find(value => livelloValues.includes(value.value));
 
-  const caratteristicheValues = ["Trasporto differenziale", "15 Punti", "Overlock piatto"];
+  const caratteristicheValues = ["Overlock piatto", "      34 punti       Asola in 4 fasi       Esclusione griffa trasporto       Crochet oscillante       Infila ago automatico       Luce LED       Avvolgispolina       Maniglia integrata       Completa di accessori       Striscia centimetrata su base frontale       Piano di lavoro (optional)"];
   const caratteristiche_attribute = product.custom_attributes?.find(
     (attr) => attr.name === "CARATTERISTICHE"
   )?.values.find(value => caratteristicheValues.includes(value.value));
