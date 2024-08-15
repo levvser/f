@@ -10,12 +10,12 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import CountrySelect from "../country-select"
 
 const SideMenuItems = {
-  PerCucire: "it/collections/macchine-per-cucire",
-  PerRicamare: "it/collections/macchine-per-cucire",
-  CuciRicama: "it/collections/macchine-per-cucire-e-ricamare",
-  ScanTaglia: "it/collections/scannerizza-taglia",
-  Termopresse: "it/collections/termopresse",
-  Stiro: "it/collections/Stiro",
+  PerCucire: "collections/macchine-per-cucire",
+  PerRicamare: "collections/macchine-per-cucire",
+  CuciRicama: "collections/macchine-per-cucire-e-ricamare",
+  ScanTaglia: "collections/scannerizza-taglia",
+  Termopresse: "collections/termopresse",
+  Stiro: "collections/Stiro",
 }
 
 const SideMenu = ({ regions }: { regions: Region[] | null }) => {

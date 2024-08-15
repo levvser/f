@@ -73,6 +73,7 @@ export default async function ProductPreview({
   const marcheValues = process.env.NEXT_PUBLIC_MARCHE_VALUES?.split(",") || [];
   const marche_attribute = getAttributeValue("MARCHE", marcheValues);
 
+  
   return (
     <div className="bg-white border border-[color:#F8F8FF] overflow-hidden transition-transform duration-300">
       <LocalizedClientLink
