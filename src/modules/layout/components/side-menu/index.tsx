@@ -11,7 +11,7 @@ import CountrySelect from "../country-select"
 
 const SideMenuItems = {
   PerCucire: "/collections/macchine-per-cucire",
-  PerRicamare: "/collections/macchine-per-cucire",
+  PerRicamare: "/collections/macchine-per-ricamare",
   CuciRicama: "/collections/macchine-per-cucire-e-ricamare",
   ScanTaglia: "/collections/scannerizza-taglia",
   Termopresse: "/collections/termopresse",

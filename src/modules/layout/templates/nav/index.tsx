@@ -54,7 +54,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
 
   const collectionLinks = [
     { href: "/collections/macchine-per-cucire", label: "Per Cucire" },
-    { href: "/collections/macchine-per-cucire", label: "Per Ricamare" },
+    { href: "/collections/macchine-per-ricamare", label: "Per Ricamare" },
     { href: "/collections/macchine-per-cucire-e-ricamare", label: "Cucire e Ricamare" },
     { href: "/collections/scannerizza-taglia", label: "Scan e Taglia" },
     { href: "/collections/termopresse", label: "Termopresse" },
