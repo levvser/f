@@ -1,6 +1,10 @@
 "use client"
 
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import Back from "@modules/common/icons/back"
+import FastDelivery from "@modules/common/icons/fast-delivery"
+import Refresh from "@modules/common/icons/refresh"
+import Accordion from "./accordion"
 
 type CustomAttribute = {
   id: string
@@ -101,45 +105,54 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   const CARATTERISTICHE_VALUES = process.env.NEXT_PUBLIC_CARATTERISTICHE_VALUES?.split(",") || [];
   const CARATTERISTICHE_ATTRIBUTE = getAttributeValue("CARATTERISTICHE", CARATTERISTICHE_VALUES);
 
+  const tabs = [
+    {
+      label: "Product Information",
+      component: (
+        <ProductInfoTab
+          product={product}
+          ampiezzaPunto={AMPIEZZA_PUNTO_ATTRIBUTE}
+          lunghezzaPunto={LUNGHEZZA_PUNTO_ATTRIBUTE}
+          avvolgiBobinaAutomatica={AVVOLGI_BOBINA_AUTOMATICA_ATTRIBUTE}
+          occhiellatoreAutomaticoIn1Fase={OCCHIELLATORE_AUTOMATICO_IN_1_FASE_ATTRIBUTE}
+          accessoriInclusi={ACCESSORI_INCLUSI_ATTRIBUTE}
+          infilaAgoAutomatico={INFILA_AGO_AUTOMATICO_ATTRIBUTE}
+          piediniASgancioRapido={PIEDINI_A_SGANCIO_RAPIDO_ATTRIBUTE}
+          puntiEssenziali={PUNTI_ESSENZIALI_ATTRIBUTE}
+          braccioLibero={BRACCIO_LIBERO_ATTRIBUTE}
+          occhiello={OCCHIELLO_ATTRIBUTE}
+          puntiElastici={PUNTI_ELASTICI_ATTRIBUTE}
+          puntiDecorativi={PUNTI_DECORATIVI_ATTRIBUTE}
+          puntiUtili={PUNTI_UTILI_ATTRIBUTE}
+          punti={PUNTI_ATTRIBUTE}
+          modello={MODELLO_ATTRIBUTE}
+          facileSelezionePunti={FACILE_SELEZIONE_PUNTI_ATTRIBUTE}
+          marche={MARCHE_ATTRIBUTE}
+          tipo={TIPO_ATTRIBUTE}
+          livello={LIVELLO_ATTRIBUTE}
+          caratteristiche={CARATTERISTICHE_ATTRIBUTE}
+        />
+      ),
+    },
+    {
+      label: "Shipping & Returns",
+      component: <ShippingInfoTab />,
+    },
+  ];
+
   return (
     <div className="w-full">
       <Accordion type="multiple">
-        <Accordion.Item
-          title="Product Information"
-          headingSize="medium"
-          value="Product Information"
-        >
-          <ProductInfoTab
-            product={product}
-            ampiezzaPunto={AMPIEZZA_PUNTO_ATTRIBUTE}
-            lunghezzaPunto={LUNGHEZZA_PUNTO_ATTRIBUTE}
-            avvolgiBobinaAutomatica={AVVOLGI_BOBINA_AUTOMATICA_ATTRIBUTE}
-            occhiellatoreAutomaticoIn1Fase={OCCHIELLATORE_AUTOMATICO_IN_1_FASE_ATTRIBUTE}
-            accessoriInclusi={ACCESSORI_INCLUSI_ATTRIBUTE}
-            infilaAgoAutomatico={INFILA_AGO_AUTOMATICO_ATTRIBUTE}
-            piediniASgancioRapido={PIEDINI_A_SGANCIO_RAPIDO_ATTRIBUTE}
-            puntiEssenziali={PUNTI_ESSENZIALI_ATTRIBUTE}
-            braccioLibero={BRACCIO_LIBERO_ATTRIBUTE}
-            occhiello={OCCHIELLO_ATTRIBUTE}
-            puntiElastici={PUNTI_ELASTICI_ATTRIBUTE}
-            puntiDecorativi={PUNTI_DECORATIVI_ATTRIBUTE}
-            puntiUtili={PUNTI_UTILI_ATTRIBUTE}
-            punti={PUNTI_ATTRIBUTE}
-            modello={MODELLO_ATTRIBUTE}
-            facileSelezionePunti={FACILE_SELEZIONE_PUNTI_ATTRIBUTE}
-            marche={MARCHE_ATTRIBUTE}
-            tipo={TIPO_ATTRIBUTE}
-            livello={LIVELLO_ATTRIBUTE}
-            caratteristiche={CARATTERISTICHE_ATTRIBUTE}
-          />
-        </Accordion.Item>
-        <Accordion.Item
-          title="Shipping & Returns"
-          headingSize="medium"
-          value="Shipping & Returns"
-        >
-          <ShippingInfoTab />
-        </Accordion.Item>
+        {tabs.map((tab, i) => (
+          <Accordion.Item
+            key={i}
+            title={tab.label}
+            headingSize="medium"
+            value={tab.label}
+          >
+            {tab.component}
+          </Accordion.Item>
+        ))}
       </Accordion>
     </div>
   );
@@ -192,95 +205,95 @@ const ProductInfoTab = ({
 }) => {
   return (
     <div className="text-small-regular py-8">
-      <table className="w-full text-left border-separate border-spacing-y-2">
+      <table className="w-full table-auto border-collapse">
         <tbody>
           <tr>
-            <td className="font-semibold">Marca</td>
-            <td>{marche || "-"}</td>
+            <td className="font-semibold p-2 border">Ampiezza Punto</td>
+            <td className="p-2 border">{ampiezzaPunto || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Tipo</td>
-            <td>{tipo || "-"}</td>
+            <td className="font-semibold p-2 border">Lunghezza Punto</td>
+            <td className="p-2 border">{lunghezzaPunto || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Livello</td>
-            <td>{livello || "-"}</td>
+            <td className="font-semibold p-2 border">Avvolgi Bobina Automatica</td>
+            <td className="p-2 border">{avvolgiBobinaAutomatica || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Caratteristiche</td>
-            <td>{caratteristiche || "-"}</td>
+            <td className="font-semibold p-2 border">Occhiellatore Automatico in 1 Fase</td>
+            <td className="p-2 border">{occhiellatoreAutomaticoIn1Fase || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Ampiezza Punto</td>
-            <td>{ampiezzaPunto || "-"}</td>
+            <td className="font-semibold p-2 border">Accessori Inclusi</td>
+            <td className="p-2 border">{accessoriInclusi || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Lunghezza Punto</td>
-            <td>{lunghezzaPunto || "-"}</td>
+            <td className="font-semibold p-2 border">Infila Ago Automatico</td>
+            <td className="p-2 border">{infilaAgoAutomatico || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Avvolgi Bobina Automatica</td>
-            <td>{avvolgiBobinaAutomatica || "-"}</td>
+            <td className="font-semibold p-2 border">Piedini a Sgancio Rapido</td>
+            <td className="p-2 border">{piediniASgancioRapido || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Occhiellatore Automatico in 1 Fase</td>
-            <td>{occhiellatoreAutomaticoIn1Fase || "-"}</td>
+            <td className="font-semibold p-2 border">Punti Essenziali</td>
+            <td className="p-2 border">{puntiEssenziali || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Accessori Inclusi</td>
-            <td>{accessoriInclusi || "-"}</td>
+            <td className="font-semibold p-2 border">Braccio Libero</td>
+            <td className="p-2 border">{braccioLibero || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Infila Ago Automatico</td>
-            <td>{infilaAgoAutomatico || "-"}</td>
+            <td className="font-semibold p-2 border">Occhiello</td>
+            <td className="p-2 border">{occhiello || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Piedini a Sgancio Rapido</td>
-            <td>{piediniASgancioRapido || "-"}</td>
+            <td className="font-semibold p-2 border">Punti Elastici</td>
+            <td className="p-2 border">{puntiElastici || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Punti Essenziali</td>
-            <td>{puntiEssenziali || "-"}</td>
+            <td className="font-semibold p-2 border">Punti Decorativi</td>
+            <td className="p-2 border">{puntiDecorativi || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Braccio Libero</td>
-            <td>{braccioLibero || "-"}</td>
+            <td className="font-semibold p-2 border">Punti Utili</td>
+            <td className="p-2 border">{puntiUtili || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Occhiello</td>
-            <td>{occhiello || "-"}</td>
+            <td className="font-semibold p-2 border">Punti</td>
+            <td className="p-2 border">{punti || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Punti Elastici</td>
-            <td>{puntiElastici || "-"}</td>
+            <td className="font-semibold p-2 border">Modello</td>
+            <td className="p-2 border">{modello || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Punti Decorativi</td>
-            <td>{puntiDecorativi || "-"}</td>
+            <td className="font-semibold p-2 border">Facile Selezione Punti</td>
+            <td className="p-2 border">{facileSelezionePunti || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Punti Utili</td>
-            <td>{puntiUtili || "-"}</td>
+            <td className="font-semibold p-2 border">Marca</td>
+            <td className="p-2 border">{marche || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Punti</td>
-            <td>{punti || "-"}</td>
+            <td className="font-semibold p-2 border">Tipo</td>
+            <td className="p-2 border">{tipo || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Modello</td>
-            <td>{modello || "-"}</td>
+            <td className="font-semibold p-2 border">Livello</td>
+            <td className="p-2 border">{livello || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Facile Selezione Punti</td>
-            <td>{facileSelezionePunti || "-"}</td>
+            <td className="font-semibold p-2 border">Caratteristiche</td>
+            <td className="p-2 border">{caratteristiche || "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Peso</td>
-            <td>{product.weight ? `${product.weight} g` : "-"}</td>
+            <td className="font-semibold p-2 border">Peso</td>
+            <td className="p-2 border">{product.weight ? `${product.weight} g` : "-"}</td>
           </tr>
           <tr>
-            <td className="font-semibold">Dimensioni</td>
-            <td>
+            <td className="font-semibold p-2 border">Dimensioni</td>
+            <td className="p-2 border">
               {product.length && product.width && product.height
                 ? `${product.length}L x ${product.width}W x ${product.height}H`
                 : "-"}
@@ -288,8 +301,8 @@ const ProductInfoTab = ({
           </tr>
           {product.tags?.length ? (
             <tr>
-              <td className="font-semibold">Tags</td>
-              <td>{product.tags.join(", ")}</td>
+              <td className="font-semibold p-2 border">Tags</td>
+              <td className="p-2 border">{product.tags.join(", ")}</td>
             </tr>
           ) : null}
         </tbody>
@@ -298,31 +311,41 @@ const ProductInfoTab = ({
   );
 };
 
+
 const ShippingInfoTab = () => {
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-1 gap-y-8">
         <div className="flex items-start gap-x-2">
-          <span className="font-semibold">Fast delivery</span>
-          <p className="max-w-sm">
-            Your package will arrive in 3-5 business days at your pick up
-            location or in the comfort of your home.
-          </p>
+          <FastDelivery />
+          <div>
+            <span className="font-semibold">Fast delivery</span>
+            <p className="max-w-sm">
+              Your package will arrive in 3-5 business days at your pick up
+              location or in the comfort of your home.
+            </p>
+          </div>
         </div>
         <div className="flex items-start gap-x-2">
-          <span className="font-semibold">Simple exchanges</span>
-          <p className="max-w-sm">
-            Is the fit not quite right? No worries - we&apos;ll exchange your
-            product for a new one.
-          </p>
+          <Refresh />
+          <div>
+            <span className="font-semibold">Simple exchanges</span>
+            <p className="max-w-sm">
+              Is the fit not quite right? No worries - we&apos;ll exchange your
+              product for a new one.
+            </p>
+          </div>
         </div>
         <div className="flex items-start gap-x-2">
-          <span className="font-semibold">Easy returns</span>
-          <p className="max-w-sm">
-            Just return your product and we&apos;ll refund your money. No
-            questions asked – we&apos;ll do our best to make sure your return
-            is hassle-free.
-          </p>
+          <Back />
+          <div>
+            <span className="font-semibold">Easy returns</span>
+            <p className="max-w-sm">
+              Just return your product and we&apos;ll refund your money. No
+              questions asked – we&apos;ll do our best to make sure your return
+              is hassle-free.
+            </p>
+          </div>
         </div>
       </div>
     </div>
