@@ -158,6 +158,8 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   );
 };
 
+
+
 const ProductInfoTab = ({
   product,
   ampiezzaPunto,
@@ -203,102 +205,49 @@ const ProductInfoTab = ({
   livello?: string,
   caratteristiche?: string,
 }) => {
+  const renderRow = (label: string, value?: string) => {
+    if (value) {
+      return (
+        <tr>
+          <td className="font-semibold p-2 border">{label}</td>
+          <td className="p-2 border">{value}</td>
+        </tr>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="text-small-regular py-8">
       <table className="w-full table-auto border-collapse">
         <tbody>
-          <tr>
-            <td className="font-semibold p-2 border">Ampiezza Punto</td>
-            <td className="p-2 border">{ampiezzaPunto || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Lunghezza Punto</td>
-            <td className="p-2 border">{lunghezzaPunto || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Avvolgi Bobina Automatica</td>
-            <td className="p-2 border">{avvolgiBobinaAutomatica || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Occhiellatore Automatico in 1 Fase</td>
-            <td className="p-2 border">{occhiellatoreAutomaticoIn1Fase || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Accessori Inclusi</td>
-            <td className="p-2 border">{accessoriInclusi || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Infila Ago Automatico</td>
-            <td className="p-2 border">{infilaAgoAutomatico || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Piedini a Sgancio Rapido</td>
-            <td className="p-2 border">{piediniASgancioRapido || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Punti Essenziali</td>
-            <td className="p-2 border">{puntiEssenziali || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Braccio Libero</td>
-            <td className="p-2 border">{braccioLibero || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Occhiello</td>
-            <td className="p-2 border">{occhiello || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Punti Elastici</td>
-            <td className="p-2 border">{puntiElastici || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Punti Decorativi</td>
-            <td className="p-2 border">{puntiDecorativi || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Punti Utili</td>
-            <td className="p-2 border">{puntiUtili || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Punti</td>
-            <td className="p-2 border">{punti || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Modello</td>
-            <td className="p-2 border">{modello || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Facile Selezione Punti</td>
-            <td className="p-2 border">{facileSelezionePunti || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Marca</td>
-            <td className="p-2 border">{marche || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Tipo</td>
-            <td className="p-2 border">{tipo || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Livello</td>
-            <td className="p-2 border">{livello || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Caratteristiche</td>
-            <td className="p-2 border">{caratteristiche || "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Peso</td>
-            <td className="p-2 border">{product.weight ? `${product.weight} g` : "-"}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold p-2 border">Dimensioni</td>
-            <td className="p-2 border">
-              {product.length && product.width && product.height
-                ? `${product.length}L x ${product.width}W x ${product.height}H`
-                : "-"}
-            </td>
-          </tr>
+          {renderRow("Ampiezza Punto", ampiezzaPunto)}
+          {renderRow("Lunghezza Punto", lunghezzaPunto)}
+          {renderRow("Avvolgi Bobina Automatica", avvolgiBobinaAutomatica)}
+          {renderRow("Occhiellatore Automatico in 1 Fase", occhiellatoreAutomaticoIn1Fase)}
+          {renderRow("Accessori Inclusi", accessoriInclusi)}
+          {renderRow("Infila Ago Automatico", infilaAgoAutomatico)}
+          {renderRow("Piedini a Sgancio Rapido", piediniASgancioRapido)}
+          {renderRow("Punti Essenziali", puntiEssenziali)}
+          {renderRow("Braccio Libero", braccioLibero)}
+          {renderRow("Occhiello", occhiello)}
+          {renderRow("Punti Elastici", puntiElastici)}
+          {renderRow("Punti Decorativi", puntiDecorativi)}
+          {renderRow("Punti Utili", puntiUtili)}
+          {renderRow("Punti", punti)}
+          {renderRow("Modello", modello)}
+          {renderRow("Facile Selezione Punti", facileSelezionePunti)}
+          {renderRow("Marca", marche)}
+          {renderRow("Tipo", tipo)}
+          {renderRow("Livello", livello)}
+          {renderRow("Caratteristiche", caratteristiche)}
+          {renderRow("Peso", product.weight ? `${product.weight} g` : undefined)}
+          {renderRow(
+            "Dimensioni",
+            product.length && product.width && product.height
+              ? `${product.length}L x ${product.width}W x ${product.height}H`
+              : undefined
+          )}
           {product.tags?.length ? (
             <tr>
               <td className="font-semibold p-2 border">Tags</td>
@@ -310,6 +259,7 @@ const ProductInfoTab = ({
     </div>
   );
 };
+
 
 
 const ShippingInfoTab = () => {
