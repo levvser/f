@@ -1,6 +1,6 @@
 import { Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-import React, { Suspense } from "react"
+import React, { Suspense, useRef, useState } from "react"
 import ImageGallery from "@modules/products/components/image-gallery"
 import ProductActions from "@modules/products/components/product-actions"
 import ProductOnboardingCta from "@modules/products/components/product-onboarding-cta"
@@ -27,29 +27,27 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     return notFound()
   }
 
+  const [isZoomed, setIsZoomed] = useState(false)
+  const imgRef = useRef<HTMLImageElement | null>(null)
+
   const handleMouseMove = (
-    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
-    index: number
-  ) => {
-    const img = e.currentTarget
-    const rect = img.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    img.style.transformOrigin = `${x}% ${y}%`
-  }
-
-  const handleMouseEnter = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
-    e.currentTarget.classList.add("zoomed")
-    e.currentTarget.style.transform = 'scale(1.5)'
+    if (isZoomed && imgRef.current) {
+      const img = imgRef.current
+      const rect = img.getBoundingClientRect()
+      const x = ((e.clientX - rect.left) / rect.width) * 100
+      const y = ((e.clientY - rect.top) / rect.height) * 100
+      img.style.transformOrigin = `${x}% ${y}%`
+    }
   }
 
-  const handleMouseLeave = (
-    e: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    e.currentTarget.classList.remove("zoomed")
-    e.currentTarget.style.transform = 'scale(1)'
+  const handleMouseEnter = () => {
+    setIsZoomed(true)
+  }
+
+  const handleMouseLeave = () => {
+    setIsZoomed(false)
   }
 
   return (
@@ -64,12 +62,14 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             {product.images?.map((image, index) => (
               <div key={index} className={styles['zoom-container']}>
                 <img
+                  ref={imgRef}
                   src={image.url}
                   alt={product.title}
-                  className="w-full h-auto"
-                  onMouseMove={(e) => handleMouseMove(e, index)}
+                  className={`w-full h-auto ${isZoomed ? 'zoomed' : ''}`}
+                  onMouseMove={handleMouseMove}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
+                  style={{ transform: isZoomed ? 'scale(1.5)' : 'scale(1)' }}
                 />
               </div>
             ))}
