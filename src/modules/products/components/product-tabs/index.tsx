@@ -5,6 +5,7 @@ import Back from "@modules/common/icons/back"
 import FastDelivery from "@modules/common/icons/fast-delivery"
 import Refresh from "@modules/common/icons/refresh"
 import Accordion from "./accordion"
+import React from "react"
 
 type CustomAttribute = {
   id: string
@@ -159,104 +160,113 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 };
 
 const ProductInfoTab = ({
-  product,
-  regolazioneAmpiezzaPunto,
-  regolazioneLunghezzaPunto,
-  avvolgiBobinaAutomatica,
-  occhiellatoreAutomaticoIn1Fase,
-  accessoriInclusi,
-  infilaAgoAutomatico,
-  piediniASgancioRapido,
-  puntiEssenziali,
-  braccioLibero,
-  occhiello,
-  puntiElastici,
-  puntiDecorativi,
-  puntiUtili,
-  punti,
-  modello,
-  facileSelezionePunti,
-  marche,
-  tipo,
-  livello,
-  caratteristiche,
-}: {
-  product: CustomPricedProduct,
-  regolazioneAmpiezzaPunto?: string,
-  regolazioneLunghezzaPunto?: string,
-  avvolgiBobinaAutomatica?: string,
-  occhiellatoreAutomaticoIn1Fase?: string,
-  accessoriInclusi?: string,
-  infilaAgoAutomatico?: string,
-  piediniASgancioRapido?: string,
-  puntiEssenziali?: string,
-  braccioLibero?: string,
-  occhiello?: string,
-  puntiElastici?: string,
-  puntiDecorativi?: string,
-  puntiUtili?: string,
-  punti?: string,
-  modello?: string,
-  facileSelezionePunti?: string,
-  marche?: string,
-  tipo?: string,
-  livello?: string,
-  caratteristiche?: string,
-}) => {
-  const renderRow = (label: string, value?: string) => {
-    if (value) {
-      return (
-        <tr>
-          <td className="font-semibold p-2 border">{label}</td>
-          <td className="p-2 border">{value}</td>
-        </tr>
-      );
-    }
-    return null;
-  };
-
-  return (
-    <div className="text-small-regular py-8">
-      <table className="w-full table-auto border-collapse">
-        <tbody>
-          {renderRow("Regolazione Ampiezza Punto", regolazioneAmpiezzaPunto)}
-          {renderRow("Regolazione Lunghezza Punto", regolazioneLunghezzaPunto)}
-          {renderRow("Avvolgi Bobina Automatica", avvolgiBobinaAutomatica)}
-          {renderRow("Occhiellatore Automatico in 1 Fase", occhiellatoreAutomaticoIn1Fase)}
-          {renderRow("Accessori Inclusi", accessoriInclusi)}
-          {renderRow("Infila Ago Automatico", infilaAgoAutomatico)}
-          {renderRow("Piedini a Sgancio Rapido", piediniASgancioRapido)}
-          {renderRow("Punti Essenziali", puntiEssenziali)}
-          {renderRow("Braccio Libero", braccioLibero)}
-          {renderRow("Occhiello", occhiello)}
-          {renderRow("Punti Elastici", puntiElastici)}
-          {renderRow("Punti Decorativi", puntiDecorativi)}
-          {renderRow("Punti Utili", puntiUtili)}
-          {renderRow("Punti", punti)}
-          {renderRow("Modello", modello)}
-          {renderRow("Facile Selezione Punti", facileSelezionePunti)}
-          {renderRow("Marca", marche)}
-          {renderRow("Tipo", tipo)}
-          {renderRow("Livello", livello)}
-          {renderRow("Caratteristiche", caratteristiche)}
-          {renderRow("Peso", product.weight ? `${product.weight} g` : undefined)}
-          {renderRow(
-            "Dimensioni",
-            product.length && product.width && product.height
-              ? `${product.length}L x ${product.width}W x ${product.height}H`
-              : undefined
-          )}
-          {product.tags?.length ? (
-            <tr>
-              <td className="font-semibold p-2 border">Tags</td>
-              <td className="p-2 border">{product.tags.join(", ")}</td>
-            </tr>
-          ) : null}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+    product,
+    regolazioneAmpiezzaPunto,
+    regolazioneLunghezzaPunto,
+    avvolgiBobinaAutomatica,
+    occhiellatoreAutomaticoIn1Fase,
+    accessoriInclusi,
+    infilaAgoAutomatico,
+    piediniASgancioRapido,
+    puntiEssenziali,
+    braccioLibero,
+    occhiello,
+    puntiElastici,
+    puntiDecorativi,
+    puntiUtili,
+    punti,
+    modello,
+    facileSelezionePunti,
+    marche,
+    tipo,
+    livello,
+    caratteristiche,
+  }: {
+    product: CustomPricedProduct,
+    regolazioneAmpiezzaPunto?: string,
+    regolazioneLunghezzaPunto?: string,
+    avvolgiBobinaAutomatica?: string,
+    occhiellatoreAutomaticoIn1Fase?: string,
+    accessoriInclusi?: string,
+    infilaAgoAutomatico?: string,
+    piediniASgancioRapido?: string,
+    puntiEssenziali?: string,
+    braccioLibero?: string,
+    occhiello?: string,
+    puntiElastici?: string,
+    puntiDecorativi?: string,
+    puntiUtili?: string,
+    punti?: string,
+    modello?: string,
+    facileSelezionePunti?: string,
+    marche?: string,
+    tipo?: string,
+    livello?: string,
+    caratteristiche?: string,
+  }) => {
+    let isOdd = true; // Start with `true` for the first row
+  
+    const renderRow = (label: string, value?: string) => {
+      if (value) {
+        const row = (
+          <tr className={isOdd ? "bg-gray-50" : "bg-white"}>
+            <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+            <td className="p-2 text-gray-900 text-left">{value}</td>
+          </tr>
+        );
+        isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+        return row;
+      }
+      return null;
+    };
+  
+    const rows = [
+      renderRow("Regolazione Ampiezza Punto", regolazioneAmpiezzaPunto),
+      renderRow("Regolazione Lunghezza Punto", regolazioneLunghezzaPunto),
+      renderRow("Avvolgi Bobina Automatica", avvolgiBobinaAutomatica),
+      renderRow("Occhiellatore Automatico in 1 Fase", occhiellatoreAutomaticoIn1Fase),
+      renderRow("Accessori Inclusi", accessoriInclusi),
+      renderRow("Infila Ago Automatico", infilaAgoAutomatico),
+      renderRow("Piedini a Sgancio Rapido", piediniASgancioRapido),
+      renderRow("Punti Essenziali", puntiEssenziali),
+      renderRow("Braccio Libero", braccioLibero),
+      renderRow("Occhiello", occhiello),
+      renderRow("Punti Elastici", puntiElastici),
+      renderRow("Punti Decorativi", puntiDecorativi),
+      renderRow("Punti Utili", puntiUtili),
+      renderRow("Punti", punti),
+      renderRow("Modello", modello),
+      renderRow("Facile Selezione Punti", facileSelezionePunti),
+      renderRow("Marca", marche),
+      renderRow("Tipo", tipo),
+      renderRow("Livello", livello),
+      renderRow("Caratteristiche", caratteristiche),
+      renderRow("Peso", product.weight ? `${product.weight} g` : undefined),
+      renderRow(
+        "Dimensioni",
+        product.length && product.width && product.height
+          ? `${product.length}L x ${product.width}W x ${product.height}H`
+          : undefined
+      ),
+      product.tags?.length ? (
+        <tr className={isOdd ? "bg-gray-50" : "bg-white"}>
+          <td className="font-medium p-2 text-gray-700 text-left">Tags</td>
+          <td className="p-2 text-gray-900 text-left">{product.tags.join(", ")}</td>
+        </tr>
+      ) : null
+    ];
+  
+    return (
+      <div className="text-small-regular py-4">
+        <table className="w-full table-auto border-collapse">
+          <tbody>
+            {rows.map((row, index) => (row ? <React.Fragment key={index}>{row}</React.Fragment> : null))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+  
 
 const ShippingInfoTab = () => {
   return (
