@@ -1,39 +1,39 @@
-"use client"
+"use client";
 
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-import Back from "@modules/common/icons/back"
-import FastDelivery from "@modules/common/icons/fast-delivery"
-import Refresh from "@modules/common/icons/refresh"
-import Accordion from "./accordion"
-import React from "react"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing";
+import Back from "@modules/common/icons/back";
+import FastDelivery from "@modules/common/icons/fast-delivery";
+import Refresh from "@modules/common/icons/refresh";
+import Accordion from "./accordion";
+import React from "react";
 
 type CustomAttribute = {
-  id: string
-  created_at: string
-  updated_at: string
-  name: string
-  description: string
-  type: string
-  handle: string
-  filterable: boolean | null
-  metadata: any
+  id: string;
+  created_at: string;
+  updated_at: string;
+  name: string;
+  description: string;
+  type: string;
+  handle: string;
+  filterable: boolean | null;
+  metadata: any;
   values: {
-    id: string
-    created_at: string
-    updated_at: string
-    value: string
-    metadata: any
-    rank: number
-  }[]
-}
+    id: string;
+    created_at: string;
+    updated_at: string;
+    value: string;
+    metadata: any;
+    rank: number;
+  }[];
+};
 
 type CustomPricedProduct = PricedProduct & {
-  custom_attributes?: CustomAttribute[]
-}
+  custom_attributes?: CustomAttribute[];
+};
 
 type ProductTabsProps = {
-  product: CustomPricedProduct
-}
+  product: CustomPricedProduct;
+};
 
 const ProductTabs = ({ product }: ProductTabsProps) => {
   const getAttributeValue = (
@@ -45,7 +45,6 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
       ?.values.find((value) => allowedValues.includes(value.value))?.value;
   };
 
-  // Accessing environment variables
   const REGOLAZIONE_AMPIEZZA_PUNTO_VALUES = process.env.NEXT_PUBLIC_REGOLAZIONE_AMPIEZZA_PUNTO?.split(",") || [];
   const REGOLAZIONE_AMPIEZZA_PUNTO_ATTRIBUTE = getAttributeValue("REGOLAZIONE_AMPIEZZA_PUNTO", REGOLAZIONE_AMPIEZZA_PUNTO_VALUES);
 
@@ -106,6 +105,9 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   const CARATTERISTICHE_VALUES = process.env.NEXT_PUBLIC_CARATTERISTICHE?.split(",") || [];
   const CARATTERISTICHE_ATTRIBUTE = getAttributeValue("CARATTERISTICHE", CARATTERISTICHE_VALUES);
 
+  const ACCESSORI_VALUES = process.env.NEXT_PUBLIC_ACCESSORI?.split(",") || [];
+  const ACCESSORI_ATTRIBUTE = getAttributeValue("ACCESSORI", ACCESSORI_VALUES);
+
   const tabs = [
     {
       label: "Product Information",
@@ -135,6 +137,10 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
         />
       ),
     },
+    {
+      label: "Accessori",
+      component: <AccessoriTab accessori={ACCESSORI_ATTRIBUTE} />,
+    },
     {
       label: "Shipping & Returns",
       component: <ShippingInfoTab />,
@@ -160,114 +166,133 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 };
 
 const ProductInfoTab = ({
-    product,
-    regolazioneAmpiezzaPunto,
-    regolazioneLunghezzaPunto,
-    avvolgiBobinaAutomatica,
-    occhiellatoreAutomaticoIn1Fase,
-    accessoriInclusi,
-    infilaAgoAutomatico,
-    piediniASgancioRapido,
-    puntiEssenziali,
-    braccioLibero,
-    occhiello,
-    puntiElastici,
-    puntiDecorativi,
-    puntiUtili,
-    punti,
-    modello,
-    facileSelezionePunti,
-    marche,
-    tipo,
-    livello,
-    caratteristiche,
-  }: {
-    product: CustomPricedProduct,
-    regolazioneAmpiezzaPunto?: string,
-    regolazioneLunghezzaPunto?: string,
-    avvolgiBobinaAutomatica?: string,
-    occhiellatoreAutomaticoIn1Fase?: string,
-    accessoriInclusi?: string,
-    infilaAgoAutomatico?: string,
-    piediniASgancioRapido?: string,
-    puntiEssenziali?: string,
-    braccioLibero?: string,
-    occhiello?: string,
-    puntiElastici?: string,
-    puntiDecorativi?: string,
-    puntiUtili?: string,
-    punti?: string,
-    modello?: string,
-    facileSelezionePunti?: string,
-    marche?: string,
-    tipo?: string,
-    livello?: string,
-    caratteristiche?: string,
-  }) => {
-    let isOdd = true; // Start with `true` for the first row
-  
-    const renderRow = (label: string, value?: string) => {
-      if (value) {
-        const row = (
-          <tr className={isOdd ? "bg-gray-50" : "bg-white"}>
-            <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
-            <td className="p-2 text-gray-900 text-left">{value}</td>
-          </tr>
-        );
-        isOdd = !isOdd; // Toggle `isOdd` after each rendered row
-        return row;
-      }
-      return null;
-    };
-  
-    const rows = [
-      renderRow("Regolazione Ampiezza Punto", regolazioneAmpiezzaPunto),
-      renderRow("Regolazione Lunghezza Punto", regolazioneLunghezzaPunto),
-      renderRow("Avvolgi Bobina Automatica", avvolgiBobinaAutomatica),
-      renderRow("Occhiellatore Automatico in 1 Fase", occhiellatoreAutomaticoIn1Fase),
-      renderRow("Accessori Inclusi", accessoriInclusi),
-      renderRow("Infila Ago Automatico", infilaAgoAutomatico),
-      renderRow("Piedini a Sgancio Rapido", piediniASgancioRapido),
-      renderRow("Punti Essenziali", puntiEssenziali),
-      renderRow("Braccio Libero", braccioLibero),
-      renderRow("Occhiello", occhiello),
-      renderRow("Punti Elastici", puntiElastici),
-      renderRow("Punti Decorativi", puntiDecorativi),
-      renderRow("Punti Utili", puntiUtili),
-      renderRow("Punti", punti),
-      renderRow("Modello", modello),
-      renderRow("Facile Selezione Punti", facileSelezionePunti),
-      renderRow("Marca", marche),
-      renderRow("Tipo", tipo),
-      renderRow("Livello", livello),
-      renderRow("Caratteristiche", caratteristiche),
-      renderRow("Peso", product.weight ? `${product.weight} g` : undefined),
-      renderRow(
-        "Dimensioni",
-        product.length && product.width && product.height
-          ? `${product.length}L x ${product.width}W x ${product.height}H`
-          : undefined
-      ),
-      product.tags?.length ? (
-        <tr className={isOdd ? "bg-gray-50" : "bg-white"}>
-          <td className="font-medium p-2 text-gray-700 text-left">Tags</td>
-          <td className="p-2 text-gray-900 text-left">{product.tags.join(", ")}</td>
-        </tr>
-      ) : null
-    ];
-  
-    return (
-      <div className="text-small-regular py-4">
-        <table className="w-full table-auto border-collapse">
-          <tbody>
-            {rows.map((row, index) => (row ? <React.Fragment key={index}>{row}</React.Fragment> : null))}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
-  
-  
+  product,
+  regolazioneAmpiezzaPunto,
+  regolazioneLunghezzaPunto,
+  avvolgiBobinaAutomatica,
+  occhiellatoreAutomaticoIn1Fase,
+  accessoriInclusi,
+  infilaAgoAutomatico,
+  piediniASgancioRapido,
+  puntiEssenziali,
+  braccioLibero,
+  occhiello,
+  puntiElastici,
+  puntiDecorativi,
+  puntiUtili,
+  punti,
+  modello,
+  facileSelezionePunti,
+  marche,
+  tipo,
+  livello,
+  caratteristiche,
+}: {
+  product: CustomPricedProduct;
+  regolazioneAmpiezzaPunto?: string;
+  regolazioneLunghezzaPunto?: string;
+  avvolgiBobinaAutomatica?: string;
+  occhiellatoreAutomaticoIn1Fase?: string;
+  accessoriInclusi?: string;
+  infilaAgoAutomatico?: string;
+  piediniASgancioRapido?: string;
+  puntiEssenziali?: string;
+  braccioLibero?: string;
+  occhiello?: string;
+  puntiElastici?: string;
+  puntiDecorativi?: string;
+  puntiUtili?: string;
+  punti?: string;
+  modello?: string;
+  facileSelezionePunti?: string;
+  marche?: string;
+  tipo?: string;
+  livello?: string;
+  caratteristiche?: string;
+}) => {
+  let isOdd = true; // Start with `true` for the first row
+
+  const renderRow = (label: string, value?: string) => {
+    if (value) {
+      const row = (
+        <tr className={isOdd ? "bg-gray-50" : "bg-white"}>
+          <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+          <td className="p-2 text-gray-900 text-left">{value}</td>
+        </tr>
+      );
+      isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+      return row;
+    }
+    return null;
+  };
+
+  const rows = [
+    renderRow("Regolazione Ampiezza Punto", regolazioneAmpiezzaPunto),
+    renderRow("Regolazione Lunghezza Punto", regolazioneLunghezzaPunto),
+    renderRow("Avvolgi Bobina Automatica", avvolgiBobinaAutomatica),
+    renderRow("Occhiellatore Automatico in 1 Fase", occhiellatoreAutomaticoIn1Fase),
+    renderRow("Accessori Inclusi", accessoriInclusi),
+    renderRow("Infila Ago Automatico", infilaAgoAutomatico),
+    renderRow("Piedini a Sgancio Rapido", piediniASgancioRapido),
+    renderRow("Punti Essenziali", puntiEssenziali),
+    renderRow("Braccio Libero", braccioLibero),
+    renderRow("Occhiello", occhiello),
+    renderRow("Punti Elastici", puntiElastici),
+    renderRow("Punti Decorativi", puntiDecorativi),
+    renderRow("Punti Utili", puntiUtili),
+    renderRow("Punti", punti),
+    renderRow("Modello", modello),
+    renderRow("Facile Selezione Punti", facileSelezionePunti),
+    renderRow("Marca", marche),
+    renderRow("Tipo", tipo),
+    renderRow("Livello", livello),
+    renderRow("Caratteristiche", caratteristiche),
+    renderRow("Peso", product.weight ? `${product.weight} g` : undefined),
+    renderRow(
+      "Dimensioni",
+      product.length && product.width && product.height
+        ? `${product.length}L x ${product.width}W x ${product.height}H`
+        : undefined
+    ),
+    product.tags?.length ? (
+      <tr className={isOdd ? "bg-gray-50" : "bg-white"}>
+        <td className="font-medium p-2 text-gray-700 text-left">Tags</td>
+        <td className="p-2 text-gray-900 text-left">{product.tags.join(", ")}</td>
+      </tr>
+    ) : null,
+  ];
+
+  return (
+    <div className="text-small-regular py-4">
+      <table className="w-full table-auto border-collapse">
+        <tbody>
+          {rows.map((row, index) => (row ? <React.Fragment key={index}>{row}</React.Fragment> : null))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const AccessoriTab = ({ accessori }: { accessori?: string }) => {
+  const renderRow = (label: string, value?: string) => {
+    return value ? (
+      <tr className="bg-gray-50">
+        <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+        <td className="p-2 text-gray-900 text-left">{value}</td>
+      </tr>
+    ) : null;
+  };
+
+  return (
+    <div className="text-small-regular py-4">
+      <table className="w-full table-auto border-collapse">
+        <tbody>
+          {renderRow("Accessori", accessori)}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 const ShippingInfoTab = () => {
   return (
