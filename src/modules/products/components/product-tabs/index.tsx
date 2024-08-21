@@ -267,6 +267,7 @@ const ProductInfoTab = ({
     );
   };
   
+  
 
 const ShippingInfoTab = () => {
   return (
