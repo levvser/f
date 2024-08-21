@@ -45,17 +45,65 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   };
 
   // Accessing environment variables
-  const marcheValues = process.env.NEXT_PUBLIC_MARCHE_VALUES?.split(",") || [];
-  const marche_attribute = getAttributeValue("MARCHE", marcheValues);
+  const AMPIEZZA_PUNTO_VALUES = process.env.NEXT_PUBLIC_REGOLAZIONE_AMPIEZZA_PUNTO?.split(",") || [];
+  const AMPIEZZA_PUNTO_ATTRIBUTE = getAttributeValue("AMPIEZZA_PUNTO", AMPIEZZA_PUNTO_VALUES);
 
-  const tipoValues = process.env.NEXT_PUBLIC_TIPO_VALUES?.split(",") || [];
-  const tipo_attribute = getAttributeValue("TIPO", tipoValues);
+  const LUNGHEZZA_PUNTO_VALUES = process.env.NEXT_PUBLIC_REGOLAZIONE_LUNGHEZZA_PUNTO?.split(",") || [];
+  const LUNGHEZZA_PUNTO_ATTRIBUTE = getAttributeValue("LUNGHEZZA_PUNTO", LUNGHEZZA_PUNTO_VALUES);
+  
+  const AVVOLGI_BOBINA_AUTOMATICA_VALUES = process.env.NEXT_PUBLIC_AVVOLGI_BOBINA_AUTOMATICA?.split(",") || [];
+  const AVVOLGI_BOBINA_AUTOMATICA_ATTRIBUTE = getAttributeValue("AVVOLGI_BOBINA_AUTOMATICA", AVVOLGI_BOBINA_AUTOMATICA_VALUES);
+  
+  const OCCHIELLATORE_AUTOMATICO_IN_1_FASE_VALUES = process.env.NEXT_PUBLIC_OCCHIELLATORE_AUTOMATICO_IN_1_FASE?.split(",") || [];
+  const OCCHIELLATORE_AUTOMATICO_IN_1_FASE_ATTRIBUTE = getAttributeValue("OCCHIELLATORE_AUTOMATICO_IN_1_FASE", OCCHIELLATORE_AUTOMATICO_IN_1_FASE_VALUES);
+  
+  const ACCESSORI_INCLUSI_VALUES = process.env.NEXT_PUBLIC_ACCESSORI_INCLUSI?.split(",") || [];
+  const ACCESSORI_INCLUSI_ATTRIBUTE = getAttributeValue("ACCESSORI_INCLUSI", ACCESSORI_INCLUSI_VALUES);
+  
+  const INFILA_AGO_AUTOMATICO_VALUES = process.env.NEXT_PUBLIC_INFILA_AGO_AUTOMATICO?.split(",") || [];
+  const INFILA_AGO_AUTOMATICO_ATTRIBUTE = getAttributeValue("INFILA_AGO_AUTOMATICO", INFILA_AGO_AUTOMATICO_VALUES);
+  
+  const PIEDINI_A_SGANCIO_RAPIDO_VALUES = process.env.NEXT_PUBLIC_PIEDINI_A_SGANCIO_RAPIDO?.split(",") || [];
+  const PIEDINI_A_SGANCIO_RAPIDO_ATTRIBUTE = getAttributeValue("PIEDINI_A_SGANCIO_RAPIDO", PIEDINI_A_SGANCIO_RAPIDO_VALUES);
+  
+  const PUNTI_ESSENZIALI_VALUES = process.env.NEXT_PUBLIC_PUNTI_ESSENZIALI?.split(",") || [];
+  const PUNTI_ESSENZIALI_ATTRIBUTE = getAttributeValue("PUNTI_ESSENZIALI", PUNTI_ESSENZIALI_VALUES);
+  
+  const BRACCIO_LIBERO_VALUES = process.env.NEXT_PUBLIC_BRACCIO_LIBERO?.split(",") || [];
+  const BRACCIO_LIBERO_ATTRIBUTE = getAttributeValue("BRACCIO_LIBERO", BRACCIO_LIBERO_VALUES);
+  
+  const OCCHIELLO_VALUES = process.env.NEXT_PUBLIC_OCCHIELLO?.split(",") || [];
+  const OCCHIELLO_ATTRIBUTE = getAttributeValue("OCCHIELLO", OCCHIELLO_VALUES);
+  
+  const PUNTI_ELASTICI_VALUES = process.env.NEXT_PUBLIC_PUNTI_ELASTICI?.split(",") || [];
+  const PUNTI_ELASTICI_ATTRIBUTE = getAttributeValue("PUNTI_ELASTICI", PUNTI_ELASTICI_VALUES);
+  
+  const PUNTI_DECORATIVI_VALUES = process.env.NEXT_PUBLIC_PUNTI_DECORATIVI?.split(",") || [];
+  const PUNTI_DECORATIVI_ATTRIBUTE = getAttributeValue("PUNTI_DECORATIVI", PUNTI_DECORATIVI_VALUES);
+  
+  const PUNTI_UTILI_VALUES = process.env.NEXT_PUBLIC_PUNTI_UTILI?.split(",") || [];
+  const PUNTI_UTILI_ATTRIBUTE = getAttributeValue("PUNTI_UTILI", PUNTI_UTILI_VALUES);
+  
+  const PUNTI_VALUES = process.env.NEXT_PUBLIC_PUNTI?.split(",") || [];
+  const PUNTI_ATTRIBUTE = getAttributeValue("PUNTI", PUNTI_VALUES);
+  
+  const MODELLO_VALUES = process.env.NEXT_PUBLIC_MODELLO?.split(",") || [];
+  const MODELLO_ATTRIBUTE = getAttributeValue("MODELLO", MODELLO_VALUES);
+  
+  const FACILE_SELEZIONE_PUNTI_VALUES = process.env.NEXT_PUBLIC_FACILE_SELEZIONE_PUNTI?.split(",") || [];
+  const FACILE_SELEZIONE_PUNTI_ATTRIBUTE = getAttributeValue("FACILE_SELEZIONE_PUNTI", FACILE_SELEZIONE_PUNTI_VALUES);
+  
+  const MARCHE_VALUES = process.env.NEXT_PUBLIC_MARCHE_VALUES?.split(",") || [];
+  const MARCHE_ATTRIBUTE = getAttributeValue("MARCHE", MARCHE_VALUES);
 
-  const livelloValues = process.env.NEXT_PUBLIC_LIVELLO_VALUES?.split(",") || [];
-  const livello_attribute = getAttributeValue("LIVELLO", livelloValues);
+  const TIPO_VALUES = process.env.NEXT_PUBLIC_TIPO_VALUES?.split(",") || [];
+  const TIPO_ATTRIBUTE = getAttributeValue("TIPO", TIPO_VALUES);
 
-  const caratteristicheValues = process.env.NEXT_PUBLIC_CARATTERISTICHE_VALUES?.split(",") || [];
-  const caratteristiche_attribute = getAttributeValue("CARATTERISTICHE", caratteristicheValues);
+  const LIVELLO_VALUES = process.env.NEXT_PUBLIC_LIVELLO_VALUES?.split(",") || [];
+  const LIVELLO_ATTRIBUTE = getAttributeValue("LIVELLO", LIVELLO_VALUES);
+
+  const CARATTERISTICHE_VALUES = process.env.NEXT_PUBLIC_CARATTERISTICHE_VALUES?.split(",") || [];
+  const CARATTERISTICHE_ATTRIBUTE = getAttributeValue("CARATTERISTICHE", CARATTERISTICHE_VALUES);
 
   const tabs = [
     {
@@ -63,10 +111,26 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
       component: (
         <ProductInfoTab
           product={product}
-          marche={marche_attribute}
-          tipo={tipo_attribute}
-          livello={livello_attribute}
-          caratteristiche={caratteristiche_attribute}
+          ampiezzaPunto={AMPIEZZA_PUNTO_ATTRIBUTE}
+          lunghezzaPunto={LUNGHEZZA_PUNTO_ATTRIBUTE}
+          avvolgiBobinaAutomatica={AVVOLGI_BOBINA_AUTOMATICA_ATTRIBUTE}
+          occhiellatoreAutomaticoIn1Fase={OCCHIELLATORE_AUTOMATICO_IN_1_FASE_ATTRIBUTE}
+          accessoriInclusi={ACCESSORI_INCLUSI_ATTRIBUTE}
+          infilaAgoAutomatico={INFILA_AGO_AUTOMATICO_ATTRIBUTE}
+          piediniASgancioRapido={PIEDINI_A_SGANCIO_RAPIDO_ATTRIBUTE}
+          puntiEssenziali={PUNTI_ESSENZIALI_ATTRIBUTE}
+          braccioLibero={BRACCIO_LIBERO_ATTRIBUTE}
+          occhiello={OCCHIELLO_ATTRIBUTE}
+          puntiElastici={PUNTI_ELASTICI_ATTRIBUTE}
+          puntiDecorativi={PUNTI_DECORATIVI_ATTRIBUTE}
+          puntiUtili={PUNTI_UTILI_ATTRIBUTE}
+          punti={PUNTI_ATTRIBUTE}
+          modello={MODELLO_ATTRIBUTE}
+          facileSelezionePunti={FACILE_SELEZIONE_PUNTI_ATTRIBUTE}
+          marche={MARCHE_ATTRIBUTE}
+          tipo={TIPO_ATTRIBUTE}
+          livello={LIVELLO_ATTRIBUTE}
+          caratteristiche={CARATTERISTICHE_ATTRIBUTE}
         />
       ),
     },
@@ -94,8 +158,46 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   );
 };
 
-const ProductInfoTab = ({ product, marche, tipo, livello, caratteristiche }: {
+const ProductInfoTab = ({
+  product,
+  ampiezzaPunto,
+  lunghezzaPunto,
+  avvolgiBobinaAutomatica,
+  occhiellatoreAutomaticoIn1Fase,
+  accessoriInclusi,
+  infilaAgoAutomatico,
+  piediniASgancioRapido,
+  puntiEssenziali,
+  braccioLibero,
+  occhiello,
+  puntiElastici,
+  puntiDecorativi,
+  puntiUtili,
+  punti,
+  modello,
+  facileSelezionePunti,
+  marche,
+  tipo,
+  livello,
+  caratteristiche,
+}: {
   product: CustomPricedProduct,
+  ampiezzaPunto?: string,
+  lunghezzaPunto?: string,
+  avvolgiBobinaAutomatica?: string,
+  occhiellatoreAutomaticoIn1Fase?: string,
+  accessoriInclusi?: string,
+  infilaAgoAutomatico?: string,
+  piediniASgancioRapido?: string,
+  puntiEssenziali?: string,
+  braccioLibero?: string,
+  occhiello?: string,
+  puntiElastici?: string,
+  puntiDecorativi?: string,
+  puntiUtili?: string,
+  punti?: string,
+  modello?: string,
+  facileSelezionePunti?: string,
   marche?: string,
   tipo?: string,
   livello?: string,
@@ -106,16 +208,68 @@ const ProductInfoTab = ({ product, marche, tipo, livello, caratteristiche }: {
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">Caratteristiche</span>
-            <p>{caratteristiche || "-"}</p>
+            <span className="font-semibold">Ampiezza Punto</span>
+            <p>{ampiezzaPunto || "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Livello</span>
-            <p>{livello || "-"}</p>
+            <span className="font-semibold">Lunghezza Punto</span>
+            <p>{lunghezzaPunto || "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Type</span>
-            <p>{product.type ? product.type.value : "-"}</p>
+            <span className="font-semibold">Avvolgi Bobina Automatica</span>
+            <p>{avvolgiBobinaAutomatica || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Occhiellatore Automatico in 1 Fase</span>
+            <p>{occhiellatoreAutomaticoIn1Fase || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Accessori Inclusi</span>
+            <p>{accessoriInclusi || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Infila Ago Automatico</span>
+            <p>{infilaAgoAutomatico || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Piedini a Sgancio Rapido</span>
+            <p>{piediniASgancioRapido || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Punti Essenziali</span>
+            <p>{puntiEssenziali || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Braccio Libero</span>
+            <p>{braccioLibero || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Occhiello</span>
+            <p>{occhiello || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Punti Elastici</span>
+            <p>{puntiElastici || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Punti Decorativi</span>
+            <p>{puntiDecorativi || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Punti Utili</span>
+            <p>{puntiUtili || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Punti</span>
+            <p>{punti || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Modello</span>
+            <p>{modello || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Facile Selezione Punti</span>
+            <p>{facileSelezionePunti || "-"}</p>
           </div>
           <div>
             <span className="font-semibold">Marca</span>
@@ -124,6 +278,14 @@ const ProductInfoTab = ({ product, marche, tipo, livello, caratteristiche }: {
           <div>
             <span className="font-semibold">Tipo</span>
             <p>{tipo || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Livello</span>
+            <p>{livello || "-"}</p>
+          </div>
+          <div>
+            <span className="font-semibold">Caratteristiche</span>
+            <p>{caratteristiche || "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
