@@ -6,10 +6,11 @@
     .zoom-container img {
       transition: transform 0.3s ease;
       cursor: zoom-in;
+      transform-origin: center center;
     }
     
-    .zoom-container img:hover {
-      transform: scale(1.5); /* Adjust the scale as needed */
+    .zoom-container img.zoomed {
       cursor: zoom-out;
+      transform-origin: top left; /* This allows the zoom to follow the mouse */
     }
     

@@ -10,7 +10,7 @@ import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
-import styles from './ProductTemplate.module.css' // Import the CSS module
+import styles from './ProductTemplate.module.css'
 
 type ProductTemplateProps = {
   product: PricedProduct
@@ -25,6 +25,31 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 }) => {
   if (!product || !product.id) {
     return notFound()
+  }
+
+  const handleMouseMove = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    index: number
+  ) => {
+    const img = e.currentTarget
+    const rect = img.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    img.style.transformOrigin = `${x}% ${y}%`
+  }
+
+  const handleMouseEnter = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    e.currentTarget.classList.add("zoomed")
+    e.currentTarget.style.transform = 'scale(1.5)'
+  }
+
+  const handleMouseLeave = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    e.currentTarget.classList.remove("zoomed")
+    e.currentTarget.style.transform = 'scale(1)'
   }
 
   return (
@@ -42,6 +67,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
                   src={image.url}
                   alt={product.title}
                   className="w-full h-auto"
+                  onMouseMove={(e) => handleMouseMove(e, index)}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 />
               </div>
             ))}
