@@ -1,9 +1,7 @@
-"use client"; // Add this at the top of your file
-
 import { Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-import React, { Suspense, useRef, useState } from "react"
-import ImageGallery from "@modules/products/components/image-gallery"
+import React, { useState, Suspense } from "react"
+
 import ProductActions from "@modules/products/components/product-actions"
 import ProductOnboardingCta from "@modules/products/components/product-onboarding-cta"
 import ProductTabs from "@modules/products/components/product-tabs"
@@ -12,7 +10,6 @@ import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
-import styles from './ProductTemplate.module.css'
 
 type ProductTemplateProps = {
   product: PricedProduct
@@ -25,31 +22,21 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   region,
   countryCode,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentImage, setCurrentImage] = useState<string | null>(null)
+
   if (!product || !product.id) {
     return notFound()
   }
 
-  const [isZoomed, setIsZoomed] = useState(false)
-  const imgRef = useRef<HTMLImageElement | null>(null)
-
-  const handleMouseMove = (
-    e: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    if (isZoomed && imgRef.current) {
-      const img = imgRef.current
-      const rect = img.getBoundingClientRect()
-      const x = ((e.clientX - rect.left) / rect.width) * 100
-      const y = ((e.clientY - rect.top) / rect.height) * 100
-      img.style.transformOrigin = `${x}% ${y}%`
-    }
+  const openModal = (image: string) => {
+    setCurrentImage(image)
+    setIsModalOpen(true)
   }
 
-  const handleMouseEnter = () => {
-    setIsZoomed(true)
-  }
-
-  const handleMouseLeave = () => {
-    setIsZoomed(false)
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setCurrentImage(null)
   }
 
   return (
@@ -60,20 +47,15 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
       >
         {/* Image Gallery on the Left */}
         <div className="w-full small:w-2/5 small:pr-6">
-          <div className="flex flex-col gap-y-4">
+          <div className="grid grid-cols-2 gap-2">
             {product.images?.map((image, index) => (
-              <div key={index} className={styles['zoom-container']}>
-                <img
-                  ref={imgRef}
-                  src={image.url}
-                  alt={product.title}
-                  className={`w-full h-auto ${isZoomed ? 'zoomed' : ''}`}
-                  onMouseMove={handleMouseMove}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  style={{ transform: isZoomed ? 'scale(1.5)' : 'scale(1)' }}
-                />
-              </div>
+              <img
+                key={index}
+                src={image.url}
+                alt={`Product Image ${index + 1}`}
+                className="cursor-pointer"
+                onClick={() => openModal(image.url)}
+              />
             ))}
           </div>
         </div>
@@ -105,6 +87,21 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>
       </div>
+
+      {/* Full-Screen Image Modal */}
+      {isModalOpen && currentImage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="relative">
+            <img src={currentImage} alt="Full screen" className="max-w-full max-h-full" />
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-white text-xl bg-gray-800 bg-opacity-75 rounded-full p-2"
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
     </>
   )
 }
