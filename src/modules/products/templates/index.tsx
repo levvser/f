@@ -1,3 +1,5 @@
+"use client"; // Add this at the top of your file
+
 import { Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import React, { useState, Suspense } from "react"
