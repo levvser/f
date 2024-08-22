@@ -42,21 +42,14 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 			?.values.map((value) => value.value) || [];
 	};
 
-	// Get the list of product information attributes from the environment variable
-	const INFORMAZIONI_PRODOTTO_ATTRIBUTES = process.env.NEXT_PUBLIC_INFORMAZIONI_PRODOTTO?.split(",") || [];
-
-	// Get multiple values for ACCESSORI
+	// Fetching the product information attributes and accessori in the same way
+	const INFORMAZIONI_PRODOTTO_ATTRIBUTES = getAttributeValues("INFORMAZIONI_PRODOTTO");
 	const ACCESSORI_ATTRIBUTE = getAttributeValues("ACCESSORI");
 
 	const tabs = [
 		{
 			label: "Product Information",
-			component: (
-				<ProductInfoTab
-					product={product}
-					informazioniProdottoAttributes={INFORMAZIONI_PRODOTTO_ATTRIBUTES}
-				/>
-			),
+			component: <ProductInfoTab informazioniProdottoAttributes={INFORMAZIONI_PRODOTTO_ATTRIBUTES} />,
 		},
 		{
 			label: "Accessori",
@@ -72,12 +65,7 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 		<div className="w-full">
 			<Accordion type="multiple">
 				{tabs.map((tab, i) => (
-					<Accordion.Item
-						key={i}
-						title={tab.label}
-						headingSize="medium"
-						value={tab.label}
-					>
+					<Accordion.Item key={i} title={tab.label} headingSize="medium" value={tab.label}>
 						{tab.component}
 					</Accordion.Item>
 				))}
@@ -87,19 +75,11 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 };
 
 const ProductInfoTab = ({
-	product,
 	informazioniProdottoAttributes,
 }: {
-	product: CustomPricedProduct;
 	informazioniProdottoAttributes: string[];
 }) => {
 	let isOdd = true; // Start with `true` for the first row
-
-	const getAttributeValues = (attrName: string): string[] => {
-		return product.custom_attributes
-			?.find((attr: CustomAttribute) => attr.name === attrName)
-			?.values.map((value) => value.value) || [];
-	};
 
 	const renderRow = (value: string) => {
 		const row = (
@@ -111,17 +91,12 @@ const ProductInfoTab = ({
 		return row;
 	};
 
-	const rows = informazioniProdottoAttributes.flatMap((attributeName) => {
-		const values = getAttributeValues(attributeName);
-		return values.map((value) => renderRow(value));
-	});
+	const rows = informazioniProdottoAttributes.map((value) => renderRow(value));
 
 	return (
 		<div className="text-small-regular py-4">
 			<table className="w-full table-auto border-collapse">
-				<tbody>
-					{rows.map((row, index) => row && <React.Fragment key={index}>{row}</React.Fragment>)}
-				</tbody>
+				<tbody>{rows.map((row, index) => row && <React.Fragment key={index}>{row}</React.Fragment>)}</tbody>
 			</table>
 		</div>
 	);
@@ -158,8 +133,8 @@ const ShippingInfoTab = () => {
 					<div>
 						<span className="font-semibold">Fast delivery</span>
 						<p className="max-w-sm">
-							Your package will arrive in 3-5 business days at your pick-up
-							location or in the comfort of your home.
+							Your package will arrive in 3-5 business days at your pick-up location or in the comfort of
+							your home.
 						</p>
 					</div>
 				</div>
@@ -168,8 +143,7 @@ const ShippingInfoTab = () => {
 					<div>
 						<span className="font-semibold">Simple exchanges</span>
 						<p className="max-w-sm">
-							Is the fit not quite right? No worries - we&apos;ll exchange your
-							product for a new one.
+							Is the fit not quite right? No worries - we&apos;ll exchange your product for a new one.
 						</p>
 					</div>
 				</div>
@@ -178,9 +152,8 @@ const ShippingInfoTab = () => {
 					<div>
 						<span className="font-semibold">Easy returns</span>
 						<p className="max-w-sm">
-							Just return your product and we&apos;ll refund your money. No
-							questions asked – we&apos;ll do our best to make sure your return
-							is hassle-free.
+							Just return your product and we&apos;ll refund your money. No questions asked – we&apos;ll do
+							our best to make sure your return is hassle-free.
 						</p>
 					</div>
 				</div>
