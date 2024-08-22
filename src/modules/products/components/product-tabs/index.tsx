@@ -101,22 +101,19 @@ const ProductInfoTab = ({
 			?.values.map((value) => value.value) || [];
 	};
 
-	const renderRow = (value?: string) => {
-		if (value) {
-			const row = (
-				<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={value}>
-					<td className="p-2 text-gray-900 text-left col-span-2">{value}</td>
-				</tr>
-			);
-			isOdd = !isOdd; // Toggle `isOdd` after each rendered row
-			return row;
-		}
-		return null;
+	const renderRow = (value: string) => {
+		const row = (
+			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={value}>
+				<td className="p-2 text-gray-900 text-left col-span-2">{value}</td>
+			</tr>
+		);
+		isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+		return row;
 	};
 
-	const rows = informazioniProdottoAttributes.map((attributeName) => {
-		const values = getAttributeValues(attributeName)[0];
-		return renderRow(values);
+	const rows = informazioniProdottoAttributes.flatMap((attributeName) => {
+		const values = getAttributeValues(attributeName);
+		return values.map((value) => renderRow(value));
 	});
 
 	return (
