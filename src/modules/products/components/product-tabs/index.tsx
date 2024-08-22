@@ -42,26 +42,8 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 			?.values.map((value) => value.value) || [];
 	};
 
-	const REGOLAZIONE_AMPIEZZA_PUNTO_ATTRIBUTE = getAttributeValues("REGOLAZIONE_AMPIEZZA_PUNTO")[0] || undefined;
-	const REGOLAZIONE_LUNGHEZZA_PUNTO_ATTRIBUTE = getAttributeValues("REGOLAZIONE_LUNGHEZZA_PUNTO")[0] || undefined;
-	const AVVOLGI_BOBINA_AUTOMATICA_ATTRIBUTE = getAttributeValues("AVVOLGI_BOBINA_AUTOMATICA")[0] || undefined;
-	const OCCHIELLATORE_AUTOMATICO_IN_1_FASE_ATTRIBUTE = getAttributeValues("OCCHIELLATORE_AUTOMATICO_IN_1_FASE")[0] || undefined;
-	const ACCESSORI_INCLUSI_ATTRIBUTE = getAttributeValues("ACCESSORI_INCLUSI")[0] || undefined;
-	const INFILA_AGO_AUTOMATICO_ATTRIBUTE = getAttributeValues("INFILA_AGO_AUTOMATICO")[0] || undefined;
-	const PIEDINI_A_SGANCIO_RAPIDO_ATTRIBUTE = getAttributeValues("PIEDINI_A_SGANCIO_RAPIDO")[0] || undefined;
-	const PUNTI_ESSENZIALI_ATTRIBUTE = getAttributeValues("PUNTI_ESSENZIALI")[0] || undefined;
-	const BRACCIO_LIBERO_ATTRIBUTE = getAttributeValues("BRACCIO_LIBERO")[0] || undefined;
-	const OCCHIELLO_ATTRIBUTE = getAttributeValues("OCCHIELLO")[0] || undefined;
-	const PUNTI_ELASTICI_ATTRIBUTE = getAttributeValues("PUNTI_ELASTICI")[0] || undefined;
-	const PUNTI_DECORATIVI_ATTRIBUTE = getAttributeValues("PUNTI_DECORATIVI")[0] || undefined;
-	const PUNTI_UTILI_ATTRIBUTE = getAttributeValues("PUNTI_UTILI")[0] || undefined;
-	const PUNTI_ATTRIBUTE = getAttributeValues("PUNTI")[0] || undefined;
-	const MODELLO_ATTRIBUTE = getAttributeValues("MODELLO")[0] || undefined;
-	const FACILE_SELEZIONE_PUNTI_ATTRIBUTE = getAttributeValues("FACILE_SELEZIONE_PUNTI")[0] || undefined;
-	const MARCHE_ATTRIBUTE = getAttributeValues("MARCHE")[0] || undefined;
-	const TIPO_ATTRIBUTE = getAttributeValues("TIPO")[0] || undefined;
-	const LIVELLO_ATTRIBUTE = getAttributeValues("LIVELLO")[0] || undefined;
-	const CARATTERISTICHE_ATTRIBUTE = getAttributeValues("CARATTERISTICHE")[0] || undefined;
+	// Get the list of product information attributes from the environment variable
+	const INFORMAZIONI_PRODOTTO_ATTRIBUTES = process.env.NEXT_PUBLIC_INFORMAZIONI_PRODOTTO?.split(",") || [];
 
 	// Get multiple values for ACCESSORI
 	const ACCESSORI_ATTRIBUTE = getAttributeValues("ACCESSORI");
@@ -72,26 +54,7 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 			component: (
 				<ProductInfoTab
 					product={product}
-					regolazioneAmpiezzaPunto={REGOLAZIONE_AMPIEZZA_PUNTO_ATTRIBUTE}
-					regolazioneLunghezzaPunto={REGOLAZIONE_LUNGHEZZA_PUNTO_ATTRIBUTE}
-					avvolgiBobinaAutomatica={AVVOLGI_BOBINA_AUTOMATICA_ATTRIBUTE}
-					occhiellatoreAutomaticoIn1Fase={OCCHIELLATORE_AUTOMATICO_IN_1_FASE_ATTRIBUTE}
-					accessoriInclusi={ACCESSORI_INCLUSI_ATTRIBUTE}
-					infilaAgoAutomatico={INFILA_AGO_AUTOMATICO_ATTRIBUTE}
-					piediniASgancioRapido={PIEDINI_A_SGANCIO_RAPIDO_ATTRIBUTE}
-					puntiEssenziali={PUNTI_ESSENZIALI_ATTRIBUTE}
-					braccioLibero={BRACCIO_LIBERO_ATTRIBUTE}
-					occhiello={OCCHIELLO_ATTRIBUTE}
-					puntiElastici={PUNTI_ELASTICI_ATTRIBUTE}
-					puntiDecorativi={PUNTI_DECORATIVI_ATTRIBUTE}
-					puntiUtili={PUNTI_UTILI_ATTRIBUTE}
-					punti={PUNTI_ATTRIBUTE}
-					modello={MODELLO_ATTRIBUTE}
-					facileSelezionePunti={FACILE_SELEZIONE_PUNTI_ATTRIBUTE}
-					marche={MARCHE_ATTRIBUTE}
-					tipo={TIPO_ATTRIBUTE}
-					livello={LIVELLO_ATTRIBUTE}
-					caratteristiche={CARATTERISTICHE_ATTRIBUTE}
+					informazioniProdottoAttributes={INFORMAZIONI_PRODOTTO_ATTRIBUTES}
 				/>
 			),
 		},
@@ -125,57 +88,24 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 
 const ProductInfoTab = ({
 	product,
-	regolazioneAmpiezzaPunto,
-	regolazioneLunghezzaPunto,
-	avvolgiBobinaAutomatica,
-	occhiellatoreAutomaticoIn1Fase,
-	accessoriInclusi,
-	infilaAgoAutomatico,
-	piediniASgancioRapido,
-	puntiEssenziali,
-	braccioLibero,
-	occhiello,
-	puntiElastici,
-	puntiDecorativi,
-	puntiUtili,
-	punti,
-	modello,
-	facileSelezionePunti,
-	marche,
-	tipo,
-	livello,
-	caratteristiche,
+	informazioniProdottoAttributes,
 }: {
 	product: CustomPricedProduct;
-	regolazioneAmpiezzaPunto?: string;
-	regolazioneLunghezzaPunto?: string;
-	avvolgiBobinaAutomatica?: string;
-	occhiellatoreAutomaticoIn1Fase?: string;
-	accessoriInclusi?: string;
-	infilaAgoAutomatico?: string;
-	piediniASgancioRapido?: string;
-	puntiEssenziali?: string;
-	braccioLibero?: string;
-	occhiello?: string;
-	puntiElastici?: string;
-	puntiDecorativi?: string;
-	puntiUtili?: string;
-	punti?: string;
-	modello?: string;
-	facileSelezionePunti?: string;
-	marche?: string;
-	tipo?: string;
-	livello?: string;
-	caratteristiche?: string;
+	informazioniProdottoAttributes: string[];
 }) => {
 	let isOdd = true; // Start with `true` for the first row
 
-	const renderRow = (label: string, value?: string) => {
+	const getAttributeValues = (attrName: string): string[] => {
+		return product.custom_attributes
+			?.find((attr: CustomAttribute) => attr.name === attrName)
+			?.values.map((value) => value.value) || [];
+	};
+
+	const renderRow = (value?: string) => {
 		if (value) {
 			const row = (
-				<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
-					<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
-					<td className="p-2 text-gray-900 text-left">{value}</td>
+				<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={value}>
+					<td className="p-2 text-gray-900 text-left col-span-2">{value}</td>
 				</tr>
 			);
 			isOdd = !isOdd; // Toggle `isOdd` after each rendered row
@@ -184,41 +114,10 @@ const ProductInfoTab = ({
 		return null;
 	};
 
-	const rows = [
-		renderRow("Regolazione Ampiezza Punto", regolazioneAmpiezzaPunto),
-		renderRow("Regolazione Lunghezza Punto", regolazioneLunghezzaPunto),
-		renderRow("Avvolgi Bobina Automatica", avvolgiBobinaAutomatica),
-		renderRow("Occhiellatore Automatico in 1 Fase", occhiellatoreAutomaticoIn1Fase),
-		renderRow("Accessori Inclusi", accessoriInclusi),
-		renderRow("Infila Ago Automatico", infilaAgoAutomatico),
-		renderRow("Piedini a Sgancio Rapido", piediniASgancioRapido),
-		renderRow("Punti Essenziali", puntiEssenziali),
-		renderRow("Braccio Libero", braccioLibero),
-		renderRow("Occhiello", occhiello),
-		renderRow("Punti Elastici", puntiElastici),
-		renderRow("Punti Decorativi", puntiDecorativi),
-		renderRow("Punti Utili", puntiUtili),
-		renderRow("Punti", punti),
-		renderRow("Modello", modello),
-		renderRow("Facile Selezione Punti", facileSelezionePunti),
-		renderRow("Marca", marche),
-		renderRow("Tipo", tipo),
-		renderRow("Livello", livello),
-		renderRow("Caratteristiche", caratteristiche),
-		renderRow("Peso", product.weight ? `${product.weight} g` : undefined),
-		renderRow(
-			"Dimensioni",
-			product.length && product.width && product.height
-				? `${product.length}L x ${product.width}W x ${product.height}H`
-				: undefined
-		),
-		product.tags?.length ? (
-			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key="tags">
-				<td className="font-medium p-2 text-gray-700 text-left">Tags</td>
-				<td className="p-2 text-gray-900 text-left">{product.tags.join(", ")}</td>
-			</tr>
-		) : null,
-	];
+	const rows = informazioniProdottoAttributes.map((attributeName) => {
+		const values = getAttributeValues(attributeName)[0];
+		return renderRow(values);
+	});
 
 	return (
 		<div className="text-small-regular py-4">
