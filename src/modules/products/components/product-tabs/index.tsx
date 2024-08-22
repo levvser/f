@@ -35,7 +35,7 @@ type ProductTabsProps = {
 	product: CustomPricedProduct;
 };
 
-const ProductTabs = ({ product }: ProductTabsProps) => {
+const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 	const getAttributeValues = (attrName: string): string[] => {
 		return product.custom_attributes
 			?.find((attr: CustomAttribute) => attr.name === attrName)
@@ -74,57 +74,63 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 	);
 };
 
-const ProductInfoTab = ({
+const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[] }> = ({
 	informazioniProdottoAttributes,
-}: {
-	informazioniProdottoAttributes: string[];
 }) => {
 	let isOdd = true; // Start with `true` for the first row
 
-	const renderRow = (value: string) => {
-		const row = (
-			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={value}>
-				<td className="p-2 text-gray-900 text-left col-span-2">{value}</td>
+	const renderRow = (label: string, value: string) => {
+		return (
+			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
+				<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+				<td className="p-2 text-gray-900 text-left">{value}</td>
 			</tr>
 		);
 		isOdd = !isOdd; // Toggle `isOdd` after each rendered row
-		return row;
 	};
 
-	const rows = informazioniProdottoAttributes.map((value) => renderRow(value));
+	const rows = informazioniProdottoAttributes.map((attribute) => {
+		const [label, value] = attribute.split("//");
+		return renderRow(label, value);
+	});
 
 	return (
 		<div className="text-small-regular py-4">
 			<table className="w-full table-auto border-collapse">
-				<tbody>{rows.map((row, index) => row && <React.Fragment key={index}>{row}</React.Fragment>)}</tbody>
+				<tbody>{rows}</tbody>
 			</table>
 		</div>
 	);
 };
 
-const AccessoriTab = ({ accessori }: { accessori?: string[] }) => {
+const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
 	let isOdd = true; // Start with `true` for the first row
 
+	const renderRow = (label: string, value: string) => {
+		return (
+			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
+				<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+				<td className="p-2 text-gray-900 text-left">{value}</td>
+			</tr>
+		);
+		isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+	};
+
+	const rows = accessori?.map((attribute) => {
+		const [label, value] = attribute.split("//");
+		return renderRow(label, value);
+	});
+
 	return (
 		<div className="text-small-regular py-4">
 			<table className="w-full table-auto border-collapse">
-				<tbody>
-					{accessori?.map((item, index) => {
-						const row = (
-							<tr key={index} className={isOdd ? "bg-gray-50" : "bg-white"}>
-								<td className="p-2 text-gray-900 text-left col-span-2">{item}</td>
-							</tr>
-						);
-						isOdd = !isOdd; // Toggle `isOdd` after each rendered row
-						return row;
-					})}
-				</tbody>
+				<tbody>{rows}</tbody>
 			</table>
 		</div>
 	);
 };
 
-const ShippingInfoTab = () => {
+const ShippingInfoTab: React.FC = () => {
 	return (
 		<div className="text-small-regular py-8">
 			<div className="grid grid-cols-1 gap-y-8">
