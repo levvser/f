@@ -243,8 +243,7 @@ const AccessoriTab = ({ accessori }: { accessori?: string[] }) => {
 					{accessori?.map((item, index) => {
 						const row = (
 							<tr key={index} className={isOdd ? "bg-gray-50" : "bg-white"}>
-								<td className="font-medium p-2 text-gray-700 text-left">Accessori</td>
-								<td className="p-2 text-gray-900 text-left">{item}</td>
+								<td className="p-2 text-gray-900 text-left col-span-2">{item}</td>
 							</tr>
 						);
 						isOdd = !isOdd; // Toggle `isOdd` after each rendered row
@@ -255,6 +254,7 @@ const AccessoriTab = ({ accessori }: { accessori?: string[] }) => {
 		</div>
 	);
 };
+
 
 const ShippingInfoTab = () => {
 	return (
