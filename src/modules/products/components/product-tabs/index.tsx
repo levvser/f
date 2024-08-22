@@ -36,78 +36,37 @@ type ProductTabsProps = {
 };
 
 const ProductTabs = ({ product }: ProductTabsProps) => {
-	const getAttributeValue = (
-		attrName: string,
-		allowedValues: string[]
+	const getAttributeValues = (
+		attrName: string
 	): string[] => {
 		return product.custom_attributes
 			?.find((attr: CustomAttribute) => attr.name === attrName)
-			?.values.filter((value) => allowedValues.includes(value.value))
-			.map((value) => value.value) || [];
+			?.values.map((value) => value.value) || [];
 	};
 
-	const REGOLAZIONE_AMPIEZZA_PUNTO_VALUES = process.env.NEXT_PUBLIC_REGOLAZIONE_AMPIEZZA_PUNTO?.split(",") || [];
-	const REGOLAZIONE_AMPIEZZA_PUNTO_ATTRIBUTE = getAttributeValue("REGOLAZIONE_AMPIEZZA_PUNTO", REGOLAZIONE_AMPIEZZA_PUNTO_VALUES);
+	const REGOLAZIONE_AMPIEZZA_PUNTO_ATTRIBUTE = getAttributeValues("REGOLAZIONE_AMPIEZZA_PUNTO")[0] || undefined;
+	const REGOLAZIONE_LUNGHEZZA_PUNTO_ATTRIBUTE = getAttributeValues("REGOLAZIONE_LUNGHEZZA_PUNTO")[0] || undefined;
+	const AVVOLGI_BOBINA_AUTOMATICA_ATTRIBUTE = getAttributeValues("AVVOLGI_BOBINA_AUTOMATICA")[0] || undefined;
+	const OCCHIELLATORE_AUTOMATICO_IN_1_FASE_ATTRIBUTE = getAttributeValues("OCCHIELLATORE_AUTOMATICO_IN_1_FASE")[0] || undefined;
+	const ACCESSORI_INCLUSI_ATTRIBUTE = getAttributeValues("ACCESSORI_INCLUSI")[0] || undefined;
+	const INFILA_AGO_AUTOMATICO_ATTRIBUTE = getAttributeValues("INFILA_AGO_AUTOMATICO")[0] || undefined;
+	const PIEDINI_A_SGANCIO_RAPIDO_ATTRIBUTE = getAttributeValues("PIEDINI_A_SGANCIO_RAPIDO")[0] || undefined;
+	const PUNTI_ESSENZIALI_ATTRIBUTE = getAttributeValues("PUNTI_ESSENZIALI")[0] || undefined;
+	const BRACCIO_LIBERO_ATTRIBUTE = getAttributeValues("BRACCIO_LIBERO")[0] || undefined;
+	const OCCHIELLO_ATTRIBUTE = getAttributeValues("OCCHIELLO")[0] || undefined;
+	const PUNTI_ELASTICI_ATTRIBUTE = getAttributeValues("PUNTI_ELASTICI")[0] || undefined;
+	const PUNTI_DECORATIVI_ATTRIBUTE = getAttributeValues("PUNTI_DECORATIVI")[0] || undefined;
+	const PUNTI_UTILI_ATTRIBUTE = getAttributeValues("PUNTI_UTILI")[0] || undefined;
+	const PUNTI_ATTRIBUTE = getAttributeValues("PUNTI")[0] || undefined;
+	const MODELLO_ATTRIBUTE = getAttributeValues("MODELLO")[0] || undefined;
+	const FACILE_SELEZIONE_PUNTI_ATTRIBUTE = getAttributeValues("FACILE_SELEZIONE_PUNTI")[0] || undefined;
+	const MARCHE_ATTRIBUTE = getAttributeValues("MARCHE")[0] || undefined;
+	const TIPO_ATTRIBUTE = getAttributeValues("TIPO")[0] || undefined;
+	const LIVELLO_ATTRIBUTE = getAttributeValues("LIVELLO")[0] || undefined;
+	const CARATTERISTICHE_ATTRIBUTE = getAttributeValues("CARATTERISTICHE")[0] || undefined;
 
-	const REGOLAZIONE_LUNGHEZZA_PUNTO_VALUES = process.env.NEXT_PUBLIC_REGOLAZIONE_LUNGHEZZA_PUNTO?.split(",") || [];
-	const REGOLAZIONE_LUNGHEZZA_PUNTO_ATTRIBUTE = getAttributeValue("REGOLAZIONE_LUNGHEZZA_PUNTO", REGOLAZIONE_LUNGHEZZA_PUNTO_VALUES);
-
-	const AVVOLGI_BOBINA_AUTOMATICA_VALUES = process.env.NEXT_PUBLIC_AVVOLGI_BOBINA_AUTOMATICA?.split(",") || [];
-	const AVVOLGI_BOBINA_AUTOMATICA_ATTRIBUTE = getAttributeValue("AVVOLGI_BOBINA_AUTOMATICA", AVVOLGI_BOBINA_AUTOMATICA_VALUES);
-
-	const OCCHIELLATORE_AUTOMATICO_IN_1_FASE_VALUES = process.env.NEXT_PUBLIC_OCCHIELLATORE_AUTOMATICO_IN_1_FASE?.split(",") || [];
-	const OCCHIELLATORE_AUTOMATICO_IN_1_FASE_ATTRIBUTE = getAttributeValue("OCCHIELLATORE_AUTOMATICO_IN_1_FASE", OCCHIELLATORE_AUTOMATICO_IN_1_FASE_VALUES);
-
-	const ACCESSORI_INCLUSI_VALUES = process.env.NEXT_PUBLIC_ACCESSORI_INCLUSI?.split(",") || [];
-	const ACCESSORI_INCLUSI_ATTRIBUTE = getAttributeValue("ACCESSORI_INCLUSI", ACCESSORI_INCLUSI_VALUES);
-
-	const INFILA_AGO_AUTOMATICO_VALUES = process.env.NEXT_PUBLIC_INFILA_AGO_AUTOMATICO?.split(",") || [];
-	const INFILA_AGO_AUTOMATICO_ATTRIBUTE = getAttributeValue("INFILA_AGO_AUTOMATICO", INFILA_AGO_AUTOMATICO_VALUES);
-
-	const PIEDINI_A_SGANCIO_RAPIDO_VALUES = process.env.NEXT_PUBLIC_PIEDINI_A_SGANCIO_RAPIDO?.split(",") || [];
-	const PIEDINI_A_SGANCIO_RAPIDO_ATTRIBUTE = getAttributeValue("PIEDINI_A_SGANCIO_RAPIDO", PIEDINI_A_SGANCIO_RAPIDO_VALUES);
-
-	const PUNTI_ESSENZIALI_VALUES = process.env.NEXT_PUBLIC_PUNTI_ESSENZIALI?.split(",") || [];
-	const PUNTI_ESSENZIALI_ATTRIBUTE = getAttributeValue("PUNTI_ESSENZIALI", PUNTI_ESSENZIALI_VALUES);
-
-	const BRACCIO_LIBERO_VALUES = process.env.NEXT_PUBLIC_BRACCIO_LIBERO?.split(",") || [];
-	const BRACCIO_LIBERO_ATTRIBUTE = getAttributeValue("BRACCIO_LIBERO", BRACCIO_LIBERO_VALUES);
-
-	const OCCHIELLO_VALUES = process.env.NEXT_PUBLIC_OCCHIELLO?.split(",") || [];
-	const OCCHIELLO_ATTRIBUTE = getAttributeValue("OCCHIELLO", OCCHIELLO_VALUES);
-
-	const PUNTI_ELASTICI_VALUES = process.env.NEXT_PUBLIC_PUNTI_ELASTICI?.split(",") || [];
-	const PUNTI_ELASTICI_ATTRIBUTE = getAttributeValue("PUNTI_ELASTICI", PUNTI_ELASTICI_VALUES);
-
-	const PUNTI_DECORATIVI_VALUES = process.env.NEXT_PUBLIC_PUNTI_DECORATIVI?.split(",") || [];
-	const PUNTI_DECORATIVI_ATTRIBUTE = getAttributeValue("PUNTI_DECORATIVI", PUNTI_DECORATIVI_VALUES);
-
-	const PUNTI_UTILI_VALUES = process.env.NEXT_PUBLIC_PUNTI_UTILI?.split(",") || [];
-	const PUNTI_UTILI_ATTRIBUTE = getAttributeValue("PUNTI_UTILI", PUNTI_UTILI_VALUES);
-
-	const PUNTI_VALUES = process.env.NEXT_PUBLIC_PUNTI?.split(",") || [];
-	const PUNTI_ATTRIBUTE = getAttributeValue("PUNTI", PUNTI_VALUES);
-
-	const MODELLO_VALUES = process.env.NEXT_PUBLIC_MODELLO?.split(",") || [];
-	const MODELLO_ATTRIBUTE = getAttributeValue("MODELLO", MODELLO_VALUES);
-
-	const FACILE_SELEZIONE_PUNTI_VALUES = process.env.NEXT_PUBLIC_FACILE_SELEZIONE_PUNTI?.split(",") || [];
-	const FACILE_SELEZIONE_PUNTI_ATTRIBUTE = getAttributeValue("FACILE_SELEZIONE_PUNTI", FACILE_SELEZIONE_PUNTI_VALUES);
-
-	const MARCHE_VALUES = process.env.NEXT_PUBLIC_MARCHE?.split(",") || [];
-	const MARCHE_ATTRIBUTE = getAttributeValue("MARCHE", MARCHE_VALUES);
-
-	const TIPO_VALUES = process.env.NEXT_PUBLIC_TIPO?.split(",") || [];
-	const TIPO_ATTRIBUTE = getAttributeValue("TIPO", TIPO_VALUES);
-
-	const LIVELLO_VALUES = process.env.NEXT_PUBLIC_LIVELLO?.split(",") || [];
-	const LIVELLO_ATTRIBUTE = getAttributeValue("LIVELLO", LIVELLO_VALUES);
-
-	const CARATTERISTICHE_VALUES = process.env.NEXT_PUBLIC_CARATTERISTICHE?.split(",") || [];
-	const CARATTERISTICHE_ATTRIBUTE = getAttributeValue("CARATTERISTICHE", CARATTERISTICHE_VALUES);
-
-	const ACCESSORI_VALUES = process.env.NEXT_PUBLIC_ACCESSORI?.split(",") || [];
-	const ACCESSORI_ATTRIBUTE = getAttributeValue("ACCESSORI", ACCESSORI_VALUES);
+	// Get multiple values for ACCESSORI
+	const ACCESSORI_ATTRIBUTE = getAttributeValues("ACCESSORI");
 
 	const tabs = [
 		{
@@ -190,41 +149,39 @@ const ProductInfoTab = ({
 	caratteristiche,
 }: {
 	product: CustomPricedProduct;
-	regolazioneAmpiezzaPunto?: string[];
-	regolazioneLunghezzaPunto?: string[];
-	avvolgiBobinaAutomatica?: string[];
-	occhiellatoreAutomaticoIn1Fase?: string[];
-	accessoriInclusi?: string[];
-	infilaAgoAutomatico?: string[];
-	piediniASgancioRapido?: string[];
-	puntiEssenziali?: string[];
-	braccioLibero?: string[];
-	occhiello?: string[];
-	puntiElastici?: string[];
-	puntiDecorativi?: string[];
-	puntiUtili?: string[];
-	punti?: string[];
-	modello?: string[];
-	facileSelezionePunti?: string[];
-	marche?: string[];
-	tipo?: string[];
-	livello?: string[];
-	caratteristiche?: string[];
+	regolazioneAmpiezzaPunto?: string;
+	regolazioneLunghezzaPunto?: string;
+	avvolgiBobinaAutomatica?: string;
+	occhiellatoreAutomaticoIn1Fase?: string;
+	accessoriInclusi?: string;
+	infilaAgoAutomatico?: string;
+	piediniASgancioRapido?: string;
+	puntiEssenziali?: string;
+	braccioLibero?: string;
+	occhiello?: string;
+	puntiElastici?: string;
+	puntiDecorativi?: string;
+	puntiUtili?: string;
+	punti?: string;
+	modello?: string;
+	facileSelezionePunti?: string;
+	marche?: string;
+	tipo?: string;
+	livello?: string;
+	caratteristiche?: string;
 }) => {
 	let isOdd = true; // Start with `true` for the first row
 
-	const renderRow = (label: string, values?: string[]) => {
-		if (values && values.length > 0) {
-			return values.map((value, index) => {
-				const row = (
-					<tr key={index} className={isOdd ? "bg-gray-50" : "bg-white"}>
-						<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
-						<td className="p-2 text-gray-900 text-left">{value}</td>
-					</tr>
-				);
-				isOdd = !isOdd; // Toggle `isOdd` after each rendered row
-				return row;
-			});
+	const renderRow = (label: string, value?: string) => {
+		if (value) {
+			const row = (
+				<tr className={isOdd ? "bg-gray-50" : "bg-white"}>
+					<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+					<td className="p-2 text-gray-900 text-left">{value}</td>
+				</tr>
+			);
+			isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+			return row;
 		}
 		return null;
 	};
@@ -250,11 +207,11 @@ const ProductInfoTab = ({
 		renderRow("Tipo", tipo),
 		renderRow("Livello", livello),
 		renderRow("Caratteristiche", caratteristiche),
-		renderRow("Peso", product.weight ? [`${product.weight} g`] : undefined),
+		renderRow("Peso", product.weight ? `${product.weight} g` : undefined),
 		renderRow(
 			"Dimensioni",
 			product.length && product.width && product.height
-				? [`${product.length}L x ${product.width}W x ${product.height}H`]
+				? `${product.length}L x ${product.width}W x ${product.height}H`
 				: undefined
 		),
 		product.tags?.length ? (
@@ -276,18 +233,23 @@ const ProductInfoTab = ({
 	);
 };
 
-
 const AccessoriTab = ({ accessori }: { accessori?: string[] }) => {
+	let isOdd = true; // Start with `true` for the first row
+
 	return (
 		<div className="text-small-regular py-4">
 			<table className="w-full table-auto border-collapse">
 				<tbody>
-					{accessori?.map((item, index) => (
-						<tr key={index} className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-							<td className="font-medium p-2 text-gray-700 text-left">Accessori</td>
-							<td className="p-2 text-gray-900 text-left">{item}</td>
-						</tr>
-					))}
+					{accessori?.map((item, index) => {
+						const row = (
+							<tr key={index} className={isOdd ? "bg-gray-50" : "bg-white"}>
+								<td className="font-medium p-2 text-gray-700 text-left">Accessori</td>
+								<td className="p-2 text-gray-900 text-left">{item}</td>
+							</tr>
+						);
+						isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+						return row;
+					})}
 				</tbody>
 			</table>
 		</div>
