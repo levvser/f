@@ -139,29 +139,29 @@ const ShippingInfoTab: React.FC = () => {
 				<div className="flex items-start gap-x-2">
 					<FastDelivery />
 					<div>
-						<span className="font-semibold">Fast delivery</span>
+						<span className="font-semibold">Spedizione veloce</span>
 						<p className="max-w-sm">
-							Your package will arrive in 3-5 business days at your pick-up location or in the comfort of
-							your home.
+						Il pacchetto arriverà entro 3-5 giorni lavorativi presso il luogo di ritiro o nel comfort di
+						la tua casa.
 						</p>
 					</div>
 				</div>
 				<div className="flex items-start gap-x-2">
 					<Refresh />
 					<div>
-						<span className="font-semibold">Simple exchanges</span>
+						<span className="font-semibold">Scambi semplici</span>
 						<p className="max-w-sm">
-							Is the fit not quite right? No worries - we&apos;ll exchange your product for a new one.
+							La misura non è del tutto corretta? Nessun problema - we&apos;Scambierò il tuo prodotto con uno nuovo.
 						</p>
 					</div>
 				</div>
 				<div className="flex items-start gap-x-2">
 					<Back />
 					<div>
-						<span className="font-semibold">Easy returns</span>
+						<span className="font-semibold">Resi facili</span>
 						<p className="max-w-sm">
-							Just return your product and we&apos;ll refund your money. No questions asked – we&apos;ll do
-							our best to make sure your return is hassle-free.
+							Restituisci il tuo prodotto e we&apos;Ti rimborserò i tuoi soldi. Nessuna domanda – we&apos;Lo farò
+							il nostro meglio per assicurarti che il tuo ritorno sia senza problemi.
 						</p>
 					</div>
 				</div>
