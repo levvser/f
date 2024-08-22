@@ -48,7 +48,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 
 	const tabs = [
 		{
-			label: "Product Information",
+			label: "Informazioni prodotti",
 			component: <ProductInfoTab informazioniProdottoAttributes={INFORMAZIONI_PRODOTTO_ATTRIBUTES} />,
 		},
 		{
@@ -56,7 +56,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 			component: <AccessoriTab accessori={ACCESSORI_ATTRIBUTE} />,
 		},
 		{
-			label: "Shipping & Returns",
+			label: "Spedizioni & resi",
 			component: <ShippingInfoTab />,
 		},
 	];
@@ -141,8 +141,7 @@ const ShippingInfoTab: React.FC = () => {
 					<div>
 						<span className="font-semibold">Spedizione veloce</span>
 						<p className="max-w-sm">
-						Il pacchetto arriverà entro 3-5 giorni lavorativi presso il luogo di ritiro o nel comfort di
-						la tua casa.
+						Il pacchetto arriverà entro 3-5 giorni lavorativi presso il luogo di ritiro o nel comfort di casa tua casa.
 						</p>
 					</div>
 				</div>
@@ -151,7 +150,7 @@ const ShippingInfoTab: React.FC = () => {
 					<div>
 						<span className="font-semibold">Scambi semplici</span>
 						<p className="max-w-sm">
-							La misura non è del tutto corretta? Nessun problema - we&apos;Scambierò il tuo prodotto con uno nuovo.
+							La misura non è del tutto corretta? Nessun problema scambieremo il tuo prodotto con uno nuovo.
 						</p>
 					</div>
 				</div>
@@ -160,8 +159,7 @@ const ShippingInfoTab: React.FC = () => {
 					<div>
 						<span className="font-semibold">Resi facili</span>
 						<p className="max-w-sm">
-							Restituisci il tuo prodotto e we&apos;Ti rimborserò i tuoi soldi. Nessuna domanda – we&apos;Lo farò
-							il nostro meglio per assicurarti che il tuo ritorno sia senza problemi.
+							Restituisci il tuo prodotto; Ti rimborseremo i tuoi soldi. Ci assicureremo di assicurarti che il tuo ritorno sia senza problemi.
 						</p>
 					</div>
 				</div>
