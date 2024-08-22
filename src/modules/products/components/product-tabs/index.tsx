@@ -80,13 +80,14 @@ const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[] }> = (
 	let isOdd = true; // Start with `true` for the first row
 
 	const renderRow = (label: string, value: string) => {
-		return (
+		const row = (
 			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
 				<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
 				<td className="p-2 text-gray-900 text-left">{value}</td>
 			</tr>
 		);
 		isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+		return row;
 	};
 
 	const rows = informazioniProdottoAttributes.map((attribute) => {
@@ -107,13 +108,14 @@ const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
 	let isOdd = true; // Start with `true` for the first row
 
 	const renderRow = (label: string, value: string) => {
-		return (
+		const row = (
 			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
 				<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
 				<td className="p-2 text-gray-900 text-left">{value}</td>
 			</tr>
 		);
 		isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+		return row;
 	};
 
 	const rows = accessori?.map((attribute) => {
