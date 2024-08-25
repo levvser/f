@@ -19,8 +19,7 @@ type CustomAttribute = {
 	metadata: any;
 	values: {
 		id: string;
-		created_at: string;
-		updated_at: string;
+		created_at: string
 		value: string;
 		metadata: any;
 		rank: number;
@@ -29,6 +28,11 @@ type CustomAttribute = {
 
 type CustomPricedProduct = PricedProduct & {
 	custom_attributes?: CustomAttribute[];
+	material?: {
+		CARATTERISTICHE: Record<string, string>;
+		SPECIFICHE: Record<string, string>;
+		ACCESSORI_INCLUSI: string[];
+	};
 };
 
 type ProductTabsProps = {
@@ -36,24 +40,18 @@ type ProductTabsProps = {
 };
 
 const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
-	const getAttributeValues = (attrName: string): string[] => {
-		return product.custom_attributes
-			?.find((attr: CustomAttribute) => attr.name === attrName)
-			?.values.map((value) => value.value) || [];
-	};
-
-	// Fetching the product information attributes and accessori in the same way
-	const INFORMAZIONI_PRODOTTO_ATTRIBUTES = getAttributeValues("INFORMAZIONI_PRODOTTO");
-	const ACCESSORI_ATTRIBUTE = getAttributeValues("ACCESSORI");
-
 	const tabs = [
 		{
-			label: "Informazioni prodotti",
-			component: <ProductInfoTab informazioniProdottoAttributes={INFORMAZIONI_PRODOTTO_ATTRIBUTES} />,
+			label: "Caratteristiche",
+			component: <CaratteristicheTab caratteristiche={product.material?.CARATTERISTICHE} />,
 		},
 		{
-			label: "Accessori",
-			component: <AccessoriTab accessori={ACCESSORI_ATTRIBUTE} />,
+			label: "Specifiche",
+			component: <SpecificheTab specifiche={product.material?.SPECIFICHE} />,
+		},
+		{
+			label: "Accessori Inclusi",
+			component: <AccessoriTab accessori={product.material?.ACCESSORI_INCLUSI} />,
 		},
 		{
 			label: "Spedizioni & resi",
@@ -74,10 +72,8 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 	);
 };
 
-const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[] }> = ({
-	informazioniProdottoAttributes,
-}) => {
-	let isOdd = true; // Start with `true` for the first row
+const CaratteristicheTab: React.FC<{ caratteristiche?: Record<string, string> }> = ({ caratteristiche }) => {
+	let isOdd = true;
 
 	const renderRow = (label: string, value: string) => {
 		const row = (
@@ -86,14 +82,40 @@ const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[] }> = (
 				<td className="p-2 text-gray-900 text-left">{value}</td>
 			</tr>
 		);
-		isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+		isOdd = !isOdd;
 		return row;
 	};
 
-	const rows = informazioniProdottoAttributes.map((attribute) => {
-		const [label, value] = attribute.split("//");
-		return renderRow(label, value);
-	});
+	const rows = caratteristiche
+		? Object.entries(caratteristiche).map(([label, value]) => renderRow(label, value))
+		: null;
+
+	return (
+		<div className="text-small-regular py-4">
+			<table className="w-full table-auto border-collapse">
+				<tbody>{rows}</tbody>
+			</table>
+		</div>
+	);
+};
+
+const SpecificheTab: React.FC<{ specifiche?: Record<string, string> }> = ({ specifiche }) => {
+	let isOdd = true;
+
+	const renderRow = (label: string, value: string) => {
+		const row = (
+			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
+				<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+				<td className="p-2 text-gray-900 text-left">{value}</td>
+			</tr>
+		);
+		isOdd = !isOdd;
+		return row;
+	};
+
+	const rows = specifiche
+		? Object.entries(specifiche).map(([label, value]) => renderRow(label, value))
+		: null;
 
 	return (
 		<div className="text-small-regular py-4">
@@ -105,23 +127,19 @@ const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[] }> = (
 };
 
 const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
-	let isOdd = true; // Start with `true` for the first row
+	let isOdd = true;
 
-	const renderRow = (label: string, value: string) => {
+	const renderRow = (item: string, index: number) => {
 		const row = (
-			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
-				<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
-				<td className="p-2 text-gray-900 text-left">{value}</td>
+			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={index}>
+				<td className="p-2 text-gray-900 text-left">{item}</td>
 			</tr>
 		);
-		isOdd = !isOdd; // Toggle `isOdd` after each rendered row
+		isOdd = !isOdd;
 		return row;
 	};
 
-	const rows = accessori?.map((attribute) => {
-		const [label, value] = attribute.split("//");
-		return renderRow(label, value);
-	});
+	const rows = accessori ? accessori.map((item, index) => renderRow(item, index)) : null;
 
 	return (
 		<div className="text-small-regular py-4">
@@ -141,7 +159,7 @@ const ShippingInfoTab: React.FC = () => {
 					<div>
 						<span className="font-semibold">Spedizione veloce</span>
 						<p className="max-w-sm">
-						Il pacchetto arriverà entro 3-5 giorni lavorativi presso il luogo di ritiro o nel comfort di casa tua casa.
+							Il pacchetto arriverà entro 3-5 giorni lavorativi presso il luogo di ritiro o nel comfort di casa tua.
 						</p>
 					</div>
 				</div>
@@ -150,7 +168,7 @@ const ShippingInfoTab: React.FC = () => {
 					<div>
 						<span className="font-semibold">Scambi semplici</span>
 						<p className="max-w-sm">
-							La misura non è del tutto corretta? Nessun problema scambieremo il tuo prodotto con uno nuovo.
+							La misura non è del tutto corretta? Nessun problema, scambieremo il tuo prodotto con uno nuovo.
 						</p>
 					</div>
 				</div>
@@ -159,7 +177,7 @@ const ShippingInfoTab: React.FC = () => {
 					<div>
 						<span className="font-semibold">Resi facili</span>
 						<p className="max-w-sm">
-							Restituisci il tuo prodotto; Ti rimborseremo i tuoi soldi. Ci assicureremo di assicurarti che il tuo ritorno sia senza problemi.
+							Restituisci il tuo prodotto; Ti rimborseremo i tuoi soldi. Ci assicureremo che il tuo ritorno sia senza problemi.
 						</p>
 					</div>
 				</div>
