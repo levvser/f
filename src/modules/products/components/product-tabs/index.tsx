@@ -1,142 +1,182 @@
-import { Tab } from "@headlessui/react"
-import { Product } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-import Back from "@modules/common/icons/back"
-import FastDelivery from "@modules/common/icons/fast-delivery"
-import Refresh from "@modules/common/icons/refresh"
-import clsx from "clsx"
-import { useMemo } from "react"
+"use client";
+
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing";
+import Back from "@modules/common/icons/back";
+import FastDelivery from "@modules/common/icons/fast-delivery";
+import Refresh from "@modules/common/icons/refresh";
+import Accordion from "./accordion";
+import React from "react";
+
+type CustomAttribute = {
+	id: string;
+	created_at: string;
+	updated_at: string;
+	name: string;
+	description: string;
+	type: string;
+	handle: string;
+	filterable: boolean | null;
+	metadata: any;
+	values: {
+		id: string;
+		created_at: string
+		value: string;
+		metadata: any;
+		rank: number;
+	}[];
+};
+
+type CustomPricedProduct = PricedProduct & {
+	custom_attributes?: CustomAttribute[];
+};
 
 type ProductTabsProps = {
-  product: PricedProduct
-}
+	product: CustomPricedProduct;
+};
 
-const ProductTabs = ({ product }: ProductTabsProps) => {
-  const tabs = useMemo(() => {
-    return [
-      {
-        label: "Product Information",
-        component: <ProductInfoTab product={product} />,
-      },
-      {
-        label: "Shipping & Returns",
-        component: <ShippingInfoTab />,
-      },
-    ]
-  }, [product])
+const NEXT_PUBLIC_MARCHE_VALUES = "Your NEXT_PUBLIC_MARCHE_VALUES here"; // Replace with the actual value
 
-  return (
-    <div>
-      <Tab.Group>
-        <Tab.List className="border-b border-gray-200 box-border grid grid-cols-2">
-          {tabs.map((tab, i) => {
-            return (
-              <Tab
-                key={i}
-                className={({ selected }) =>
-                  clsx(
-                    "text-left uppercase text-small-regular pb-2 -mb-px border-b border-gray-200 transition-color duration-150 ease-in-out",
-                    {
-                      "border-b border-gray-900": selected,
-                    }
-                  )
-                }
-              >
-                {tab.label}
-              </Tab>
-            )
-          })}
-        </Tab.List>
-        <Tab.Panels>
-          {tabs.map((tab, j) => {
-            return <div key={j}>{tab.component}</div>
-          })}
-        </Tab.Panels>
-      </Tab.Group>
-    </div>
-  )
-}
+const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
+	const getAttributeValues = (attrName: string): string[] => {
+		return product.custom_attributes
+			?.find((attr: CustomAttribute) => attr.name === attrName)
+			?.values.map((value) => value.value) || [];
+	};
 
-const ProductInfoTab = ({ product }: ProductTabsProps) => {
-  return (
-    <Tab.Panel className="text-small-regular py-8">
-      <div className="grid grid-cols-2 gap-x-8">
-        <div className="flex flex-col gap-y-4">
-          <div>
-            <span className="font-semibold">Material</span>
-            <p>{product.material ? product.material : "-"}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Country of origin</span>
-            <p>{product.origin_country ? product.origin_country : "-"}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Type</span>
-            <p>{product.type ? product.type.value : "-"}</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-y-4">
-          <div>
-            <span className="font-semibold">Weight</span>
-            <p>{product.weight ? `${product.weight} g` : "-"}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Dimensions</span>
-            <p>
-              {product.length && product.width && product.height
-                ? `${product.length}L x ${product.width}W x ${product.height}H`
-                : "-"}
-            </p>
-          </div>
-        </div>
-      </div>
-      {product.tags?.length ? (
-        <div>
-          <span className="font-semibold">Tags</span>
-        </div>
-      ) : null}
-    </Tab.Panel>
-  )
-}
+	// Fetching the product information attributes and accessori in the same way
+	const INFORMAZIONI_PRODOTTO_ATTRIBUTES = getAttributeValues("INFORMAZIONI_PRODOTTO");
+	const ACCESSORI_ATTRIBUTE = getAttributeValues("ACCESSORI");
 
-const ShippingInfoTab = () => {
-  return (
-    <Tab.Panel className="text-small-regular py-8">
-      <div className="grid grid-cols-1 gap-y-8">
-        <div className="flex items-start gap-x-2">
-          <FastDelivery />
-          <div>
-            <span className="font-semibold">Fast delivery</span>
-            <p className="max-w-sm">
-              Your package will arrive in 3-5 business days at your pick up
-              location or in the comfort of your home.
-            </p>
-          </div>
-        </div>
-        <div className="flex items-start gap-x-2">
-          <Refresh />
-          <div>
-            <span className="font-semibold">Simple exchanges</span>
-            <p className="max-w-sm">
-              Is the fit not quite right? No worries - we&apos;ll exchange your
-              product for a new one.
-            </p>
-          </div>
-        </div>
-        <div className="flex items-start gap-x-2">
-          <Back />
-          <div>
-            <span className="font-semibold">Easy returns</span>
-            <p className="max-w-sm">
-              Just return your product and we&apos;ll refund your money. No
-              questions asked – we&apos;ll do our best to make sure your return
-              is hassle-free.
-            </p>
-          </div>
-        </div>
-      </div>
-    </Tab.Panel>
-  )
-}
+	const tabs = [
+		{
+			label: "Informazioni prodotti",
+			component: (
+				<ProductInfoTab
+					informazioniProdottoAttributes={INFORMAZIONI_PRODOTTO_ATTRIBUTES}
+					marcheValues={NEXT_PUBLIC_MARCHE_VALUES}
+				/>
+			),
+		},
+		{
+			label: "Accessori",
+			component: <AccessoriTab accessori={ACCESSORI_ATTRIBUTE} />,
+		},
+		{
+			label: "Spedizioni & resi",
+			component: <ShippingInfoTab />,
+		},
+	];
 
-export default ProductTabs
+	return (
+		<div className="w-full">
+			<Accordion type="multiple">
+				{tabs.map((tab, i) => (
+					<Accordion.Item key={i} title={tab.label} headingSize="medium" value={tab.label}>
+						{tab.component}
+					</Accordion.Item>
+				))}
+			</Accordion>
+		</div>
+	);
+};
+
+const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[]; marcheValues: string }> = ({
+	informazioniProdottoAttributes,
+	marcheValues,
+}) => {
+	let isOdd = true; // Start with true for the first row
+
+	const renderRow = (label: string, value: string) => {
+		const row = (
+			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
+				<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+				<td className="p-2 text-gray-900 text-left">{value}</td>
+			</tr>
+		);
+		isOdd = !isOdd; // Toggle isOdd after each rendered row
+		return row;
+	};
+
+	// Start with the NEXT_PUBLIC_MARCHE_VALUES as the first row
+	const rows = [
+		renderRow("Marche", marcheValues),
+		...informazioniProdottoAttributes.map((attribute) => {
+			const [label, value] = attribute.split("//");
+			return renderRow(label, value);
+		}),
+	];
+
+	return (
+		<div className="text-small-regular py-4">
+			<table className="w-full table-auto border-collapse">
+				<tbody>{rows}</tbody>
+			</table>
+		</div>
+	);
+};
+
+const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
+	let isOdd = true; // Start with true for the first row
+
+	const renderRow = (label: string, value: string) => {
+		const row = (
+			<tr className={isOdd ? "bg-gray-50" : "bg-white"} key={label}>
+				<td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+				<td className="p-2 text-gray-900 text-left">{value}</td>
+			</tr>
+		);
+		isOdd = !isOdd; // Toggle isOdd after each rendered row
+		return row;
+	};
+
+	const rows = accessori?.map((attribute) => {
+		const [label, value] = attribute.split("//");
+		return renderRow(label, value);
+	});
+
+	return (
+		<div className="text-small-regular py-4">
+			<table className="w-full table-auto border-collapse">
+				<tbody>{rows}</tbody>
+			</table>
+		</div>
+	);
+};
+
+const ShippingInfoTab: React.FC = () => {
+	return (
+		<div className="text-small-regular py-8">
+			<div className="grid grid-cols-1 gap-y-8">
+				<div className="flex items-start gap-x-2">
+					<FastDelivery />
+					<div>
+						<span className="font-semibold">Spedizione veloce</span>
+						<p className="max-w-sm">
+							Il pacchetto arriverà entro 3-5 giorni lavorativi presso il luogo di ritiro o nel comfort di casa tua casa.
+						</p>
+					</div>
+				</div>
+				<div className="flex items-start gap-x-2">
+					<Refresh />
+					<div>
+						<span className="font-semibold">Scambi semplici</span>
+						<p className="max-w-sm">
+							La misura non è del tutto corretta? Nessun problema scambieremo il tuo prodotto con uno nuovo.
+						</p>
+					</div>
+				</div>
+				<div className="flex items-start gap-x-2">
+					<Back />
+					<div>
+						<span className="font-semibold">Resi facili</span>
+						<p className="max-w-sm">
+							Restituisci il tuo prodotto; Ti rimborseremo i tuoi soldi. Ci assicureremo di assicurarti che il tuo ritorno sia senza problemi.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default ProductTabs;
