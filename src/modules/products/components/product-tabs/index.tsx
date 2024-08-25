@@ -19,7 +19,7 @@ type CustomAttribute = {
 	metadata: any;
 	values: {
 		id: string;
-		created_at: string
+		created_at: string;
 		value: string;
 		metadata: any;
 		rank: number;
@@ -39,19 +39,33 @@ type ProductTabsProps = {
 	product: CustomPricedProduct;
 };
 
+const NEXT_PUBLIC_MARCHE_VALUES = "Your NEXT_PUBLIC_MARCHE_VALUES here"; // Replace with the actual value
+
 const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
+	const getAttributeValues = (attrName: string): string[] => {
+		return product.custom_attributes
+			?.find((attr: CustomAttribute) => attr.name === attrName)
+			?.values.map((value) => value.value) || [];
+	};
+
+	const material = product.material || {
+		CARATTERISTICHE: {},
+		SPECIFICHE: {},
+		ACCESSORI_INCLUSI: [],
+	};
+
 	const tabs = [
 		{
 			label: "Caratteristiche",
-			component: <CaratteristicheTab caratteristiche={product.material?.CARATTERISTICHE} />,
+			component: <CaratteristicheTab caratteristiche={material.CARATTERISTICHE} />,
 		},
 		{
 			label: "Specifiche",
-			component: <SpecificheTab specifiche={product.material?.SPECIFICHE} />,
+			component: <SpecificheTab specifiche={material.SPECIFICHE} />,
 		},
 		{
 			label: "Accessori Inclusi",
-			component: <AccessoriTab accessori={product.material?.ACCESSORI_INCLUSI} />,
+			component: <AccessoriTab accessori={material.ACCESSORI_INCLUSI} />,
 		},
 		{
 			label: "Spedizioni & resi",
