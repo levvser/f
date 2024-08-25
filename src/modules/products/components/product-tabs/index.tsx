@@ -1,10 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing";
 import Back from "@modules/common/icons/back";
 import FastDelivery from "@modules/common/icons/fast-delivery";
 import Refresh from "@modules/common/icons/refresh";
-import Accordion from "./accordion";
 import React from "react";
 
 type MaterialType = {
@@ -35,11 +35,37 @@ const parseMaterial = (
   return material ?? undefined;
 };
 
+const AccordionItem: React.FC<{
+  title: string;
+  children: React.ReactNode;
+}> = ({ title, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border-b border-gray-200">
+      <button
+        className="w-full text-left p-4 bg-white hover:bg-gray-50 transition-colors duration-200 flex items-center justify-between"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h3 className="text-lg font-medium text-gray-800">{title}</h3>
+        <span className={`transform transition-transform duration-200 ${isOpen ? "rotate-45" : "rotate-0"}`}>
+          +
+        </span>
+      </button>
+      {isOpen && (
+        <div className="p-4 bg-gray-50">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const CaratteristicheSection: React.FC<{ caratteristiche: Record<string, string> }> = ({
   caratteristiche,
 }) => {
   return (
-    <div className="text-small-regular py-8">
+    <div className="text-small-regular">
       <table className="w-full table-auto border-collapse rounded-lg overflow-hidden">
         <tbody className="bg-white divide-y divide-gray-200">
           {Object.entries(caratteristiche).map(([label, value], index) => (
@@ -63,7 +89,7 @@ const SpecificheSection: React.FC<{ specifiche: Record<string, string> }> = ({
   specifiche,
 }) => {
   return (
-    <div className="text-small-regular py-8">
+    <div className="text-small-regular">
       <table className="w-full table-auto border-collapse rounded-lg overflow-hidden">
         <tbody className="bg-white divide-y divide-gray-200">
           {Object.entries(specifiche).map(([label, value], index) => (
@@ -85,7 +111,7 @@ const SpecificheSection: React.FC<{ specifiche: Record<string, string> }> = ({
 
 const AccessoriSection: React.FC<{ accessori: string[] }> = ({ accessori }) => {
   return (
-    <div className="text-small-regular py-8">
+    <div className="text-small-regular">
       <table className="w-full table-auto border-collapse rounded-lg overflow-hidden">
         <tbody className="bg-white divide-y divide-gray-200">
           {accessori.map((item, index) => (
@@ -106,7 +132,7 @@ const AccessoriSection: React.FC<{ accessori: string[] }> = ({ accessori }) => {
 
 const ShippingInfoTab: React.FC = () => {
   return (
-    <div className="text-small-regular py-8">
+    <div className="text-small-regular">
       <div className="grid grid-cols-1 gap-y-8">
         <div className="flex items-start gap-x-4 p-4 bg-gray-50 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
           <FastDelivery className="w-6 h-6 text-gray-700" />
@@ -147,53 +173,22 @@ const ShippingInfoTab: React.FC = () => {
 const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
   const parsedMaterial = parseMaterial(product.material);
 
-  const tabs = [
-    {
-      label: "Caratteristiche",
-      component: (
+  return (
+    <div className="w-full">
+      <AccordionItem title="Caratteristiche">
         <CaratteristicheSection
           caratteristiche={parsedMaterial?.CARATTERISTICHE || {}}
         />
-      ),
-    },
-    {
-      label: "Specifiche",
-      component: <SpecificheSection specifiche={parsedMaterial?.SPECIFICHE || {}} />,
-    },
-    {
-      label: "Accessori inclusi",
-      component: (
+      </AccordionItem>
+      <AccordionItem title="Specifiche">
+        <SpecificheSection specifiche={parsedMaterial?.SPECIFICHE || {}} />
+      </AccordionItem>
+      <AccordionItem title="Accessori inclusi">
         <AccessoriSection accessori={parsedMaterial?.["Accessori inclusi"] || []} />
-      ),
-    },
-    {
-      label: "Shipping & Returns",
-      component: <ShippingInfoTab />,
-    },
-  ];
-
-  return (
-    <div className="w-full">
-      <Accordion type="multiple">
-        {tabs.map((tab, i) => (
-          <Accordion.Item
-            key={i}
-            value={tab.label}
-            title={tab.label} // Passing the title as a string as required
-            className="cursor-pointer"
-          >
-            <div
-              className="w-full text-left p-4 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 rounded-lg"
-              style={{ cursor: 'pointer' }}
-            >
-              <h3 className="text-lg font-medium text-gray-800">{tab.label}</h3>
-            </div>
-            <div>
-              {tab.component}
-            </div>
-          </Accordion.Item>
-        ))}
-      </Accordion>
+      </AccordionItem>
+      <AccordionItem title="Shipping & Returns">
+        <ShippingInfoTab />
+      </AccordionItem>
     </div>
   );
 };
