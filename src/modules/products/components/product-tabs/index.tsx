@@ -40,7 +40,7 @@ const CaratteristicheSection: React.FC<{ caratteristiche: Record<string, string>
 }) => {
   return (
     <div className="text-small-regular py-8">
-      <table className="w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
+      <table className="w-full table-auto border-collapse rounded-lg overflow-hidden">
         <tbody className="bg-white divide-y divide-gray-200">
           {Object.entries(caratteristiche).map(([label, value], index) => (
             <tr
@@ -64,7 +64,7 @@ const SpecificheSection: React.FC<{ specifiche: Record<string, string> }> = ({
 }) => {
   return (
     <div className="text-small-regular py-8">
-      <table className="w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
+      <table className="w-full table-auto border-collapse rounded-lg overflow-hidden">
         <tbody className="bg-white divide-y divide-gray-200">
           {Object.entries(specifiche).map(([label, value], index) => (
             <tr
@@ -86,7 +86,7 @@ const SpecificheSection: React.FC<{ specifiche: Record<string, string> }> = ({
 const AccessoriSection: React.FC<{ accessori: string[] }> = ({ accessori }) => {
   return (
     <div className="text-small-regular py-8">
-      <table className="w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
+      <table className="w-full table-auto border-collapse rounded-lg overflow-hidden">
         <tbody className="bg-white divide-y divide-gray-200">
           {accessori.map((item, index) => (
             <tr
@@ -108,31 +108,31 @@ const ShippingInfoTab: React.FC = () => {
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-1 gap-y-8">
-        <div className="flex items-start gap-x-2">
-          <FastDelivery />
+        <div className="flex items-start gap-x-4 p-4 bg-gray-50 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+          <FastDelivery className="w-6 h-6 text-gray-700" />
           <div>
-            <span className="font-semibold">Fast delivery</span>
-            <p className="max-w-sm">
-              Your package will arrive in 3-5 business days at your pick up
+            <h3 className="font-semibold text-gray-900">Fast delivery</h3>
+            <p className="text-gray-700">
+              Your package will arrive in 3-5 business days at your pick-up
               location or in the comfort of your home.
             </p>
           </div>
         </div>
-        <div className="flex items-start gap-x-2">
-          <Refresh />
+        <div className="flex items-start gap-x-4 p-4 bg-gray-50 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+          <Refresh className="w-6 h-6 text-gray-700" />
           <div>
-            <span className="font-semibold">Simple exchanges</span>
-            <p className="max-w-sm">
+            <h3 className="font-semibold text-gray-900">Simple exchanges</h3>
+            <p className="text-gray-700">
               Is the fit not quite right? No worries - we&apos;ll exchange your
               product for a new one.
             </p>
           </div>
         </div>
-        <div className="flex items-start gap-x-2">
-          <Back />
+        <div className="flex items-start gap-x-4 p-4 bg-gray-50 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+          <Back className="w-6 h-6 text-gray-700" />
           <div>
-            <span className="font-semibold">Easy returns</span>
-            <p className="max-w-sm">
+            <h3 className="font-semibold text-gray-900">Easy returns</h3>
+            <p className="text-gray-700">
               Just return your product and we&apos;ll refund your money. No
               questions asked – we&apos;ll do our best to make sure your return
               is hassle-free.
@@ -181,6 +181,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
             title={tab.label}
             headingSize="medium"
             value={tab.label}
+            className="cursor-pointer" // Makes the entire tab clickable
           >
             {tab.component}
           </Accordion.Item>
