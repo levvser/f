@@ -34,8 +34,6 @@ type ProductTabsProps = {
 	product: CustomPricedProduct;
 };
 
-const NEXT_PUBLIC_MARCHE_VALUES = "Your NEXT_PUBLIC_MARCHE_VALUES here"; // Replace with the actual value
-
 const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 	const getAttributeValues = (attrName: string): string[] => {
 		return product.custom_attributes
@@ -53,7 +51,6 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 			component: (
 				<ProductInfoTab
 					informazioniProdottoAttributes={INFORMAZIONI_PRODOTTO_ATTRIBUTES}
-					marcheValues={NEXT_PUBLIC_MARCHE_VALUES}
 				/>
 			),
 		},
@@ -80,9 +77,8 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 	);
 };
 
-const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[]; marcheValues: string }> = ({
+const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[] }> = ({
 	informazioniProdottoAttributes,
-	marcheValues,
 }) => {
 	let isOdd = true; // Start with true for the first row
 
@@ -97,14 +93,10 @@ const ProductInfoTab: React.FC<{ informazioniProdottoAttributes: string[]; march
 		return row;
 	};
 
-	// Start with the NEXT_PUBLIC_MARCHE_VALUES as the first row
-	const rows = [
-		renderRow("Marche", marcheValues),
-		...informazioniProdottoAttributes.map((attribute) => {
-			const [label, value] = attribute.split("//");
-			return renderRow(label, value);
-		}),
-	];
+	const rows = informazioniProdottoAttributes.map((attribute) => {
+		const [label, value] = attribute.split("//");
+		return renderRow(label, value);
+	});
 
 	return (
 		<div className="text-small-regular py-4">
