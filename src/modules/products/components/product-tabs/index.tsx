@@ -23,7 +23,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
   const tabs = [
     {
       label: "Informazioni prodotti",
-      component: <ProductInfoTab product={product} />,
+      component: <ProductInfoTab material={product.material} />,
     },
     {
       label: "Accessori",
@@ -48,8 +48,10 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
   );
 };
 
-const ProductInfoTab: React.FC<{ product: CustomPricedProduct }> = ({ product }) => {
-  let isOdd = true; // Start with true for the first row
+const ProductInfoTab: React.FC<{ material?: CustomPricedProduct["material"] }> = ({
+  material,
+}) => {
+  let isOdd = true;
 
   const renderRow = (label: string, value: string) => {
     const row = (
@@ -58,19 +60,19 @@ const ProductInfoTab: React.FC<{ product: CustomPricedProduct }> = ({ product })
         <td className="p-2 text-gray-900 text-left">{value}</td>
       </tr>
     );
-    isOdd = !isOdd; // Toggle isOdd after each rendered row
+    isOdd = !isOdd;
     return row;
   };
 
-  const caratteristicheRows = product.material?.CARATTERISTICHE
-    ? Object.entries(product.material.CARATTERISTICHE).map(([label, value]) =>
-        renderRow(label, value)
+  const caratteristicheRows = material?.CARATTERISTICHE
+    ? Object.entries(material.CARATTERISTICHE).map(([label, value]) =>
+        renderRow(label, value as string) // Type assertion to string
       )
     : [];
 
-  const specificheRows = product.material?.SPECIFICHE
-    ? Object.entries(product.material.SPECIFICHE).map(([label, value]) =>
-        renderRow(label, value)
+  const specificheRows = material?.SPECIFICHE
+    ? Object.entries(material.SPECIFICHE).map(([label, value]) =>
+        renderRow(label, value as string) // Type assertion to string
       )
     : [];
 
@@ -87,7 +89,7 @@ const ProductInfoTab: React.FC<{ product: CustomPricedProduct }> = ({ product })
 };
 
 const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
-  let isOdd = true; // Start with true for the first row
+  let isOdd = true;
 
   const renderRow = (item: string, index: number) => {
     const row = (
@@ -95,7 +97,7 @@ const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
         <td className="p-2 text-gray-900 text-left">{item}</td>
       </tr>
     );
-    isOdd = !isOdd; // Toggle isOdd after each rendered row
+    isOdd = !isOdd;
     return row;
   };
 
