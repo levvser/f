@@ -179,7 +179,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
           <Accordion.Item
             key={i}
             value={tab.label}
-            title={tab.label}
+            title={tab.label}  // Required title prop
             className="cursor-pointer"
           >
             <button
