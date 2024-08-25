@@ -1,28 +1,57 @@
-"use client"
+"use client";
 
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing";
+import Back from "@modules/common/icons/back";
+import FastDelivery from "@modules/common/icons/fast-delivery";
+import Refresh from "@modules/common/icons/refresh";
+import Accordion from "./accordion";
+import React from "react";
 
-import Back from "@modules/common/icons/back"
-import FastDelivery from "@modules/common/icons/fast-delivery"
-import Refresh from "@modules/common/icons/refresh"
+type MaterialType = {
+  CARATTERISTICHE?: Record<string, string>;
+  SPECIFICHE?: Record<string, string>;
+  "Accessori inclusi"?: string[];
+};
 
-import Accordion from "./accordion"
+type CustomPricedProduct = PricedProduct & {
+  material?: MaterialType | string | null;
+};
 
 type ProductTabsProps = {
-  product: PricedProduct
-}
+  product: CustomPricedProduct;
+};
 
-const ProductTabs = ({ product }: ProductTabsProps) => {
+const parseMaterial = (
+  material: string | MaterialType | null | undefined
+): MaterialType | undefined => {
+  if (typeof material === "string") {
+    try {
+      return JSON.parse(material);
+    } catch (e) {
+      console.error("Failed to parse material JSON:", e);
+      return undefined;
+    }
+  }
+  return material ?? undefined;
+};
+
+const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
+  const parsedMaterial = parseMaterial(product.material);
+
   const tabs = [
     {
       label: "Product Information",
-      component: <ProductInfoTab product={product} />,
+      component: <ProductInfoTab material={parsedMaterial} />,
+    },
+    {
+      label: "Accessori",
+      component: <AccessoriTab accessori={parsedMaterial?.["Accessori inclusi"]} />,
     },
     {
       label: "Shipping & Returns",
       component: <ShippingInfoTab />,
     },
-  ]
+  ];
 
   return (
     <div className="w-full">
@@ -39,52 +68,59 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
         ))}
       </Accordion>
     </div>
-  )
-}
+  );
+};
 
-const ProductInfoTab = ({ product }: ProductTabsProps) => {
+const ProductInfoTab: React.FC<{ material?: MaterialType }> = ({
+  material,
+}) => {
+  const caratteristicheRows = material?.CARATTERISTICHE
+    ? Object.entries(material.CARATTERISTICHE).map(([label, value]) => (
+        <tr key={label}>
+          <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+          <td className="p-2 text-gray-900 text-left">{value}</td>
+        </tr>
+      ))
+    : [];
+
+  const specificheRows = material?.SPECIFICHE
+    ? Object.entries(material.SPECIFICHE).map(([label, value]) => (
+        <tr key={label}>
+          <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+          <td className="p-2 text-gray-900 text-left">{value}</td>
+        </tr>
+      ))
+    : [];
+
   return (
     <div className="text-small-regular py-8">
-      <div className="grid grid-cols-2 gap-x-8">
-        <div className="flex flex-col gap-y-4">
-          <div>
-            <span className="font-semibold">Material</span>
-            <p>{product.material ? product.material : "-"}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Country of origin</span>
-            <p>{product.origin_country ? product.origin_country : "-"}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Type</span>
-            <p>{product.type ? product.type.value : "-"}</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-y-4">
-          <div>
-            <span className="font-semibold">Weight</span>
-            <p>{product.weight ? `${product.weight} g` : "-"}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Dimensions</span>
-            <p>
-              {product.length && product.width && product.height
-                ? `${product.length}L x ${product.width}W x ${product.height}H`
-                : "-"}
-            </p>
-          </div>
-        </div>
-      </div>
-      {product.tags?.length ? (
-        <div>
-          <span className="font-semibold">Tags</span>
-        </div>
-      ) : null}
+      <table className="w-full table-auto border-collapse">
+        <tbody>
+          {caratteristicheRows}
+          {specificheRows}
+        </tbody>
+      </table>
     </div>
-  )
-}
+  );
+};
 
-const ShippingInfoTab = () => {
+const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
+  const rows = accessori?.map((item, index) => (
+    <tr key={index}>
+      <td className="p-2 text-gray-900 text-left">{item}</td>
+    </tr>
+  )) || [];
+
+  return (
+    <div className="text-small-regular py-8">
+      <table className="w-full table-auto border-collapse">
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
+  );
+};
+
+const ShippingInfoTab: React.FC = () => {
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-1 gap-y-8">
@@ -121,7 +157,7 @@ const ShippingInfoTab = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductTabs
+export default ProductTabs;
