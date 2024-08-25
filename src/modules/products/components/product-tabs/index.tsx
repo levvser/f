@@ -10,7 +10,7 @@ import React from "react";
 type MaterialType = {
   CARATTERISTICHE?: Record<string, string>;
   SPECIFICHE?: Record<string, string>;
-  "Accessori inclusi"?: string[];
+  "ACCESSORI_INCLUSI"?: string[];
 };
 
 type CustomPricedProduct = PricedProduct & {
@@ -175,18 +175,20 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 
   return (
     <div className="w-full">
-      <AccordionItem title="Caratteristiche">
-        <CaratteristicheSection
-          caratteristiche={parsedMaterial?.CARATTERISTICHE || {}}
-        />
-      </AccordionItem>
+
       <AccordionItem title="Specifiche">
         <SpecificheSection specifiche={parsedMaterial?.SPECIFICHE || {}} />
       </AccordionItem>
-      <AccordionItem title="Accessori inclusi">
-        <AccessoriSection accessori={parsedMaterial?.["Accessori inclusi"] || []} />
+
+      <AccordionItem title="Caratteristiche">
+        <CaratteristicheSection caratteristiche={parsedMaterial?.CARATTERISTICHE || {}}	/>
       </AccordionItem>
-      <AccordionItem title="Shipping & Returns">
+
+      <AccordionItem title="Accessori inclusi">
+        <AccessoriSection accessori={parsedMaterial?.["ACCESSORI_INCLUSI"] || []} />
+      </AccordionItem>
+	
+      <AccordionItem title="Spedizioni & Resi">
         <ShippingInfoTab />
       </AccordionItem>
     </div>
