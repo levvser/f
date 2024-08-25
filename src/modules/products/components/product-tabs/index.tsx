@@ -21,6 +21,7 @@ type ProductTabsProps = {
   product: CustomPricedProduct;
 };
 
+// Helper function to parse material data
 const parseMaterial = (
   material: string | MaterialType | null | undefined
 ): MaterialType | undefined => {
@@ -35,91 +36,64 @@ const parseMaterial = (
   return material ?? undefined;
 };
 
-const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
-  const parsedMaterial = parseMaterial(product.material);
-
-  const tabs = [
-    {
-      label: "Product Information",
-      component: <ProductInfoTab material={parsedMaterial} />,
-    },
-    {
-      label: "Accessori",
-      component: <AccessoriTab accessori={parsedMaterial?.["Accessori inclusi"]} />,
-    },
-    {
-      label: "Shipping & Returns",
-      component: <ShippingInfoTab />,
-    },
-  ];
-
-  return (
-    <div className="w-full">
-      <Accordion type="multiple">
-        {tabs.map((tab, i) => (
-          <Accordion.Item
-            key={i}
-            title={tab.label}
-            headingSize="medium"
-            value={tab.label}
-          >
-            {tab.component}
-          </Accordion.Item>
-        ))}
-      </Accordion>
-    </div>
-  );
-};
-
-const ProductInfoTab: React.FC<{ material?: MaterialType }> = ({
-  material,
+// Caratteristiche Section
+const CaratteristicheSection: React.FC<{ caratteristiche: Record<string, string> }> = ({
+  caratteristiche,
 }) => {
-  const caratteristicheRows = material?.CARATTERISTICHE
-    ? Object.entries(material.CARATTERISTICHE).map(([label, value]) => (
-        <tr key={label}>
-          <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
-          <td className="p-2 text-gray-900 text-left">{value}</td>
-        </tr>
-      ))
-    : [];
-
-  const specificheRows = material?.SPECIFICHE
-    ? Object.entries(material.SPECIFICHE).map(([label, value]) => (
-        <tr key={label}>
-          <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
-          <td className="p-2 text-gray-900 text-left">{value}</td>
-        </tr>
-      ))
-    : [];
-
   return (
     <div className="text-small-regular py-8">
       <table className="w-full table-auto border-collapse">
         <tbody>
-          {caratteristicheRows}
-          {specificheRows}
+          {Object.entries(caratteristiche).map(([label, value]) => (
+            <tr key={label}>
+              <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+              <td className="p-2 text-gray-900 text-left">{value}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   );
 };
 
-const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
-  const rows = accessori?.map((item, index) => (
-    <tr key={index}>
-      <td className="p-2 text-gray-900 text-left">{item}</td>
-    </tr>
-  )) || [];
-
+// Specifiche Section
+const SpecificheSection: React.FC<{ specifiche: Record<string, string> }> = ({
+  specifiche,
+}) => {
   return (
     <div className="text-small-regular py-8">
       <table className="w-full table-auto border-collapse">
-        <tbody>{rows}</tbody>
+        <tbody>
+          {Object.entries(specifiche).map(([label, value]) => (
+            <tr key={label}>
+              <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
+              <td className="p-2 text-gray-900 text-left">{value}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
 };
 
+// Accessori Section
+const AccessoriSection: React.FC<{ accessori: string[] }> = ({ accessori }) => {
+  return (
+    <div className="text-small-regular py-8">
+      <table className="w-full table-auto border-collapse">
+        <tbody>
+          {accessori.map((item, index) => (
+            <tr key={index}>
+              <td className="p-2 text-gray-900 text-left">{item}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+// Shipping Info Section
 const ShippingInfoTab: React.FC = () => {
   return (
     <div className="text-small-regular py-8">
@@ -129,7 +103,7 @@ const ShippingInfoTab: React.FC = () => {
           <div>
             <span className="font-semibold">Fast delivery</span>
             <p className="max-w-sm">
-              Your package will arrive in 3-5 business days at your pick up
+              Your package will arrive in 3-5 business days at your pick-up
               location or in the comfort of your home.
             </p>
           </div>
@@ -156,6 +130,53 @@ const ShippingInfoTab: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+// Main Product Tabs Component
+const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
+  const parsedMaterial = parseMaterial(product.material);
+
+  const tabs = [
+    {
+      label: "Caratteristiche",
+      component: (
+        <CaratteristicheSection
+          caratteristiche={parsedMaterial?.CARATTERISTICHE || {}}
+        />
+      ),
+    },
+    {
+      label: "Specifiche",
+      component: <SpecificheSection specifiche={parsedMaterial?.SPECIFICHE || {}} />,
+    },
+    {
+      label: "Accessori inclusi",
+      component: (
+        <AccessoriSection accessori={parsedMaterial?.["Accessori inclusi"] || []} />
+      ),
+    },
+    {
+      label: "Shipping & Returns",
+      component: <ShippingInfoTab />,
+    },
+  ];
+
+  return (
+    <div className="w-full">
+      <Accordion type="multiple">
+        {tabs.map((tab, i) => (
+          <Accordion.Item
+            key={i}
+            title={tab.label}
+            headingSize="medium"
+            value={tab.label}
+          >
+            {tab.component}
+          </Accordion.Item>
+        ))}
+      </Accordion>
     </div>
   );
 };
