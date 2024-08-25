@@ -7,6 +7,7 @@ import Refresh from "@modules/common/icons/refresh";
 import Accordion from "./accordion";
 import React from "react";
 
+// Define a CustomAttribute type
 type CustomAttribute = {
 	id: string;
 	created_at: string;
@@ -26,34 +27,43 @@ type CustomAttribute = {
 	}[];
 };
 
+// Define a CustomPricedProduct type that extends PricedProduct
 type CustomPricedProduct = PricedProduct & {
 	custom_attributes?: CustomAttribute[];
 	material?: {
 		CARATTERISTICHE: Record<string, string>;
 		SPECIFICHE: Record<string, string>;
 		ACCESSORI_INCLUSI: string[];
-	};
+	} | string | null;
 };
 
+// Define the props for the ProductTabs component
 type ProductTabsProps = {
 	product: CustomPricedProduct;
 };
 
-const NEXT_PUBLIC_MARCHE_VALUES = "Your NEXT_PUBLIC_MARCHE_VALUES here"; // Replace with the actual value
+// Replace this with your actual value
+const NEXT_PUBLIC_MARCHE_VALUES = "Your NEXT_PUBLIC_MARCHE_VALUES here";
 
+// Main ProductTabs component
 const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
+	// Helper function to get attribute values by name
 	const getAttributeValues = (attrName: string): string[] => {
 		return product.custom_attributes
 			?.find((attr: CustomAttribute) => attr.name === attrName)
 			?.values.map((value) => value.value) || [];
 	};
 
-	const material = product.material || {
-		CARATTERISTICHE: {},
-		SPECIFICHE: {},
-		ACCESSORI_INCLUSI: [],
-	};
+	// Ensure that material is an object and not null or string
+	const material = typeof product.material === "object" && product.material !== null
+		? product.material
+		: {
+			CARATTERISTICHE: {},
+			SPECIFICHE: {},
+			ACCESSORI_INCLUSI: [],
+		};
 
+	// Define the tabs to be displayed
 	const tabs = [
 		{
 			label: "Caratteristiche",
@@ -73,6 +83,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 		},
 	];
 
+	// Render the Accordion with the tabs
 	return (
 		<div className="w-full">
 			<Accordion type="multiple">
@@ -86,6 +97,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
 	);
 };
 
+// CaratteristicheTab component to display product features
 const CaratteristicheTab: React.FC<{ caratteristiche?: Record<string, string> }> = ({ caratteristiche }) => {
 	let isOdd = true;
 
@@ -113,6 +125,7 @@ const CaratteristicheTab: React.FC<{ caratteristiche?: Record<string, string> }>
 	);
 };
 
+// SpecificheTab component to display product specifications
 const SpecificheTab: React.FC<{ specifiche?: Record<string, string> }> = ({ specifiche }) => {
 	let isOdd = true;
 
@@ -140,6 +153,7 @@ const SpecificheTab: React.FC<{ specifiche?: Record<string, string> }> = ({ spec
 	);
 };
 
+// AccessoriTab component to display included accessories
 const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
 	let isOdd = true;
 
@@ -164,6 +178,7 @@ const AccessoriTab: React.FC<{ accessori?: string[] }> = ({ accessori }) => {
 	);
 };
 
+// ShippingInfoTab component to display shipping and return information
 const ShippingInfoTab: React.FC = () => {
 	return (
 		<div className="text-small-regular py-8">
@@ -200,4 +215,5 @@ const ShippingInfoTab: React.FC = () => {
 	);
 };
 
+// Export the main ProductTabs component
 export default ProductTabs;
