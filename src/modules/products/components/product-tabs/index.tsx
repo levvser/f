@@ -4,7 +4,7 @@ import { PricedProduct } from "@medusajs/medusa/dist/types/pricing";
 import Back from "@modules/common/icons/back";
 import FastDelivery from "@modules/common/icons/fast-delivery";
 import Refresh from "@modules/common/icons/refresh";
-import Accordion from "./accordion";
+import Accordion from "./accordion"; // Assuming you have your custom Accordion component
 import React from "react";
 
 type MaterialType = {
@@ -181,7 +181,8 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
             title={tab.label}
             headingSize="medium"
             value={tab.label}
-            className="cursor-pointer" // Makes the entire tab clickable
+            className="cursor-pointer"
+            onClick={() => document.getElementById(tab.label)?.click()} // This will toggle the content when the whole tab is clicked
           >
             {tab.component}
           </Accordion.Item>
