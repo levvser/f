@@ -178,12 +178,17 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
         {tabs.map((tab, i) => (
           <Accordion.Item
             key={i}
-            title={tab.label}
-            headingSize="medium"
             value={tab.label}
+            title={tab.label}
             className="cursor-pointer"
-            onClick={() => document.getElementById(tab.label)?.click()} // This will toggle the content when the whole tab is clicked
           >
+            <button
+              type="button"
+              onClick={() => document.getElementById(tab.label)?.click()}
+              className="w-full text-left p-4 bg-gray-100 hover:bg-gray-200 transition-colors duration-200 rounded-lg"
+            >
+              <h3 className="text-lg font-medium text-gray-800">{tab.label}</h3>
+            </button>
             {tab.component}
           </Accordion.Item>
         ))}
