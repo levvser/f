@@ -21,7 +21,6 @@ type ProductTabsProps = {
   product: CustomPricedProduct;
 };
 
-// Helper function to parse material data
 const parseMaterial = (
   material: string | MaterialType | null | undefined
 ): MaterialType | undefined => {
@@ -36,18 +35,22 @@ const parseMaterial = (
   return material ?? undefined;
 };
 
-// Caratteristiche Section
 const CaratteristicheSection: React.FC<{ caratteristiche: Record<string, string> }> = ({
   caratteristiche,
 }) => {
   return (
     <div className="text-small-regular py-8">
-      <table className="w-full table-auto border-collapse">
-        <tbody>
-          {Object.entries(caratteristiche).map(([label, value]) => (
-            <tr key={label}>
-              <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
-              <td className="p-2 text-gray-900 text-left">{value}</td>
+      <table className="w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
+        <tbody className="bg-white divide-y divide-gray-200">
+          {Object.entries(caratteristiche).map(([label, value], index) => (
+            <tr
+              key={label}
+              className={`${
+                index % 2 === 0 ? "bg-gray-50" : "bg-white"
+              } hover:bg-gray-100 transition-colors duration-200`}
+            >
+              <td className="font-medium p-4 text-gray-700 text-left">{label}</td>
+              <td className="p-4 text-gray-900 text-left">{value}</td>
             </tr>
           ))}
         </tbody>
@@ -56,18 +59,22 @@ const CaratteristicheSection: React.FC<{ caratteristiche: Record<string, string>
   );
 };
 
-// Specifiche Section
 const SpecificheSection: React.FC<{ specifiche: Record<string, string> }> = ({
   specifiche,
 }) => {
   return (
     <div className="text-small-regular py-8">
-      <table className="w-full table-auto border-collapse">
-        <tbody>
-          {Object.entries(specifiche).map(([label, value]) => (
-            <tr key={label}>
-              <td className="font-medium p-2 text-gray-700 text-left">{label}</td>
-              <td className="p-2 text-gray-900 text-left">{value}</td>
+      <table className="w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
+        <tbody className="bg-white divide-y divide-gray-200">
+          {Object.entries(specifiche).map(([label, value], index) => (
+            <tr
+              key={label}
+              className={`${
+                index % 2 === 0 ? "bg-gray-50" : "bg-white"
+              } hover:bg-gray-100 transition-colors duration-200`}
+            >
+              <td className="font-medium p-4 text-gray-700 text-left">{label}</td>
+              <td className="p-4 text-gray-900 text-left">{value}</td>
             </tr>
           ))}
         </tbody>
@@ -76,15 +83,19 @@ const SpecificheSection: React.FC<{ specifiche: Record<string, string> }> = ({
   );
 };
 
-// Accessori Section
 const AccessoriSection: React.FC<{ accessori: string[] }> = ({ accessori }) => {
   return (
     <div className="text-small-regular py-8">
-      <table className="w-full table-auto border-collapse">
-        <tbody>
+      <table className="w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
+        <tbody className="bg-white divide-y divide-gray-200">
           {accessori.map((item, index) => (
-            <tr key={index}>
-              <td className="p-2 text-gray-900 text-left">{item}</td>
+            <tr
+              key={index}
+              className={`${
+                index % 2 === 0 ? "bg-gray-50" : "bg-white"
+              } hover:bg-gray-100 transition-colors duration-200`}
+            >
+              <td className="p-4 text-gray-900 text-left">{item}</td>
             </tr>
           ))}
         </tbody>
@@ -93,7 +104,6 @@ const AccessoriSection: React.FC<{ accessori: string[] }> = ({ accessori }) => {
   );
 };
 
-// Shipping Info Section
 const ShippingInfoTab: React.FC = () => {
   return (
     <div className="text-small-regular py-8">
@@ -103,7 +113,7 @@ const ShippingInfoTab: React.FC = () => {
           <div>
             <span className="font-semibold">Fast delivery</span>
             <p className="max-w-sm">
-              Your package will arrive in 3-5 business days at your pick-up
+              Your package will arrive in 3-5 business days at your pick up
               location or in the comfort of your home.
             </p>
           </div>
@@ -134,7 +144,6 @@ const ShippingInfoTab: React.FC = () => {
   );
 };
 
-// Main Product Tabs Component
 const ProductTabs: React.FC<ProductTabsProps> = ({ product }) => {
   const parsedMaterial = parseMaterial(product.material);
 
