@@ -21,35 +21,36 @@ interface NavProps {
 }
 
 const AlertBar: React.FC = () => (
-  <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-3 px-1 text-violet-900 flex justify-center items-center text-xs sm:text-sm shadow-none">
+  <div className="bg-gradient-to-r from-gray-50 via-white to-gray-50 border-b border-gray-200 py-2 px-4 text-gray-600 flex justify-center items-center text-xs sm:text-sm shadow-sm z-50">
     <div className="flex items-center mx-2">
-      <FaInfoCircle size={12} className="mr-1 text-violet-700 hover:text-violet-900" />
-      <span className="text-violet-700">Spedizione gratuita da € 100</span>
+      <FaInfoCircle size={14} className="mr-2 text-gray-500" />
+      <span>Spedizione gratuita da € 100</span>
     </div>
     <div className="flex items-center mx-2">
-      <FaCheckCircle size={12} className="mr-1 text-violet-700 hover:text-violet-900" />
-      <span className="text-violet-700">Garanzia</span>
+      <FaCheckCircle size={14} className="mr-2 text-gray-500" />
+      <span>Garanzia inclusa</span>
     </div>
     <div className="flex items-center mx-2">
-      <FaExclamationTriangle size={12} className="mr-1 text-violet-700 hover:text-violet-900" />
-      <span className="text-violet-700">Assistenza</span>
+      <FaExclamationTriangle size={14} className="mr-2 text-gray-500" />
+      <span>Servizio Assistenza</span>
     </div>
   </div>
 );
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("absolute top-11");
+  const [navClass, setNavClass] = useState("absolute top-0");
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [showSearchModal, setShowSearchModal] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 48) {
         setNavClass(
-          "fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-3xl bg-white bg-opacity-60"
+          "fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-md bg-white bg-opacity-80 z-50"
         );
       } else {
-        setNavClass("absolute top-12 transition-transform duration-300 ease-in-out");
+        setNavClass("absolute top-0 bg-transparent z-50");
       }
     };
 
@@ -69,48 +70,46 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   const productPreview: { [key: string]: { img: string; name: string }[] } = {
     "Cucire": [
       { img: "/img/product1.jpg", name: "Macchina Cucire 1" },
-      { img: "/img/product2.jpg", name: "Macchina Cucire 2" }
+      { img: "/img/product2.jpg", name: "Macchina Cucire 2" },
     ],
     "Ricamare": [
       { img: "/img/product3.jpg", name: "Macchina Ricamare 1" },
-      { img: "/img/product4.jpg", name: "Macchina Ricamare 2" }
+      { img: "/img/product4.jpg", name: "Macchina Ricamare 2" },
     ],
   };
 
   return (
-    <header className={`w-full bg-opacity-60 z-50 ${navClass}`}>
-      {/* First line: Brand, Search, Assistance, User, Cart, Italy */}
-      <div className="content-container text-violet-900 flex items-center justify-between h-16 text-xs sm:text-base">
-        <div className="flex-1 flex items-center justify-start px-4">
+    <header className={`${navClass} w-full`}>
+      {/* First line: Brand, Search, Assistance, User, Cart */}
+      <div className="content-container text-gray-900 flex items-center justify-between h-16 text-sm sm:text-base px-4 md:px-12">
+        <div className="flex-1 flex items-center justify-start">
           <LocalizedClientLink
             href="/"
-            className="text-lg sm:text-xl font-bold hover:text-violet-950 uppercase whitespace-nowrap"
+            className="text-2xl font-semibold hover:text-gray-800 tracking-tight uppercase"
             data-testid="nav-store-link"
           >
             ARTECUCIRE
           </LocalizedClientLink>
         </div>
 
-        <div className="flex-1 flex justify-center items-center">
-          {/* Search Button */}
+        <div className="hidden md:flex items-center justify-center">
           <button
             onClick={() => setShowSearchModal(true)}
-            className="border rounded-lg px-4 py-1 w-full max-w-sm text-left bg-white hover:shadow-md"
+            className="border rounded-full px-4 py-2 bg-gray-100 text-gray-500 text-left shadow-sm hover:bg-gray-200 hover:shadow-md transition"
           >
             <FiSearch className="inline-block mr-2" />
             <span>Cerca prodotti</span>
           </button>
-          {/* Search Modal (conditionally shown) */}
           {showSearchModal && (
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center z-40">
+              <div className="bg-white p-6 rounded-lg shadow-xl">
                 <input
                   type="text"
                   placeholder="Search for products..."
-                  className="border p-2 rounded-lg w-full"
+                  className="border border-gray-300 p-3 rounded-lg w-full"
                 />
                 <button
-                  className="mt-4 px-4 py-2 bg-violet-600 text-white rounded-lg"
+                  className="mt-4 px-4 py-2 bg-gray-800 text-white rounded-lg"
                   onClick={() => setShowSearchModal(false)}
                 >
                   Close
@@ -120,64 +119,63 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           )}
         </div>
 
-        <div className="flex-1 flex items-center justify-end gap-x-3 sm:gap-x-4 px-4">
+        <div className="hidden md:flex items-center justify-end space-x-4">
           {/* Assistance Button */}
           <button
-            className="px-4 py-2 bg-green-500 text-white rounded-lg flex items-center hover:bg-green-600"
-            onClick={() => window.open('https://wa.me/123456789', '_blank')}
+            className="px-4 py-2 bg-green-600 text-white rounded-full flex items-center shadow-sm hover:bg-green-700 transition"
+            onClick={() => window.open("https://wa.me/123456789", "_blank")}
           >
             <FaWhatsapp className="mr-2" />
             Assistenza
           </button>
-
           <LocalizedClientLink
-            className="hover:text-violet-950"
+            className="hover:text-gray-800"
             href="/account"
             data-testid="nav-account-link"
           >
-            <FiUser size={20} className="text-violet-900 hover:text-violet-950" />
+            <FiUser size={24} className="text-gray-700 hover:text-gray-800" />
           </LocalizedClientLink>
           <LocalizedClientLink
-            className="hover:text-violet-950"
+            className="hover:text-gray-800"
             href="/cart"
             data-testid="nav-cart-link"
           >
-            <FiShoppingCart size={20} className="text-violet-900 hover:text-violet-950" />
+            <FiShoppingCart size={24} className="text-gray-700 hover:text-gray-800" />
           </LocalizedClientLink>
-          <div className="hidden md:flex items-center">
-            <div className="ml-2">
-              <svg width="24" height="16" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
-                <rect width="8" height="16" fill="#008C45" rx="2" ry="2" />
-                <rect x="8" width="8" height="16" fill="#F4F5F0" rx="2" ry="2" />
-                <rect x="16" width="8" height="16" fill="#CD212A" rx="2" ry="2" />
-              </svg>
-            </div>
-          </div>
         </div>
+
+        {/* Mobile Menu */}
+        <button
+          className="md:hidden flex items-center"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <FiSearch size={24} className="text-gray-700" />
+          <SideMenu regions={regions} />
+        </button>
       </div>
 
       {/* Second line: Section Links */}
-      <div className="content-container text-violet-900 flex items-center justify-center h-12 text-sm sm:text-base border-t border-b border-violet-300">
+      <div className="hidden md:flex justify-center bg-gray-50 py-2 border-t border-gray-200 text-sm font-medium space-x-6">
         {collectionLinks.map((link) => (
           <div
             key={link.href}
-            className="mx-4 relative group"
+            className="relative group"
             onMouseEnter={() => setHoveredCategory(link.label)}
             onMouseLeave={() => setHoveredCategory(null)}
           >
             <LocalizedClientLink
               href={link.href}
-              className="hover:text-violet-950"
+              className="hover:text-gray-900"
             >
               {link.label}
             </LocalizedClientLink>
 
             {/* Third line: Product preview on hover */}
             {hoveredCategory === link.label && (
-              <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-md border border-violet-200">
+              <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-lg border border-gray-200 z-50">
                 {productPreview[link.label]?.map((product) => (
                   <div key={product.name} className="flex items-center mb-2">
-                    <img src={product.img} alt={product.name} className="w-12 h-12 object-cover mr-2" />
+                    <img src={product.img} alt={product.name} className="w-12 h-12 object-cover mr-3" />
                     <span>{product.name}</span>
                   </div>
                 ))}
@@ -186,6 +184,23 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
         ))}
       </div>
+
+      {/* Mobile menu items */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-30 flex flex-col items-center justify-start pt-16">
+          <div className="w-full bg-white shadow-lg">
+            {collectionLinks.map((link) => (
+              <LocalizedClientLink
+                key={link.href}
+                href={link.href}
+                className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
+              >
+                {link.label}
+              </LocalizedClientLink>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   );
 };
@@ -211,11 +226,10 @@ const SomePage: React.FC = () => {
       <AlertBar />
       <Nav regions={regions} />
       <div className="pt-16"></div> {/* Adjusted spacer to ensure content is visible */}
-      {/* Your hero section goes here */}
+      {/* Hero section */}
       <div className="hero-bg">
-        {/* Hero background content */}
+        {/* Your hero background content */}
       </div>
-      {/* Other components */}
     </div>
   );
 };
