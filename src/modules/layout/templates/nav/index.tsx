@@ -14,13 +14,20 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import SideMenu from "@modules/layout/components/side-menu";
 import { Region as MedusaRegion } from "@medusajs/medusa";
 
-// Updated Color Palette
+// Updated Color Palette and Premium Text
 const palette = {
   primary: "#7B3FE4", // Vibrant Purple
   secondary: "#FF72A6", // Soft Pink
   accent: "#5B41FF", // Accent Blue
   background: "#F8F9FA", // Background light shade
   text: "#1A1A1A", // Darker text color
+  mutedText: "#6E6E6E", // Muted Text for subtle elements
+};
+
+const textStyles = {
+  premium: "font-semibold tracking-tight text-lg",
+  regular: "font-normal text-base",
+  muted: "font-light text-sm text-mutedText",
 };
 
 interface Region extends MedusaRegion {}
@@ -33,14 +40,14 @@ const AlertBar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
 
-  // Show/hide the alert bar based on scrolling direction with gentle fade out
+  // Show/hide the alert bar based on scrolling direction with slide up animation
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
       if (currentScrollPos > prevScrollPos) {
-        setIsVisible(false);
+        setIsVisible(false); // Slide up when scrolling down
       } else {
-        setIsVisible(true);
+        setIsVisible(true); // Slide down when scrolling up
       }
       setPrevScrollPos(currentScrollPos);
     };
@@ -51,21 +58,21 @@ const AlertBar: React.FC = () => {
 
   return (
     <div
-      className={`bg-gradient-to-r from-${palette.secondary} via-white to-${palette.primary} border-b border-${palette.accent} py-2 px-4 text-${palette.primary} flex justify-center items-center text-xs sm:text-sm z-50 fixed top-0 w-full transition-opacity duration-700 ease-in-out ${
-        isVisible ? "opacity-100" : "opacity-0"
+      className={`bg-gradient-to-r from-${palette.secondary} via-white to-${palette.primary} border-b border-${palette.accent} py-2 px-4 text-${palette.primary} flex justify-center items-center text-xs sm:text-sm z-50 fixed top-0 w-full transition-transform duration-500 ease-in-out ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       <div className="flex items-center mx-2">
         <FaInfoCircle size={14} className="mr-2 text-violet-700" />
-        <span>Spedizione gratuita da € 100</span>
+        <span className={textStyles.premium}>Spedizione gratuita da € 100</span>
       </div>
       <div className="flex items-center mx-2">
         <FaCheckCircle size={14} className="mr-2 text-violet-700" />
-        <span>Garanzia inclusa</span>
+        <span className={textStyles.premium}>Garanzia inclusa</span>
       </div>
       <div className="flex items-center mx-2">
         <FaExclamationTriangle size={14} className="mr-2 text-violet-700" />
-        <span>Servizio Assistenza</span>
+        <span className={textStyles.premium}>Servizio Assistenza</span>
       </div>
     </div>
   );
@@ -110,7 +117,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           <div className="flex items-center">
             <LocalizedClientLink
               href="/"
-              className="text-2xl font-semibold hover:text-${palette.primary} tracking-tight uppercase"
+              className="text-2xl font-bold hover:text-${palette.primary} tracking-tight uppercase"
               data-testid="nav-store-link"
             >
               ArteCucire
@@ -150,7 +157,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               data-testid="nav-account-link"
             >
               <FiUser size={24} className="mr-1" />
-              <span>Accedi</span>
+              <span className={textStyles.premium}>Accedi</span>
             </LocalizedClientLink>
             <LocalizedClientLink
               className="hover:text-${palette.accent}"
