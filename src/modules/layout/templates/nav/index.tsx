@@ -26,11 +26,12 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-8"); // Reduced top padding for mobile
+  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-6"); // Reduced top padding for mobile
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(true);
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
 
   // Handle screen size to check if it's mobile
   useEffect(() => {
@@ -40,9 +41,10 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handle scroll to change nav style only on desktop
+  // Handle scroll behavior with delayed animations
   useEffect(() => {
     let lastScroll = window.scrollY;
+
     const handleScroll = () => {
       if (window.scrollY > 10 && !isMobile) {
         setNavClass("fixed top-0 bg-white z-50 pt-4 transition-all duration-500 ease-in-out");
@@ -52,16 +54,30 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
 
       if (isMobile) {
         if (window.scrollY > 10) {
-          setShowMobileSearchBar(false); // Hide mobile search bar
+          // Delay the appearance/disappearance with a timeout for a smoother effect
+          if (!scrollTimeout) {
+            const timeout = setTimeout(() => {
+              setShowMobileSearchBar(false);
+              setScrollTimeout(null);
+            }, 300); // Delay for smooth animation
+            setScrollTimeout(timeout);
+          }
         } else {
-          setShowMobileSearchBar(true); // Show mobile search bar
+          if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+            setScrollTimeout(null);
+          }
+          setShowMobileSearchBar(true); // Show mobile search bar with smooth animation
         }
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobile]);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+    };
+  }, [isMobile, scrollTimeout]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -135,7 +151,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               <span className="mr-1 font-medium">Accedi</span> {/* Less bold text */}
               <div className="relative flex items-center">
                 <FiUser size={20} />
-                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Hover effect */}
+                <div className="absolute inset-0 z-[-1] transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Hover effect placed behind text */}
               </div>
             </LocalizedClientLink>
             <LocalizedClientLink
@@ -145,7 +161,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             >
               <div className="relative flex items-center">
                 <FiShoppingCart size={20} />
-                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Hover effect */}
+                <div className="absolute inset-0 z-[-1] transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Hover effect placed behind text */}
               </div>
             </LocalizedClientLink>
             <div className="hover:text-gray-700 flex items-center relative group">
