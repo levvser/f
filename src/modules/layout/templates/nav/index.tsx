@@ -43,32 +43,22 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
 
   // Handle scroll behavior with delayed animations
   useEffect(() => {
-    let lastScroll = window.scrollY;
-
     const handleScroll = () => {
-      if (window.scrollY > 10 && !isMobile) {
-        setNavClass("fixed top-0 bg-white z-50 pt-4 transition-all duration-500 ease-in-out");
-      } else if (window.scrollY <= 10 && !isMobile) {
-        setNavClass("fixed top-0 bg-white z-50 pt-10 transition-all duration-500 ease-in-out");
-      }
-
-      if (isMobile) {
-        if (window.scrollY > 10) {
-          // Delay the appearance/disappearance with a timeout for a smoother effect
-          if (!scrollTimeout) {
-            const timeout = setTimeout(() => {
-              setShowMobileSearchBar(false);
-              setScrollTimeout(null);
-            }, 300); // Delay for smooth animation
-            setScrollTimeout(timeout);
-          }
-        } else {
-          if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
+      if (isMobile && window.scrollY > 10) {
+        // Delay the appearance/disappearance with a timeout for a smoother effect
+        if (!scrollTimeout) {
+          const timeout = setTimeout(() => {
+            setShowMobileSearchBar(false);
             setScrollTimeout(null);
-          }
-          setShowMobileSearchBar(true); // Show mobile search bar with smooth animation
+          }, 300); // Delay for smooth animation
+          setScrollTimeout(timeout);
         }
+      } else {
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+          setScrollTimeout(null);
+        }
+        setShowMobileSearchBar(true); // Show mobile search bar with smooth animation
       }
     };
 
@@ -120,13 +110,20 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             </LocalizedClientLink>
           </div>
 
-          {/* Search Icon on Mobile */}
-          <div className={`flex items-center ${showMobileSearchBar ? 'hidden' : 'block'} md:hidden`}>
+          {/* Mobile Icons (Search and Hamburger) */}
+          <div className="flex items-center md:hidden space-x-4">
+            {/* Show search icon next to the hamburger */}
             <button
-              onClick={() => setShowSearchModal(true)}
               className="flex items-center"
+              onClick={() => setShowSearchModal(true)}
             >
               <FiSearch size={24} className="text-gray-700" />
+            </button>
+            <button
+              className="flex items-center"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <FiX size={24} className="text-gray-700" /> : <FiMenu size={24} className="text-gray-700" />} {/* "X" icon when menu is open */}
             </button>
           </div>
 
@@ -170,20 +167,10 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               </div>
             </div>
           </div>
-
-          {/* Mobile Menu and Search Icon */}
-          <div className="md:hidden flex items-center space-x-4">
-            <button
-              className="flex items-center"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <FiX size={24} className="text-gray-700" /> : <FiMenu size={24} className="text-gray-700" />} {/* "X" icon when menu is open */}
-            </button>
-          </div>
         </div>
 
-        {/* Mobile Search Bar with Icon */}
-        {isMobile && showMobileSearchBar && (
+        {/* Mobile Search Bar with Icon - Hide when hamburger is active */}
+        {!isMobileMenuOpen && isMobile && showMobileSearchBar && (
           <div className="md:hidden bg-white w-full px-4 py-2 border-t border-gray-200 text-gray-600 transition-opacity duration-500 ease-in-out opacity-100"> {/* Smooth fade in */}
             <button
               onClick={() => setShowSearchModal(true)}
