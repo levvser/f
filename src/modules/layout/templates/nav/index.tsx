@@ -10,6 +10,9 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import SideMenu from "@modules/layout/components/side-menu";
 import { Region as MedusaRegion } from "@medusajs/medusa";
 
+// Italian flag icon
+import { FaFlag } from "react-icons/fa";
+
 interface Region extends MedusaRegion {}
 
 interface NavProps {
@@ -17,7 +20,7 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50");
+  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-20"); // Added pt-20 for initial top padding
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -25,9 +28,9 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
-        setNavClass("fixed top-0 bg-white z-50 shadow-sm");
+        setNavClass("fixed top-0 bg-white z-50 shadow-sm pt-6 transition-all duration-300 ease-in-out"); // Reduced top padding on scroll
       } else {
-        setNavClass("fixed top-0 bg-white z-50");
+        setNavClass("fixed top-0 bg-white z-50 pt-20"); // Increased top padding
       }
     };
 
@@ -62,9 +65,6 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
 
   return (
     <>
-      {/* Blank White Space Above Navigation */}
-      <div className="w-full h-20 bg-white"></div> {/* Increased space above the nav */}
-
       {/* First Line: Logo (Text), Search Bar, and Icons */}
       <header className={`${navClass} w-full`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-10 lg:px-16">
@@ -98,14 +98,16 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               data-testid="nav-account-link"
             >
               <span className="mr-1">Accedi</span>
-              <FiUser size={24} />
+              <FiUser size={20} /> {/* Reduced size */}
+              <FaFlag size={20} className="ml-1 text-green-600" /> {/* Added Italian flag */}
             </LocalizedClientLink>
             <LocalizedClientLink
-              className="hover:text-gray-700"
+              className="hover:text-gray-700 flex items-center"
               href="/cart"
               data-testid="nav-cart-link"
             >
-              <FiShoppingCart size={24} />
+              <FiShoppingCart size={20} /> {/* Reduced size */}
+              <FaFlag size={20} className="ml-1 text-green-600" /> {/* Added Italian flag */}
             </LocalizedClientLink>
           </div>
 
