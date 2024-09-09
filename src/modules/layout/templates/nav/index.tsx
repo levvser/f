@@ -24,11 +24,10 @@ const AlertBar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
 
-  // Show/hide the alert bar based on scrolling direction
+  // Show/hide the alert bar based on scrolling direction with gentle fade out
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
-      // Hide when scrolling down, show when scrolling up
       if (currentScrollPos > prevScrollPos) {
         setIsVisible(false);
       } else {
@@ -41,8 +40,12 @@ const AlertBar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
-  return isVisible ? (
-    <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm z-50 fixed top-0 w-full">
+  return (
+    <div
+      className={`bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm z-50 fixed top-0 w-full transition-opacity duration-500 ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <div className="flex items-center mx-2">
         <FaInfoCircle size={14} className="mr-2 text-violet-700" />
         <span>Spedizione gratuita da € 100</span>
@@ -56,7 +59,7 @@ const AlertBar: React.FC = () => {
         <span>Servizio Assistenza</span>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
@@ -68,7 +71,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
-        setNavClass("fixed top-0 bg-white shadow-md z-50");
+        setNavClass("fixed top-0 bg-white z-50");
       } else {
         setNavClass("fixed top-10 bg-white z-50");
       }
@@ -107,13 +110,22 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
 
           {/* Search Bar in the center */}
           <div className="flex-1 flex justify-center">
-            <div className="w-full max-w-3xl">
+            <div className="w-full max-w-2xl flex items-center">
               <button
                 onClick={() => setShowSearchModal(true)}
                 className="w-full border rounded-full py-2 px-4 bg-gray-100 text-gray-600 text-left shadow-sm hover:bg-gray-200 transition"
               >
                 <FiSearch className="inline-block mr-2" />
                 <span>Cosa stai cercando?</span>
+              </button>
+
+              {/* WhatsApp Assistance Button */}
+              <button
+                onClick={() => window.open("https://wa.me/39123456789", "_blank")}
+                className="ml-4 py-2 px-4 bg-green-600 text-white rounded-full flex items-center hover:bg-green-700 transition"
+              >
+                <FaWhatsapp className="mr-2" />
+                <span>Se sei indeciso, chiamaci: +39 123456789</span>
               </button>
             </div>
           </div>
@@ -124,11 +136,12 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               <FiHeart size={24} />
             </button>
             <LocalizedClientLink
-              className="hover:text-gray-700"
+              className="hover:text-gray-700 flex items-center"
               href="/account"
               data-testid="nav-account-link"
             >
-              <FiUser size={24} />
+              <FiUser size={24} className="mr-1" />
+              <span>Accedi</span>
             </LocalizedClientLink>
             <LocalizedClientLink
               className="hover:text-gray-700"
