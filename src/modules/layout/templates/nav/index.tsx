@@ -54,7 +54,8 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
 
       {/* First Line: Logo (Text), Search Bar, and Icons */}
       <header className={`${navClass} w-full`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-8 lg:px-12"> 
+          {/* More padding and spacing */}
           {/* Text Logo: Artecucire on the left */}
           <div className="flex items-center">
             <LocalizedClientLink
@@ -67,10 +68,10 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
 
           {/* Search Bar */}
-          <div className="flex-1 flex justify-start">
+          <div className="flex-1 flex justify-start ml-8"> {/* Add more spacing between logo and search */}
             <button
               onClick={() => setShowSearchModal(true)}
-              className="hidden md:flex items-center border rounded-full py-2 px-4 bg-gray-100 text-gray-600 shadow-sm hover:bg-gray-200 transition"
+              className="hidden md:flex items-center border rounded-full py-2 px-6 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-xl" 
             >
               <FiSearch className="inline-block mr-2" />
               <span>Cerca</span>
@@ -79,7 +80,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             {/* Search Icon for mobile */}
             <button
               onClick={() => setShowSearchModal(true)}
-              className="md:hidden flex items-center"
+              className="md:hidden flex items-center ml-2"
             >
               <FiSearch size={24} className="text-gray-700" />
             </button>
@@ -107,13 +108,21 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             </LocalizedClientLink>
           </div>
 
-          {/* Mobile Menu Icon */}
-          <button
-            className="md:hidden flex items-center"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            <FiMenu size={24} className="text-gray-700" />
-          </button>
+          {/* Mobile Menu and Search Icon */}
+          <div className="md:hidden flex items-center space-x-4">
+            <button
+              className="flex items-center"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <FiMenu size={24} className="text-gray-700" />
+            </button>
+            <button
+              onClick={() => setShowSearchModal(true)}
+              className="flex items-center"
+            >
+              <FiSearch size={24} className="text-gray-700" />
+            </button>
+          </div>
         </div>
 
         {/* Second Line: Links Below Search Bar */}
