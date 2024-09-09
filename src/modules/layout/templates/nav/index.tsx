@@ -52,7 +52,7 @@ const AlertBar: React.FC = () => {
 };
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-10"); // Below the alert bar
+  const [navClass, setNavClass] = useState("fixed top-10 bg-white z-50");
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
