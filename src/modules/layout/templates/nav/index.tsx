@@ -21,7 +21,7 @@ interface NavProps {
 }
 
 const AlertBar: React.FC = () => (
-  <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm shadow-sm z-50 relative">
+  <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm z-50">
     <div className="flex items-center mx-2">
       <FaInfoCircle size={14} className="mr-2 text-violet-700" />
       <span>Spedizione gratuita da € 100</span>
@@ -46,11 +46,9 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 48) {
-        setNavClass(
-          "fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-md bg-white bg-opacity-80 z-50 shadow-lg"
-        );
+        setNavClass("fixed top-0 bg-opacity-80 backdrop-blur-xl z-50 shadow-md");
       } else {
-        setNavClass("absolute top-0 bg-transparent z-50");
+        setNavClass("absolute top-0 bg-opacity-80 backdrop-blur-xl z-50");
       }
     };
 
@@ -81,7 +79,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   return (
     <header className={`${navClass} w-full`}>
       {/* First line: Brand, Search, Assistance, User, Cart */}
-      <div className="content-container text-violet-900 flex items-center justify-between h-16 text-sm sm:text-base px-4 md:px-12">
+      <div className="content-container relative text-violet-900 flex items-center justify-between h-16 text-sm sm:text-base px-4 md:px-12">
         <div className="flex-1 flex items-center justify-start">
           <LocalizedClientLink
             href="/"
@@ -95,7 +93,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         <div className="hidden md:flex items-center justify-center">
           <button
             onClick={() => setShowSearchModal(true)}
-            className="border rounded-full px-4 py-2 bg-violet-100 text-violet-600 text-left shadow-sm hover:bg-violet-200 hover:shadow-md transition"
+            className="border rounded-full px-4 py-2 bg-white bg-opacity-50 text-violet-600 text-left shadow-sm hover:bg-opacity-75 backdrop-blur-md transition"
           >
             <FiSearch className="inline-block mr-2" />
             <span>Cerca prodotti</span>
@@ -154,8 +152,10 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         </button>
       </div>
 
-      {/* Second line: Section Links */}
-      <div className="hidden md:flex justify-center bg-purple-50 py-2 border-t border-violet-300 text-sm font-medium space-x-6">
+      {/* Second line: Section Links with fade effect on corners */}
+      <div className="hidden md:flex justify-center bg-transparent py-2 border-t border-b border-violet-300 text-sm font-medium space-x-6 relative z-10">
+        <div className="absolute left-0 top-0 w-1/6 h-full bg-gradient-to-r from-transparent to-white pointer-events-none"></div>
+        <div className="absolute right-0 top-0 w-1/6 h-full bg-gradient-to-l from-transparent to-white pointer-events-none"></div>
         {collectionLinks.map((link) => (
           <div
             key={link.href}
@@ -170,7 +170,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               {link.label}
             </LocalizedClientLink>
 
-            {/* Third line: Product preview on hover */}
+            {/* Product preview on hover */}
             {hoveredCategory === link.label && (
               <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-lg border border-violet-200 z-50">
                 {productPreview[link.label]?.map((product) => (
