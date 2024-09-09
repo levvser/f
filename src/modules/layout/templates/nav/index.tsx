@@ -5,6 +5,7 @@ import {
   FaInfoCircle,
   FaCheckCircle,
   FaExclamationTriangle,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { FiSearch, FiUser, FiShoppingCart } from "react-icons/fi";
 import { medusaClient } from "@lib/config";
@@ -39,11 +40,14 @@ const AlertBar: React.FC = () => (
 const Nav: React.FC<NavProps> = ({ regions }) => {
   const [navClass, setNavClass] = useState("absolute top-11");
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+  const [showSearchModal, setShowSearchModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 48) {
-        setNavClass("fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-3xl bg-white bg-opacity-60");
+        setNavClass(
+          "fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-3xl bg-white bg-opacity-60"
+        );
       } else {
         setNavClass("absolute top-12 transition-transform duration-300 ease-in-out");
       }
@@ -70,7 +74,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     "Ricamare": [
       { img: "/img/product3.jpg", name: "Macchina Ricamare 1" },
       { img: "/img/product4.jpg", name: "Macchina Ricamare 2" }
-    ]
+    ],
   };
 
   return (
@@ -88,15 +92,44 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         </div>
 
         <div className="flex-1 flex justify-center items-center">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border rounded-lg p-1 px-2 w-full max-w-sm"
-          />
+          {/* Search Button */}
+          <button
+            onClick={() => setShowSearchModal(true)}
+            className="border rounded-lg px-4 py-1 w-full max-w-sm text-left bg-white hover:shadow-md"
+          >
+            <FiSearch className="inline-block mr-2" />
+            <span>Cerca prodotti</span>
+          </button>
+          {/* Search Modal (conditionally shown) */}
+          {showSearchModal && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="bg-white p-6 rounded-lg shadow-lg">
+                <input
+                  type="text"
+                  placeholder="Search for products..."
+                  className="border p-2 rounded-lg w-full"
+                />
+                <button
+                  className="mt-4 px-4 py-2 bg-violet-600 text-white rounded-lg"
+                  onClick={() => setShowSearchModal(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex-1 flex items-center justify-end gap-x-3 sm:gap-x-4 px-4">
-          <button className="hover:text-violet-950">Assistenza</button>
+          {/* Assistance Button */}
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded-lg flex items-center hover:bg-green-600"
+            onClick={() => window.open('https://wa.me/123456789', '_blank')}
+          >
+            <FaWhatsapp className="mr-2" />
+            Assistenza
+          </button>
+
           <LocalizedClientLink
             className="hover:text-violet-950"
             href="/account"
@@ -128,7 +161,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         {collectionLinks.map((link) => (
           <div
             key={link.href}
-            className="mx-4 relative"
+            className="mx-4 relative group"
             onMouseEnter={() => setHoveredCategory(link.label)}
             onMouseLeave={() => setHoveredCategory(null)}
           >
