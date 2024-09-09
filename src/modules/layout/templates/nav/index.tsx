@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  FiSearch, FiUser, FiHeart, FiShoppingCart, FiMenu
+  FiSearch, FiUser, FiShoppingCart, FiMenu
 } from "react-icons/fi";
 import { medusaClient } from "@lib/config";  // Importing medusaClient
 import medusaError from "@lib/util/medusa-error";
@@ -36,6 +36,20 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMobileMenuOpen && !(event.target as HTMLElement).closest(".mobile-menu")) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
   // Navigation links
   const collectionLinks = [
     { href: "/collections/macchine-per-cucire", label: "Acquista i prodotti" },
@@ -50,12 +64,12 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   return (
     <>
       {/* Blank White Space Above Navigation */}
-      <div className="w-full h-12 bg-white"></div>
+      <div className="w-full h-16 bg-white"></div> {/* Increased space above the nav */}
 
       {/* First Line: Logo (Text), Search Bar, and Icons */}
       <header className={`${navClass} w-full`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-8 lg:px-12"> 
-          {/* More padding and spacing */}
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-10 lg:px-16"> 
+          {/* Added more padding for spacing */}
           {/* Text Logo: Artecucire on the left */}
           <div className="flex items-center">
             <LocalizedClientLink
@@ -68,36 +82,25 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
 
           {/* Search Bar */}
-          <div className="flex-1 flex justify-start ml-8"> {/* Add more spacing between logo and search */}
+          <div className="flex-1 flex justify-start ml-12"> {/* Increased margin between logo and search */}
             <button
               onClick={() => setShowSearchModal(true)}
-              className="hidden md:flex items-center border rounded-full py-2 px-6 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-xl" 
+              className="hidden md:flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg" 
             >
               <FiSearch className="inline-block mr-2" />
               <span>Cerca</span>
             </button>
-
-            {/* Search Icon for mobile */}
-            <button
-              onClick={() => setShowSearchModal(true)}
-              className="md:hidden flex items-center ml-2"
-            >
-              <FiSearch size={24} className="text-gray-700" />
-            </button>
           </div>
 
           {/* Icons on the right */}
-          <div className="hidden md:flex items-center space-x-6">
-            <button className="hover:text-gray-700">
-              <FiHeart size={24} />
-            </button>
+          <div className="hidden md:flex items-center space-x-8">
             <LocalizedClientLink
               className="hover:text-gray-700 flex items-center"
               href="/account"
               data-testid="nav-account-link"
             >
-              <FiUser size={24} className="mr-1" />
-              <span>Accedi</span>
+              <span className="mr-1">Accedi</span>  {/* Text on the left of the icon */}
+              <FiUser size={24} />
             </LocalizedClientLink>
             <LocalizedClientLink
               className="hover:text-gray-700"
@@ -160,8 +163,14 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-30 flex flex-col items-center justify-start pt-16">
+        <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-30 flex flex-col items-center justify-start pt-16 mobile-menu">
           <div className="w-full bg-white shadow-lg">
+            <LocalizedClientLink
+              href="/account"
+              className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
+            >
+              Accedi
+            </LocalizedClientLink>
             {collectionLinks.map((link) => (
               <LocalizedClientLink
                 key={link.href}
