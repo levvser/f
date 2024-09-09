@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import {
   FiSearch, FiUser, FiHeart, FiShoppingCart, FiMenu
 } from "react-icons/fi";
-import { medusaClient } from "@lib/config"; // Importing medusaClient
+import { medusaClient } from "@lib/config";  // Importing medusaClient
 import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import SideMenu from "@modules/layout/components/side-menu";
@@ -50,35 +50,43 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   return (
     <>
       {/* Blank White Space Above Navigation */}
-      <div className="w-full h-10 bg-white"></div>
+      <div className="w-full h-12 bg-white"></div>
 
-      {/* First Line: Logo, Search Bar, and Icons */}
+      {/* First Line: Logo (Text), Search Bar, and Icons */}
       <header className={`${navClass} w-full`}>
-        <div className="content-container flex items-center justify-between h-16 px-4 md:px-12">
-          {/* Logo on the left */}
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-6 md:px-12">
+          {/* Text Logo: Artecucire on the left */}
           <div className="flex items-center">
             <LocalizedClientLink
               href="/"
-              className="text-2xl font-semibold tracking-tight"
+              className="text-2xl font-semibold tracking-tight text-gray-800"
               data-testid="nav-store-link"
             >
-              <img src="/path-to-logo.png" alt="ArteCucire" className="w-16 h-8 object-contain" />
+              Artecucire
             </LocalizedClientLink>
           </div>
 
-          {/* Search Bar in the center */}
-          <div className="flex-1 flex justify-center">
+          {/* Search Bar */}
+          <div className="flex-1 flex justify-start">
             <button
               onClick={() => setShowSearchModal(true)}
-              className="w-full max-w-lg border rounded-full py-2 px-4 bg-gray-100 text-gray-600 text-left shadow-sm hover:bg-gray-200 transition"
+              className="hidden md:flex items-center border rounded-full py-2 px-4 bg-gray-100 text-gray-600 shadow-sm hover:bg-gray-200 transition"
             >
               <FiSearch className="inline-block mr-2" />
-              <span>Cosa stai cercando?</span>
+              <span>Cerca</span>
+            </button>
+
+            {/* Search Icon for mobile */}
+            <button
+              onClick={() => setShowSearchModal(true)}
+              className="md:hidden flex items-center"
+            >
+              <FiSearch size={24} className="text-gray-700" />
             </button>
           </div>
 
           {/* Icons on the right */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-6">
             <button className="hover:text-gray-700">
               <FiHeart size={24} />
             </button>
@@ -109,7 +117,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         </div>
 
         {/* Second Line: Links Below Search Bar */}
-        <div className="hidden md:flex justify-center bg-transparent py-2 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10">
+        <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto">
           {collectionLinks.map((link) => (
             <LocalizedClientLink
               key={link.href}
