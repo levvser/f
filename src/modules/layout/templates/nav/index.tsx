@@ -26,27 +26,33 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-10"); // Reduced padding
+  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-10");
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Handle scroll to change nav style with animation for both up and down
+  // Handle screen size to check if it's mobile
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Handle scroll to change nav style only on desktop
   useEffect(() => {
     let lastScroll = window.scrollY;
     const handleScroll = () => {
-      if (window.scrollY > lastScroll && window.scrollY > 10) {
+      if (window.scrollY > 10 && !isMobile) {
         setNavClass("fixed top-0 bg-white z-50 shadow-sm pt-4 transition-all duration-300 ease-in-out");
-      } else if (window.scrollY < lastScroll && window.scrollY > 10) {
-        setNavClass("fixed top-0 bg-white z-50 pt-2 transition-all duration-300 ease-in-out"); // Reduced padding when scrolling up
-      } else {
+      } else if (window.scrollY <= 10 && !isMobile) {
         setNavClass("fixed top-0 bg-white z-50 pt-10 transition-all duration-300 ease-in-out");
       }
-      lastScroll = window.scrollY;
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobile]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -110,7 +116,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               <span className="mr-1 font-semibold">Accedi</span> {/* Bolder text */}
               <div className="relative flex items-center">
                 <FiUser size={20} />
-                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:opacity-100 transition duration-300"></div> {/* Hover effect */}
+                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:bg-gray-300 transition duration-300 group-hover:opacity-100"></div> {/* Hover effect */}
               </div>
             </LocalizedClientLink>
             <LocalizedClientLink
@@ -120,13 +126,12 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             >
               <div className="relative flex items-center">
                 <FiShoppingCart size={20} />
-                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:opacity-100 transition duration-300"></div> {/* Hover effect */}
+                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:bg-gray-300 transition duration-300 group-hover:opacity-100"></div> {/* Hover effect */}
               </div>
             </LocalizedClientLink>
             <div className="hover:text-gray-700 flex items-center relative group">
               <div className="relative flex items-center">
                 <ItalianFlagIcon /> {/* Flag icon */}
-                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:opacity-100 transition duration-300"></div> {/* Hover effect */}
               </div>
             </div>
           </div>
@@ -134,27 +139,27 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           {/* Mobile Menu and Search Icon */}
           <div className="md:hidden flex items-center space-x-4">
             <button
-              className="flex items-center"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <FiX size={24} className="text-gray-700" /> : <FiMenu size={24} className="text-gray-700" />} {/* "X" icon when menu is open */}
-            </button>
-            <button
               onClick={() => setShowSearchModal(true)}
               className="flex items-center"
             >
               <FiSearch size={24} className="text-gray-700" />
             </button>
+            <button
+              className="flex items-center"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <FiX size={24} className="text-gray-700" /> : <FiMenu size={24} className="text-gray-700" />} {/* "X" icon when menu is open */}
+            </button>
           </div>
         </div>
 
         {/* Second Line: Links Below Search Bar */}
-        <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto text-gray-600">
+        <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto text-gray-500">
           {collectionLinks.map((link) => (
             <LocalizedClientLink
               key={link.href}
               href={link.href}
-              className="hover:text-gray-800 transition-colors duration-300" // Grey hover effect
+              className="hover:text-gray-700 transition-colors duration-300" // More evident hover effect
             >
               {link.label}
             </LocalizedClientLink>
