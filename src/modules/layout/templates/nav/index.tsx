@@ -7,7 +7,7 @@ import {
   FaExclamationTriangle,
   FaWhatsapp,
 } from "react-icons/fa";
-import { FiSearch, FiUser, FiShoppingCart, FiHeart } from "react-icons/fi";
+import { FiSearch, FiUser, FiShoppingCart, FiHeart, FiMenu } from "react-icons/fi";
 import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
@@ -109,7 +109,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
 
           {/* Search Bar in the center */}
-          <div className="flex-1 flex justify-center">
+          <div className="hidden md:flex flex-1 justify-center">
             <div className="w-full max-w-2xl flex items-center">
               <button
                 onClick={() => setShowSearchModal(true)}
@@ -131,7 +131,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
 
           {/* Icons on the right */}
-          <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
             <button className="hover:text-gray-700">
               <FiHeart size={24} />
             </button>
@@ -151,6 +151,14 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               <FiShoppingCart size={24} />
             </LocalizedClientLink>
           </div>
+
+          {/* Mobile Menu Icon */}
+          <button
+            className="md:hidden flex items-center"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <FiMenu size={24} className="text-gray-700" />
+          </button>
         </div>
 
         {/* Second Line: Links Below Search Bar */}
