@@ -10,7 +10,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import SideMenu from "@modules/layout/components/side-menu";
 import { Region as MedusaRegion } from "@medusajs/medusa";
 
-// Italian flag square SVG without className prop
+// Italian flag square SVG
 const ItalianFlagIcon = () => (
   <svg width="20" height="20" viewBox="0 0 3 2">
     <rect width="1" height="2" fill="#009246" />
@@ -36,6 +36,8 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     const handleScroll = () => {
       if (window.scrollY > lastScroll && window.scrollY > 10) {
         setNavClass("fixed top-0 bg-white z-50 shadow-sm pt-4 transition-all duration-300 ease-in-out");
+      } else if (window.scrollY < lastScroll && window.scrollY > 10) {
+        setNavClass("fixed top-0 bg-white z-50 pt-2 transition-all duration-300 ease-in-out"); // Reduced padding when scrolling up
       } else {
         setNavClass("fixed top-0 bg-white z-50 pt-10 transition-all duration-300 ease-in-out");
       }
@@ -108,9 +110,6 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               <span className="mr-1 font-semibold">Accedi</span> {/* Bolder text */}
               <div className="relative flex items-center">
                 <FiUser size={20} />
-                <div className="ml-1">
-                  <ItalianFlagIcon /> {/* Flag next to icon */}
-                </div>
                 <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:opacity-100 transition duration-300"></div> {/* Hover effect */}
               </div>
             </LocalizedClientLink>
@@ -121,12 +120,15 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             >
               <div className="relative flex items-center">
                 <FiShoppingCart size={20} />
-                <div className="ml-1">
-                  <ItalianFlagIcon /> {/* Flag next to icon */}
-                </div>
                 <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:opacity-100 transition duration-300"></div> {/* Hover effect */}
               </div>
             </LocalizedClientLink>
+            <div className="hover:text-gray-700 flex items-center relative group">
+              <div className="relative flex items-center">
+                <ItalianFlagIcon /> {/* Flag icon */}
+                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:opacity-100 transition duration-300"></div> {/* Hover effect */}
+              </div>
+            </div>
           </div>
 
           {/* Mobile Menu and Search Icon */}
