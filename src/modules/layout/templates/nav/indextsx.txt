@@ -107,7 +107,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   return (
     <>
       {/* First Line: Logo (Text), Search Bar, and Icons */}
-      <header className={`${navClass} w-full`}>
+      <header className={${navClass} w-full}>
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-10 lg:px-16"> {/* Reduced height for mobile */}
           {/* Text Logo: Artecucire on the left */}
           <div className="flex items-center">
@@ -121,7 +121,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
 
           {/* Search Icon on Mobile */}
-          <div className={`flex items-center ${showMobileSearchBar ? 'hidden' : 'block'} md:hidden`}>
+          <div className={flex items-center ${showMobileSearchBar ? 'hidden' : 'block'} md:hidden}>
             <button
               onClick={() => setShowSearchModal(true)}
               className="flex items-center"
