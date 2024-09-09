@@ -7,7 +7,7 @@ import {
   FaExclamationTriangle,
   FaWhatsapp,
 } from "react-icons/fa";
-import { FiSearch, FiUser, FiShoppingCart } from "react-icons/fi";
+import { FiSearch, FiUser, FiShoppingCart, FiHeart } from "react-icons/fi";
 import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
@@ -20,35 +20,49 @@ interface NavProps {
   regions: Region[];
 }
 
-const AlertBar: React.FC = () => (
-  <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm z-50 fixed top-0 w-full">
-    <div className="flex items-center mx-2">
-      <FaInfoCircle size={14} className="mr-2 text-violet-700" />
-      <span>Spedizione gratuita da € 100</span>
+const AlertBar: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Automatically hide the alert bar after 5 seconds
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsVisible(false);
+    }, 5000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm z-50 fixed top-0 w-full">
+      <div className="flex items-center mx-2">
+        <FaInfoCircle size={14} className="mr-2 text-violet-700" />
+        <span>Spedizione gratuita da € 100</span>
+      </div>
+      <div className="flex items-center mx-2">
+        <FaCheckCircle size={14} className="mr-2 text-violet-700" />
+        <span>Garanzia inclusa</span>
+      </div>
+      <div className="flex items-center mx-2">
+        <FaExclamationTriangle size={14} className="mr-2 text-violet-700" />
+        <span>Servizio Assistenza</span>
+      </div>
     </div>
-    <div className="flex items-center mx-2">
-      <FaCheckCircle size={14} className="mr-2 text-violet-700" />
-      <span>Garanzia inclusa</span>
-    </div>
-    <div className="flex items-center mx-2">
-      <FaExclamationTriangle size={14} className="mr-2 text-violet-700" />
-      <span>Servizio Assistenza</span>
-    </div>
-  </div>
-);
+  );
+};
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("absolute top-12"); // Changed from 0 to 12 to make space for alert bar
+  const [navClass, setNavClass] = useState("fixed top-10"); // Below the alert bar
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 60) {
-        setNavClass("fixed top-12 bg-opacity-80 backdrop-blur-xl z-50 shadow-md");
+      if (window.scrollY > 10) {
+        setNavClass("fixed top-0 bg-white shadow-md z-50");
       } else {
-        setNavClass("absolute top-12 bg-opacity-80 backdrop-blur-xl z-50");
+        setNavClass("fixed top-10 bg-white z-50");
       }
     };
 
@@ -65,85 +79,62 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     { href: "/collections/stiro", label: "Stiro" },
   ];
 
-  const productPreview: { [key: string]: { img: string; name: string }[] } = {
-    "Cucire": [
-      { img: "/img/product1.jpg", name: "Macchina Cucire 1" },
-      { img: "/img/product2.jpg", name: "Macchina Cucire 2" }
-    ],
-    "Ricamare": [
-      { img: "/img/product3.jpg", name: "Macchina Ricamare 1" },
-      { img: "/img/product4.jpg", name: "Macchina Ricamare 2" }
-    ],
-  };
-
   return (
     <>
-      {/* Alert Bar fixed at the top */}
       <AlertBar />
 
-      <header className={`${navClass} w-full`}>
-        {/* First line: Brand, Search, Assistance, User, Cart */}
-        <div className="content-container relative text-violet-900 flex items-center justify-between h-16 text-sm sm:text-base px-4 md:px-12">
-          <div className="flex-1 flex items-center justify-start">
+      <header className={`${navClass} w-full bg-white`}>
+        {/* First Line: Logo, Search Bar, and Icons */}
+        <div className="content-container relative text-gray-900 flex items-center justify-between h-16 px-4 md:px-12">
+          {/* Logo on the left */}
+          <div className="flex items-center">
             <LocalizedClientLink
               href="/"
               className="text-2xl font-semibold hover:text-violet-800 tracking-tight uppercase"
               data-testid="nav-store-link"
             >
-              ARTECUCIRE
+              {/* Replace with your logo */}
+              <img src="/logo.svg" alt="Brand Logo" className="w-12 h-12" />
             </LocalizedClientLink>
           </div>
 
-          <div className="hidden md:flex items-center justify-center">
-            {/* Search Button */}
-            <button
-              onClick={() => setShowSearchModal(true)}
-              className="border rounded-full px-4 py-2 bg-white bg-opacity-50 text-violet-600 text-left shadow-sm hover:bg-opacity-75 backdrop-blur-md transition"
-            >
-              <FiSearch className="inline-block mr-2" />
-              <span>Cerca prodotti</span>
-            </button>
+          {/* Search Bar in the center */}
+          <div className="flex-1 flex justify-center">
+            <div className="w-full max-w-3xl">
+              <button
+                onClick={() => setShowSearchModal(true)}
+                className="w-full border rounded-full py-2 px-4 bg-gray-100 text-gray-600 text-left shadow-sm hover:bg-gray-200 transition"
+              >
+                <FiSearch className="inline-block mr-2" />
+                <span>Cosa stai cercando?</span>
+              </button>
+            </div>
           </div>
 
-          <div className="hidden md:flex items-center justify-end space-x-4">
-            {/* Assistance Button */}
-            <button
-              className="px-4 py-2 bg-green-600 text-white rounded-full flex items-center shadow-sm hover:bg-green-700 transition"
-              onClick={() => window.open("https://wa.me/123456789", "_blank")}
-            >
-              <FaWhatsapp className="mr-2" />
-              Assistenza
+          {/* Icons on the right */}
+          <div className="flex items-center space-x-4">
+            <button className="hover:text-gray-700">
+              <FiHeart size={24} />
             </button>
             <LocalizedClientLink
-              className="hover:text-violet-800"
+              className="hover:text-gray-700"
               href="/account"
               data-testid="nav-account-link"
             >
-              <FiUser size={24} className="text-violet-700 hover:text-violet-800" />
+              <FiUser size={24} />
             </LocalizedClientLink>
             <LocalizedClientLink
-              className="hover:text-violet-800"
+              className="hover:text-gray-700"
               href="/cart"
               data-testid="nav-cart-link"
             >
-              <FiShoppingCart size={24} className="text-violet-700 hover:text-violet-800" />
+              <FiShoppingCart size={24} />
             </LocalizedClientLink>
           </div>
-
-          {/* Mobile Menu */}
-          <button
-            className="md:hidden flex items-center"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            <FiSearch size={24} className="text-violet-700" />
-            <SideMenu regions={regions} />
-          </button>
         </div>
 
-        {/* Second line: Section Links with fade effect on corners */}
-        <div className="hidden md:flex justify-center bg-transparent py-2 border-t border-b border-violet-300 text-sm font-medium space-x-6 relative z-10">
-          <div className="absolute left-0 top-0 w-1/6 h-full bg-gradient-to-r from-transparent to-white pointer-events-none"></div>
-          <div className="absolute right-0 top-0 w-1/6 h-full bg-gradient-to-l from-transparent to-white pointer-events-none"></div>
+        {/* Second Line: Links Below Search Bar */}
+        <div className="hidden md:flex justify-center bg-transparent py-2 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10">
           {collectionLinks.map((link) => (
             <div
               key={link.href}
@@ -158,28 +149,23 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
                 {link.label}
               </LocalizedClientLink>
 
-              {/* Product preview on hover */}
+              {/* Hover effect with product preview */}
               {hoveredCategory === link.label && (
-                <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-lg border border-violet-200 z-50">
-                  {productPreview[link.label]?.map((product) => (
-                    <div key={product.name} className="flex items-center mb-2">
-                      <img src={product.img} alt={product.name} className="w-12 h-12 object-cover mr-3" />
-                      <span>{product.name}</span>
-                    </div>
-                  ))}
+                <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-lg border border-gray-200 z-50">
+                  <p>Preview for {link.label}</p>
                 </div>
               )}
             </div>
           ))}
         </div>
 
-        {/* Search Modal with Blurred Background */}
+        {/* Search Modal */}
         {showSearchModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center backdrop-blur-sm">
+          <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
             <div className="bg-white p-4 w-full max-w-3xl mx-4 md:mx-auto rounded-lg shadow-xl">
               <input
                 type="text"
-                placeholder="Cerca prodotti..."
+                placeholder="Cosa stai cercando?"
                 className="border border-gray-300 p-3 rounded-lg w-full"
               />
               <button
@@ -200,7 +186,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
                 <LocalizedClientLink
                   key={link.href}
                   href={link.href}
-                  className="block py-4 text-center border-b border-violet-200 w-full text-violet-900 font-medium"
+                  className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
                 >
                   {link.label}
                 </LocalizedClientLink>
