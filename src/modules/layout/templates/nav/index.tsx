@@ -37,7 +37,8 @@ const AlertBar: React.FC = () => (
 );
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("absolute top-12");
+  const [navClass, setNavClass] = useState("absolute top-11");
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,10 +62,22 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     { href: "/collections/stiro", label: "Stiro" },
   ];
 
+  const productPreview: { [key: string]: { img: string; name: string }[] } = {
+    "Cucire": [
+      { img: "/img/product1.jpg", name: "Macchina Cucire 1" },
+      { img: "/img/product2.jpg", name: "Macchina Cucire 2" }
+    ],
+    "Ricamare": [
+      { img: "/img/product3.jpg", name: "Macchina Ricamare 1" },
+      { img: "/img/product4.jpg", name: "Macchina Ricamare 2" }
+    ]
+  };
+
   return (
     <header className={`w-full bg-opacity-60 z-50 ${navClass}`}>
-      <nav className="content-container text-violet-900 flex items-center justify-between h-16 text-xs sm:text-base">
-        <div className="flex-1 h-full flex items-center justify-start px-4">
+      {/* First line: Brand, Search, Assistance, User, Cart, Italy */}
+      <div className="content-container text-violet-900 flex items-center justify-between h-16 text-xs sm:text-base">
+        <div className="flex-1 flex items-center justify-start px-4">
           <LocalizedClientLink
             href="/"
             className="text-lg sm:text-xl font-bold hover:text-violet-950 uppercase whitespace-nowrap"
@@ -74,27 +87,16 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </LocalizedClientLink>
         </div>
 
-        <div className="hidden md:flex items-center gap-x-2 sm:gap-x-4 h-full">
-          {collectionLinks.map((link) => (
-            <LocalizedClientLink
-              key={link.href}
-              href={link.href}
-              className="hover:text-violet-950"
-            >
-              {link.label}
-            </LocalizedClientLink>
-          ))}
+        <div className="flex-1 flex justify-center items-center">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="border rounded-lg p-1 px-2 w-full max-w-sm"
+          />
         </div>
 
-        <div className="flex items-center gap-x-3 sm:gap-x-4 h-full flex-1 justify-end px-4">
-          <LocalizedClientLink
-            className="hover:text-violet-950"
-            href="/search"
-            scroll={false}
-            data-testid="nav-search-link"
-          >
-            <FiSearch size={20} className="text-violet-900 hover:text-violet-950" />
-          </LocalizedClientLink>
+        <div className="flex-1 flex items-center justify-end gap-x-3 sm:gap-x-4 px-4">
+          <button className="hover:text-violet-950">Assistenza</button>
           <LocalizedClientLink
             className="hover:text-violet-950"
             href="/account"
@@ -118,11 +120,39 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               </svg>
             </div>
           </div>
-          <div className="md:hidden h-full flex items-center">
-            <SideMenu regions={regions} />
-          </div>
         </div>
-      </nav>
+      </div>
+
+      {/* Second line: Section Links */}
+      <div className="content-container text-violet-900 flex items-center justify-center h-12 text-sm sm:text-base border-t border-b border-violet-300">
+        {collectionLinks.map((link) => (
+          <div
+            key={link.href}
+            className="mx-4 relative"
+            onMouseEnter={() => setHoveredCategory(link.label)}
+            onMouseLeave={() => setHoveredCategory(null)}
+          >
+            <LocalizedClientLink
+              href={link.href}
+              className="hover:text-violet-950"
+            >
+              {link.label}
+            </LocalizedClientLink>
+
+            {/* Third line: Product preview on hover */}
+            {hoveredCategory === link.label && (
+              <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-md border border-violet-200">
+                {productPreview[link.label]?.map((product) => (
+                  <div key={product.name} className="flex items-center mb-2">
+                    <img src={product.img} alt={product.name} className="w-12 h-12 object-cover mr-2" />
+                    <span>{product.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </header>
   );
 };
