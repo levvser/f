@@ -21,17 +21,17 @@ interface NavProps {
 }
 
 const AlertBar: React.FC = () => (
-  <div className="bg-gradient-to-r from-gray-50 via-white to-gray-50 border-b border-gray-200 py-2 px-4 text-gray-600 flex justify-center items-center text-xs sm:text-sm shadow-sm z-50">
+  <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm shadow-sm z-50 relative">
     <div className="flex items-center mx-2">
-      <FaInfoCircle size={14} className="mr-2 text-gray-500" />
+      <FaInfoCircle size={14} className="mr-2 text-violet-700" />
       <span>Spedizione gratuita da € 100</span>
     </div>
     <div className="flex items-center mx-2">
-      <FaCheckCircle size={14} className="mr-2 text-gray-500" />
+      <FaCheckCircle size={14} className="mr-2 text-violet-700" />
       <span>Garanzia inclusa</span>
     </div>
     <div className="flex items-center mx-2">
-      <FaExclamationTriangle size={14} className="mr-2 text-gray-500" />
+      <FaExclamationTriangle size={14} className="mr-2 text-violet-700" />
       <span>Servizio Assistenza</span>
     </div>
   </div>
@@ -47,7 +47,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     const handleScroll = () => {
       if (window.scrollY > 48) {
         setNavClass(
-          "fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-md bg-white bg-opacity-80 z-50"
+          "fixed top-0 transition-transform duration-300 ease-in-out backdrop-blur-md bg-white bg-opacity-80 z-50 shadow-lg"
         );
       } else {
         setNavClass("absolute top-0 bg-transparent z-50");
@@ -70,22 +70,22 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   const productPreview: { [key: string]: { img: string; name: string }[] } = {
     "Cucire": [
       { img: "/img/product1.jpg", name: "Macchina Cucire 1" },
-      { img: "/img/product2.jpg", name: "Macchina Cucire 2" },
+      { img: "/img/product2.jpg", name: "Macchina Cucire 2" }
     ],
     "Ricamare": [
       { img: "/img/product3.jpg", name: "Macchina Ricamare 1" },
-      { img: "/img/product4.jpg", name: "Macchina Ricamare 2" },
+      { img: "/img/product4.jpg", name: "Macchina Ricamare 2" }
     ],
   };
 
   return (
     <header className={`${navClass} w-full`}>
       {/* First line: Brand, Search, Assistance, User, Cart */}
-      <div className="content-container text-gray-900 flex items-center justify-between h-16 text-sm sm:text-base px-4 md:px-12">
+      <div className="content-container text-violet-900 flex items-center justify-between h-16 text-sm sm:text-base px-4 md:px-12">
         <div className="flex-1 flex items-center justify-start">
           <LocalizedClientLink
             href="/"
-            className="text-2xl font-semibold hover:text-gray-800 tracking-tight uppercase"
+            className="text-2xl font-semibold hover:text-violet-800 tracking-tight uppercase"
             data-testid="nav-store-link"
           >
             ARTECUCIRE
@@ -95,7 +95,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         <div className="hidden md:flex items-center justify-center">
           <button
             onClick={() => setShowSearchModal(true)}
-            className="border rounded-full px-4 py-2 bg-gray-100 text-gray-500 text-left shadow-sm hover:bg-gray-200 hover:shadow-md transition"
+            className="border rounded-full px-4 py-2 bg-violet-100 text-violet-600 text-left shadow-sm hover:bg-violet-200 hover:shadow-md transition"
           >
             <FiSearch className="inline-block mr-2" />
             <span>Cerca prodotti</span>
@@ -109,7 +109,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
                   className="border border-gray-300 p-3 rounded-lg w-full"
                 />
                 <button
-                  className="mt-4 px-4 py-2 bg-gray-800 text-white rounded-lg"
+                  className="mt-4 px-4 py-2 bg-violet-600 text-white rounded-lg"
                   onClick={() => setShowSearchModal(false)}
                 >
                   Close
@@ -129,18 +129,18 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             Assistenza
           </button>
           <LocalizedClientLink
-            className="hover:text-gray-800"
+            className="hover:text-violet-800"
             href="/account"
             data-testid="nav-account-link"
           >
-            <FiUser size={24} className="text-gray-700 hover:text-gray-800" />
+            <FiUser size={24} className="text-violet-700 hover:text-violet-800" />
           </LocalizedClientLink>
           <LocalizedClientLink
-            className="hover:text-gray-800"
+            className="hover:text-violet-800"
             href="/cart"
             data-testid="nav-cart-link"
           >
-            <FiShoppingCart size={24} className="text-gray-700 hover:text-gray-800" />
+            <FiShoppingCart size={24} className="text-violet-700 hover:text-violet-800" />
           </LocalizedClientLink>
         </div>
 
@@ -149,13 +149,13 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           className="md:hidden flex items-center"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          <FiSearch size={24} className="text-gray-700" />
+          <FiSearch size={24} className="text-violet-700" />
           <SideMenu regions={regions} />
         </button>
       </div>
 
       {/* Second line: Section Links */}
-      <div className="hidden md:flex justify-center bg-gray-50 py-2 border-t border-gray-200 text-sm font-medium space-x-6">
+      <div className="hidden md:flex justify-center bg-purple-50 py-2 border-t border-violet-300 text-sm font-medium space-x-6">
         {collectionLinks.map((link) => (
           <div
             key={link.href}
@@ -165,14 +165,14 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           >
             <LocalizedClientLink
               href={link.href}
-              className="hover:text-gray-900"
+              className="hover:text-violet-900"
             >
               {link.label}
             </LocalizedClientLink>
 
             {/* Third line: Product preview on hover */}
             {hoveredCategory === link.label && (
-              <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-lg border border-gray-200 z-50">
+              <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-lg border border-violet-200 z-50">
                 {productPreview[link.label]?.map((product) => (
                   <div key={product.name} className="flex items-center mb-2">
                     <img src={product.img} alt={product.name} className="w-12 h-12 object-cover mr-3" />
@@ -193,7 +193,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               <LocalizedClientLink
                 key={link.href}
                 href={link.href}
-                className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
+                className="block py-4 text-center border-b border-violet-200 w-full text-violet-900 font-medium"
               >
                 {link.label}
               </LocalizedClientLink>
