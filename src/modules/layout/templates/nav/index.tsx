@@ -116,7 +116,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               <span className="mr-1 font-semibold">Accedi</span> {/* Bolder text */}
               <div className="relative flex items-center">
                 <FiUser size={20} />
-                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-300 rounded-full transition duration-300"></div> {/* Hover effect under text */}
+                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Lighter grey background, stays behind the text */}
               </div>
             </LocalizedClientLink>
             <LocalizedClientLink
@@ -126,7 +126,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             >
               <div className="relative flex items-center">
                 <FiShoppingCart size={20} />
-                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-300 rounded-full transition duration-300"></div> {/* Hover effect under text */}
+                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Lighter grey background, stays behind the text */}
               </div>
             </LocalizedClientLink>
             <div className="hover:text-gray-700 flex items-center relative group">
@@ -162,7 +162,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               className="relative hover:text-gray-900 transition-colors duration-300"
             >
               <span>{link.label}</span>
-              <span className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-200 rounded-full transition duration-300"></span> {/* Hover effect bigger and under text */}
+              <span className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></span> {/* Hover effect bigger and under text */}
             </LocalizedClientLink>
           ))}
         </div>
