@@ -2,14 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  FaInfoCircle,
-  FaCheckCircle,
-  FaExclamationTriangle,
-  FaWhatsapp,
-} from "react-icons/fa";
-import { FiSearch, FiUser, FiShoppingCart, FiHeart, FiMenu } from "react-icons/fi";
-import { medusaClient } from "@lib/config";
-import medusaError from "@lib/util/medusa-error";
+  FiSearch, FiUser, FiHeart, FiShoppingCart, FiMenu
+} from "react-icons/fi";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import SideMenu from "@modules/layout/components/side-menu";
 import { Region as MedusaRegion } from "@medusajs/medusa";
@@ -20,50 +14,8 @@ interface NavProps {
   regions: Region[];
 }
 
-const AlertBar: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-
-  // Show/hide the alert bar based on scrolling direction with gentle fade out
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      if (currentScrollPos > prevScrollPos) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setPrevScrollPos(currentScrollPos);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollPos]);
-
-  return (
-    <div
-      className={`bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm z-50 fixed top-0 w-full transition-opacity duration-500 ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
-    >
-      <div className="flex items-center mx-2">
-        <FaInfoCircle size={14} className="mr-2 text-violet-700" />
-        <span>Spedizione gratuita da € 100</span>
-      </div>
-      <div className="flex items-center mx-2">
-        <FaCheckCircle size={14} className="mr-2 text-violet-700" />
-        <span>Garanzia inclusa</span>
-      </div>
-      <div className="flex items-center mx-2">
-        <FaExclamationTriangle size={14} className="mr-2 text-violet-700" />
-        <span>Servizio Assistenza</span>
-      </div>
-    </div>
-  );
-};
-
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-10 bg-white z-50");
+  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50");
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -71,9 +23,9 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
-        setNavClass("fixed top-0 bg-white z-50");
+        setNavClass("fixed top-0 bg-white z-50 shadow-sm");
       } else {
-        setNavClass("fixed top-10 bg-white z-50");
+        setNavClass("fixed top-0 bg-white z-50");
       }
     };
 
@@ -82,56 +34,48 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   }, []);
 
   const collectionLinks = [
-    { href: "/collections/macchine-per-cucire", label: "Cucire" },
-    { href: "/collections/macchine-per-ricamare", label: "Ricamare" },
-    { href: "/collections/macchine-per-cucire-e-ricamare", label: "Cucire e Ricamare" },
-    { href: "/collections/scannerizza-taglia", label: "Scan e Taglia" },
-    { href: "/collections/termopresse", label: "Termopresse" },
-    { href: "/collections/stiro", label: "Stiro" },
+    { href: "/collections/macchine-per-cucire", label: "Acquista i prodotti" },
+    { href: "/collections/macchine-per-ricamare", label: "Esplora gli ambienti" },
+    { href: "/collections/macchine-per-cucire-e-ricamare", label: "Offerte" },
+    { href: "/collections/scannerizza-taglia", label: "Ispirazione" },
+    { href: "/collections/termopresse", label: "IKEA for Business" },
+    { href: "/collections/stiro", label: "Servizi e progettazione" },
+    { href: "#", label: "Altro" },
   ];
 
   return (
     <>
-      <AlertBar />
+      {/* Blank White Space Above Navigation */}
+      <div className="w-full h-10 bg-white"></div>
 
-      <header className={`${navClass} w-full bg-white`}>
-        {/* First Line: Logo (Brand Name), Search Bar, and Icons */}
-        <div className="content-container relative text-gray-900 flex items-center justify-between h-16 px-4 md:px-12">
-          {/* Logo Text (ArteCucire) on the left */}
+      {/* First Line: Logo, Search Bar, and Icons */}
+      <header className={`${navClass} w-full`}>
+        <div className="content-container flex items-center justify-between h-16 px-4 md:px-12">
+          {/* Logo on the left */}
           <div className="flex items-center">
             <LocalizedClientLink
               href="/"
-              className="text-2xl font-semibold hover:text-violet-800 tracking-tight uppercase"
+              className="text-2xl font-semibold tracking-tight"
               data-testid="nav-store-link"
             >
-              ArteCucire
+              {/* Replace this image source with your logo */}
+              <img src="/path-to-logo.png" alt="ArteCucire" className="w-16 h-8 object-contain" />
             </LocalizedClientLink>
           </div>
 
           {/* Search Bar in the center */}
-          <div className="hidden md:flex flex-1 justify-center">
-            <div className="w-full max-w-2xl flex items-center">
-              <button
-                onClick={() => setShowSearchModal(true)}
-                className="w-full border rounded-full py-2 px-4 bg-gray-100 text-gray-600 text-left shadow-sm hover:bg-gray-200 transition"
-              >
-                <FiSearch className="inline-block mr-2" />
-                <span>Cosa stai cercando?</span>
-              </button>
-
-              {/* Shorter WhatsApp Assistance Button */}
-              <button
-                onClick={() => window.open("https://wa.me/39123456789", "_blank")}
-                className="ml-4 py-2 px-3 bg-green-600 text-white rounded-full flex items-center text-sm hover:bg-green-700 transition whitespace-nowrap"
-              >
-                <FaWhatsapp className="mr-2" />
-                <span>Assistenza: +39 123456789</span>
-              </button>
-            </div>
+          <div className="flex-1 flex justify-center">
+            <button
+              onClick={() => setShowSearchModal(true)}
+              className="w-full max-w-lg border rounded-full py-2 px-4 bg-gray-100 text-gray-600 text-left shadow-sm hover:bg-gray-200 transition"
+            >
+              <FiSearch className="inline-block mr-2" />
+              <span>Cosa stai cercando?</span>
+            </button>
           </div>
 
           {/* Icons on the right */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
             <button className="hover:text-gray-700">
               <FiHeart size={24} />
             </button>
@@ -164,65 +108,52 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         {/* Second Line: Links Below Search Bar */}
         <div className="hidden md:flex justify-center bg-transparent py-2 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10">
           {collectionLinks.map((link) => (
-            <div
+            <LocalizedClientLink
               key={link.href}
-              className="relative group"
-              onMouseEnter={() => setHoveredCategory(link.label)}
-              onMouseLeave={() => setHoveredCategory(null)}
+              href={link.href}
+              className="hover:text-violet-900"
             >
+              {link.label}
+            </LocalizedClientLink>
+          ))}
+        </div>
+      </header>
+
+      {/* Search Modal */}
+      {showSearchModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+          <div className="bg-white p-4 w-full max-w-3xl mx-4 md:mx-auto rounded-lg shadow-xl">
+            <input
+              type="text"
+              placeholder="Cosa stai cercando?"
+              className="border border-gray-300 p-3 rounded-lg w-full"
+            />
+            <button
+              className="mt-2 px-4 py-2 bg-violet-600 text-white rounded-lg"
+              onClick={() => setShowSearchModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-30 flex flex-col items-center justify-start pt-16">
+          <div className="w-full bg-white shadow-lg">
+            {collectionLinks.map((link) => (
               <LocalizedClientLink
+                key={link.href}
                 href={link.href}
-                className="hover:text-violet-900"
+                className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
               >
                 {link.label}
               </LocalizedClientLink>
-
-              {/* Hover effect with product preview */}
-              {hoveredCategory === link.label && (
-                <div className="absolute left-0 top-full w-64 p-4 bg-white shadow-lg border border-gray-200 z-50">
-                  <p>Preview for {link.label}</p>
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-
-        {/* Search Modal */}
-        {showSearchModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
-            <div className="bg-white p-4 w-full max-w-3xl mx-4 md:mx-auto rounded-lg shadow-xl">
-              <input
-                type="text"
-                placeholder="Cosa stai cercando?"
-                className="border border-gray-300 p-3 rounded-lg w-full"
-              />
-              <button
-                className="mt-2 px-4 py-2 bg-violet-600 text-white rounded-lg"
-                onClick={() => setShowSearchModal(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Mobile menu items */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-30 flex flex-col items-center justify-start pt-16">
-            <div className="w-full bg-white shadow-lg">
-              {collectionLinks.map((link) => (
-                <LocalizedClientLink
-                  key={link.href}
-                  href={link.href}
-                  className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
-                >
-                  {link.label}
-                </LocalizedClientLink>
-              ))}
-            </div>
-          </div>
-        )}
-      </header>
+      )}
     </>
   );
 };
