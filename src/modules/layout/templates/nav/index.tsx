@@ -10,8 +10,14 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import SideMenu from "@modules/layout/components/side-menu";
 import { Region as MedusaRegion } from "@medusajs/medusa";
 
-// Italian flag icon
-import { FaFlag } from "react-icons/fa";
+// Italian flag square SVG without className prop
+const ItalianFlagIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 3 2">
+    <rect width="1" height="2" fill="#009246" />
+    <rect x="1" width="1" height="2" fill="#fff" />
+    <rect x="2" width="1" height="2" fill="#ce2b37" />
+  </svg>
+);
 
 interface Region extends MedusaRegion {}
 
@@ -20,18 +26,20 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-20"); // Added pt-20 for initial top padding
+  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-10"); // Reduced padding
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Handle scroll to change nav style
+  // Handle scroll to change nav style with animation for both up and down
   useEffect(() => {
+    let lastScroll = window.scrollY;
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setNavClass("fixed top-0 bg-white z-50 shadow-sm pt-6 transition-all duration-300 ease-in-out"); // Reduced top padding on scroll
+      if (window.scrollY > lastScroll && window.scrollY > 10) {
+        setNavClass("fixed top-0 bg-white z-50 shadow-sm pt-4 transition-all duration-300 ease-in-out");
       } else {
-        setNavClass("fixed top-0 bg-white z-50 pt-20"); // Increased top padding
+        setNavClass("fixed top-0 bg-white z-50 pt-10 transition-all duration-300 ease-in-out");
       }
+      lastScroll = window.scrollY;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -86,28 +94,38 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               className="hidden md:flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg rounded-lg" // Added rounded-lg
             >
               <FiSearch className="inline-block mr-2" />
-              <span>Cerca</span>
+              <span>Cosa stai cercando?</span> {/* Updated placeholder */}
             </button>
           </div>
 
           {/* Icons on the right */}
           <div className="hidden md:flex items-center space-x-8">
             <LocalizedClientLink
-              className="hover:text-gray-700 flex items-center"
+              className="hover:text-gray-700 flex items-center relative group"
               href="/account"
               data-testid="nav-account-link"
             >
-              <span className="mr-1">Accedi</span>
-              <FiUser size={20} /> {/* Reduced size */}
-              <FaFlag size={20} className="ml-1 text-green-600" /> {/* Added Italian flag */}
+              <span className="mr-1 font-semibold">Accedi</span> {/* Bolder text */}
+              <div className="relative flex items-center">
+                <FiUser size={20} />
+                <div className="ml-1">
+                  <ItalianFlagIcon /> {/* Flag next to icon */}
+                </div>
+                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:opacity-100 transition duration-300"></div> {/* Hover effect */}
+              </div>
             </LocalizedClientLink>
             <LocalizedClientLink
-              className="hover:text-gray-700 flex items-center"
+              className="hover:text-gray-700 flex items-center relative group"
               href="/cart"
               data-testid="nav-cart-link"
             >
-              <FiShoppingCart size={20} /> {/* Reduced size */}
-              <FaFlag size={20} className="ml-1 text-green-600" /> {/* Added Italian flag */}
+              <div className="relative flex items-center">
+                <FiShoppingCart size={20} />
+                <div className="ml-1">
+                  <ItalianFlagIcon /> {/* Flag next to icon */}
+                </div>
+                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:opacity-100 transition duration-300"></div> {/* Hover effect */}
+              </div>
             </LocalizedClientLink>
           </div>
 
@@ -129,12 +147,12 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         </div>
 
         {/* Second Line: Links Below Search Bar */}
-        <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto">
+        <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto text-gray-600">
           {collectionLinks.map((link) => (
             <LocalizedClientLink
               key={link.href}
               href={link.href}
-              className="hover:text-violet-900"
+              className="hover:text-gray-800 transition-colors duration-300" // Grey hover effect
             >
               {link.label}
             </LocalizedClientLink>
