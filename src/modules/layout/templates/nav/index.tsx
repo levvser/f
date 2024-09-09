@@ -116,7 +116,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               <span className="mr-1 font-semibold">Accedi</span> {/* Bolder text */}
               <div className="relative flex items-center">
                 <FiUser size={20} />
-                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:bg-gray-300 transition duration-300 group-hover:opacity-100"></div> {/* Hover effect */}
+                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-300 rounded-full transition duration-300"></div> {/* Hover effect under text */}
               </div>
             </LocalizedClientLink>
             <LocalizedClientLink
@@ -126,7 +126,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             >
               <div className="relative flex items-center">
                 <FiShoppingCart size={20} />
-                <div className="absolute inset-0 rounded-full bg-gray-200 opacity-0 group-hover:bg-gray-300 transition duration-300 group-hover:opacity-100"></div> {/* Hover effect */}
+                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-300 rounded-full transition duration-300"></div> {/* Hover effect under text */}
               </div>
             </LocalizedClientLink>
             <div className="hover:text-gray-700 flex items-center relative group">
@@ -154,14 +154,15 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         </div>
 
         {/* Second Line: Links Below Search Bar */}
-        <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto text-gray-500">
+        <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto text-gray-400">
           {collectionLinks.map((link) => (
             <LocalizedClientLink
               key={link.href}
               href={link.href}
-              className="hover:text-gray-700 transition-colors duration-300" // More evident hover effect
+              className="relative hover:text-gray-900 transition-colors duration-300"
             >
-              {link.label}
+              <span>{link.label}</span>
+              <span className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-200 rounded-full transition duration-300"></span> {/* Hover effect bigger and under text */}
             </LocalizedClientLink>
           ))}
         </div>
