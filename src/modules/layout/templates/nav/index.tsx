@@ -105,16 +105,20 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
 
           {/* Search Icon on Mobile */}
-          <div className={`flex items-center ${showMobileSearchBar ? 'hidden' : 'block'} md:block`}>
+          <div className={`flex items-center ${showMobileSearchBar ? 'hidden' : 'block'} md:hidden`}>
             <button
               onClick={() => setShowSearchModal(true)}
-              className="flex items-center md:hidden"
+              className="flex items-center"
             >
               <FiSearch size={24} className="text-gray-700" />
             </button>
+          </div>
+
+          {/* Search Bar on Desktop */}
+          <div className="hidden md:flex flex-1 justify-start ml-12">
             <button
               onClick={() => setShowSearchModal(true)}
-              className="hidden md:flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg rounded-lg"
+              className="flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg rounded-lg" // Restored size for desktop
             >
               <FiSearch className="inline-block mr-2" />
               <span>Cosa stai cercando?</span> {/* Search bar text on desktop */}
