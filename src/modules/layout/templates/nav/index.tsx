@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import {
   FiSearch, FiUser, FiHeart, FiShoppingCart, FiMenu
 } from "react-icons/fi";
+import { medusaClient } from "@lib/config"; // Importing medusaClient
+import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import SideMenu from "@modules/layout/components/side-menu";
 import { Region as MedusaRegion } from "@medusajs/medusa";
@@ -20,6 +22,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Handle scroll to change nav style
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -33,6 +36,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Navigation links
   const collectionLinks = [
     { href: "/collections/macchine-per-cucire", label: "Acquista i prodotti" },
     { href: "/collections/macchine-per-ricamare", label: "Esplora gli ambienti" },
@@ -58,7 +62,6 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               className="text-2xl font-semibold tracking-tight"
               data-testid="nav-store-link"
             >
-              {/* Replace this image source with your logo */}
               <img src="/path-to-logo.png" alt="ArteCucire" className="w-16 h-8 object-contain" />
             </LocalizedClientLink>
           </div>
@@ -75,7 +78,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
 
           {/* Icons on the right */}
-          <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
             <button className="hover:text-gray-700">
               <FiHeart size={24} />
             </button>
@@ -164,10 +167,10 @@ const SomePage: React.FC = () => {
   useEffect(() => {
     const fetchRegions = async () => {
       try {
-        const response = await medusaClient.regions.list();
+        const response = await medusaClient.regions.list();  // Fetch regions from Medusa
         setRegions(response.regions);
       } catch (error) {
-        medusaError(error);
+        medusaError(error);  // Handle any errors
       }
     };
 
