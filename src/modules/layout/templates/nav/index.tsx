@@ -30,6 +30,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showMobileSearchBar, setShowMobileSearchBar] = useState(true);
 
   // Handle screen size to check if it's mobile
   useEffect(() => {
@@ -44,9 +45,17 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     let lastScroll = window.scrollY;
     const handleScroll = () => {
       if (window.scrollY > 10 && !isMobile) {
-        setNavClass("fixed top-0 bg-white z-50 shadow-sm pt-4 transition-all duration-300 ease-in-out");
+        setNavClass("fixed top-0 bg-white z-50 pt-4 transition-all duration-300 ease-in-out");
       } else if (window.scrollY <= 10 && !isMobile) {
         setNavClass("fixed top-0 bg-white z-50 pt-10 transition-all duration-300 ease-in-out");
+      }
+
+      if (isMobile) {
+        if (window.scrollY > 10) {
+          setShowMobileSearchBar(false); // Hide mobile search bar
+        } else {
+          setShowMobileSearchBar(true); // Show mobile search bar
+        }
       }
     };
 
@@ -95,14 +104,20 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             </LocalizedClientLink>
           </div>
 
-          {/* Search Bar */}
-          <div className="flex-1 flex justify-start ml-12">
+          {/* Search Icon on Desktop and Mobile */}
+          <div className={`flex items-center ${showMobileSearchBar ? 'hidden' : 'block'} md:block`}>
             <button
               onClick={() => setShowSearchModal(true)}
-              className="hidden md:flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg rounded-lg" // Added rounded-lg
+              className="flex items-center md:hidden"
+            >
+              <FiSearch size={24} className="text-gray-700" />
+            </button>
+            <button
+              onClick={() => setShowSearchModal(true)}
+              className="hidden md:flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg rounded-lg"
             >
               <FiSearch className="inline-block mr-2" />
-              <span>Cosa stai cercando?</span> {/* Updated placeholder */}
+              <span>Cosa stai cercando?</span> {/* Search bar text on desktop */}
             </button>
           </div>
 
@@ -113,10 +128,10 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               href="/account"
               data-testid="nav-account-link"
             >
-              <span className="mr-1 font-semibold">Accedi</span> {/* Bolder text */}
+              <span className="mr-1 font-medium">Accedi</span> {/* Less bold text */}
               <div className="relative flex items-center">
                 <FiUser size={20} />
-                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Lighter grey background, stays behind the text */}
+                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Hover effect */}
               </div>
             </LocalizedClientLink>
             <LocalizedClientLink
@@ -126,7 +141,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             >
               <div className="relative flex items-center">
                 <FiShoppingCart size={20} />
-                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Lighter grey background, stays behind the text */}
+                <div className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Hover effect */}
               </div>
             </LocalizedClientLink>
             <div className="hover:text-gray-700 flex items-center relative group">
@@ -139,12 +154,6 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           {/* Mobile Menu and Search Icon */}
           <div className="md:hidden flex items-center space-x-4">
             <button
-              onClick={() => setShowSearchModal(true)}
-              className="flex items-center"
-            >
-              <FiSearch size={24} className="text-gray-700" />
-            </button>
-            <button
               className="flex items-center"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
@@ -152,6 +161,18 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             </button>
           </div>
         </div>
+
+        {/* Mobile Search Bar */}
+        {isMobile && showMobileSearchBar && (
+          <div className="md:hidden bg-white w-full px-4 py-2 border-t border-gray-200 text-gray-600">
+            <button
+              onClick={() => setShowSearchModal(true)}
+              className="flex items-center justify-center w-full bg-gray-100 py-2 rounded-lg"
+            >
+              <span>Cosa stai cercando?</span>
+            </button>
+          </div>
+        )}
 
         {/* Second Line: Links Below Search Bar */}
         <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto text-gray-400">
@@ -175,7 +196,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             <input
               type="text"
               placeholder="Cosa stai cercando?"
-              className="border border-gray-300 p-3 rounded-lg w-full" // Added rounded-lg
+              className="border border-gray-300 p-3 rounded-lg w-full"
             />
             <button
               className="mt-2 px-4 py-2 bg-violet-600 text-white rounded-lg"
