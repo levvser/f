@@ -22,18 +22,26 @@ interface NavProps {
 
 const AlertBar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
-  // Automatically hide the alert bar after 5 seconds
+  // Show/hide the alert bar based on scrolling direction
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsVisible(false);
-    }, 5000);
-    return () => clearTimeout(timeout);
-  }, []);
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      // Hide when scrolling down, show when scrolling up
+      if (currentScrollPos > prevScrollPos) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setPrevScrollPos(currentScrollPos);
+    };
 
-  if (!isVisible) return null;
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos]);
 
-  return (
+  return isVisible ? (
     <div className="bg-gradient-to-r from-purple-100 via-white to-pink-100 border-b border-violet-300 py-2 px-4 text-violet-900 flex justify-center items-center text-xs sm:text-sm z-50 fixed top-0 w-full">
       <div className="flex items-center mx-2">
         <FaInfoCircle size={14} className="mr-2 text-violet-700" />
@@ -48,7 +56,7 @@ const AlertBar: React.FC = () => {
         <span>Servizio Assistenza</span>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
@@ -84,17 +92,16 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
       <AlertBar />
 
       <header className={`${navClass} w-full bg-white`}>
-        {/* First Line: Logo, Search Bar, and Icons */}
+        {/* First Line: Logo (Brand Name), Search Bar, and Icons */}
         <div className="content-container relative text-gray-900 flex items-center justify-between h-16 px-4 md:px-12">
-          {/* Logo on the left */}
+          {/* Logo Text (ArteCucire) on the left */}
           <div className="flex items-center">
             <LocalizedClientLink
               href="/"
               className="text-2xl font-semibold hover:text-violet-800 tracking-tight uppercase"
               data-testid="nav-store-link"
             >
-              {/* Replace with your logo */}
-              <img src="/logo.svg" alt="Brand Logo" className="w-12 h-12" />
+              ArteCucire
             </LocalizedClientLink>
           </div>
 
