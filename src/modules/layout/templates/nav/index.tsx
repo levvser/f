@@ -26,7 +26,7 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-10");
+  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-8"); // Reduced top padding for mobile
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -45,9 +45,9 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     let lastScroll = window.scrollY;
     const handleScroll = () => {
       if (window.scrollY > 10 && !isMobile) {
-        setNavClass("fixed top-0 bg-white z-50 pt-4 transition-all duration-300 ease-in-out");
+        setNavClass("fixed top-0 bg-white z-50 pt-4 transition-all duration-500 ease-in-out");
       } else if (window.scrollY <= 10 && !isMobile) {
-        setNavClass("fixed top-0 bg-white z-50 pt-10 transition-all duration-300 ease-in-out");
+        setNavClass("fixed top-0 bg-white z-50 pt-10 transition-all duration-500 ease-in-out");
       }
 
       if (isMobile) {
@@ -92,7 +92,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     <>
       {/* First Line: Logo (Text), Search Bar, and Icons */}
       <header className={`${navClass} w-full`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-10 lg:px-16">
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-10 lg:px-16"> {/* Reduced height for mobile */}
           {/* Text Logo: Artecucire on the left */}
           <div className="flex items-center">
             <LocalizedClientLink
@@ -104,7 +104,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             </LocalizedClientLink>
           </div>
 
-          {/* Search Icon on Desktop and Mobile */}
+          {/* Search Icon on Mobile */}
           <div className={`flex items-center ${showMobileSearchBar ? 'hidden' : 'block'} md:block`}>
             <button
               onClick={() => setShowSearchModal(true)}
@@ -162,14 +162,15 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
         </div>
 
-        {/* Mobile Search Bar */}
+        {/* Mobile Search Bar with Icon */}
         {isMobile && showMobileSearchBar && (
-          <div className="md:hidden bg-white w-full px-4 py-2 border-t border-gray-200 text-gray-600">
+          <div className="md:hidden bg-white w-full px-4 py-2 border-t border-gray-200 text-gray-600 transition-opacity duration-500 ease-in-out opacity-100"> {/* Smooth fade in */}
             <button
               onClick={() => setShowSearchModal(true)}
               className="flex items-center justify-center w-full bg-gray-100 py-2 rounded-lg"
             >
-              <span>Cosa stai cercando?</span>
+              <FiSearch className="mr-2" />
+              <span>Cosa stai cercando?</span> {/* Search text with icon */}
             </button>
           </div>
         )}
