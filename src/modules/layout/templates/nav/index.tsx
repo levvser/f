@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  FiSearch, FiUser, FiShoppingCart, FiMenu
-} from "react-icons/fi";
-import { medusaClient } from "@lib/config";  // Importing medusaClient
+  FiSearch, FiUser, FiShoppingCart, FiMenu, FiX
+} from "react-icons/fi"; // Add FiX for "X" icon
+import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import SideMenu from "@modules/layout/components/side-menu";
@@ -18,7 +18,6 @@ interface NavProps {
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
   const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50");
-  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -64,12 +63,11 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   return (
     <>
       {/* Blank White Space Above Navigation */}
-      <div className="w-full h-16 bg-white"></div> {/* Increased space above the nav */}
+      <div className="w-full h-20 bg-white"></div> {/* Increased space above the nav */}
 
       {/* First Line: Logo (Text), Search Bar, and Icons */}
       <header className={`${navClass} w-full`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-10 lg:px-16"> 
-          {/* Added more padding for spacing */}
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-10 lg:px-16">
           {/* Text Logo: Artecucire on the left */}
           <div className="flex items-center">
             <LocalizedClientLink
@@ -82,10 +80,10 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           </div>
 
           {/* Search Bar */}
-          <div className="flex-1 flex justify-start ml-12"> {/* Increased margin between logo and search */}
+          <div className="flex-1 flex justify-start ml-12">
             <button
               onClick={() => setShowSearchModal(true)}
-              className="hidden md:flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg" 
+              className="hidden md:flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg rounded-lg" // Added rounded-lg
             >
               <FiSearch className="inline-block mr-2" />
               <span>Cerca</span>
@@ -99,7 +97,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               href="/account"
               data-testid="nav-account-link"
             >
-              <span className="mr-1">Accedi</span>  {/* Text on the left of the icon */}
+              <span className="mr-1">Accedi</span>
               <FiUser size={24} />
             </LocalizedClientLink>
             <LocalizedClientLink
@@ -117,7 +115,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
               className="flex items-center"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              <FiMenu size={24} className="text-gray-700" />
+              {isMobileMenuOpen ? <FiX size={24} className="text-gray-700" /> : <FiMenu size={24} className="text-gray-700" />} {/* "X" icon when menu is open */}
             </button>
             <button
               onClick={() => setShowSearchModal(true)}
@@ -149,7 +147,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
             <input
               type="text"
               placeholder="Cosa stai cercando?"
-              className="border border-gray-300 p-3 rounded-lg w-full"
+              className="border border-gray-300 p-3 rounded-lg w-full" // Added rounded-lg
             />
             <button
               className="mt-2 px-4 py-2 bg-violet-600 text-white rounded-lg"
@@ -206,7 +204,7 @@ const SomePage: React.FC = () => {
   return (
     <div className="relative">
       <Nav regions={regions} />
-      <div className="pt-16"></div> {/* Adjusted spacer to ensure content is visible */}
+      <div className="pt-24"></div> {/* Adjusted spacer to ensure more blank space above the hero section */}
       {/* Hero section */}
       <div className="hero-bg">
         {/* Your hero background content */}
