@@ -10,6 +10,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiHome,  // Import icons from react-icons/fi
+
 } from "react-icons/fi"; // Use Feather icons from react-icons library
 import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
@@ -31,7 +32,6 @@ const ItalianFlagIcon = () => (
 interface Region extends MedusaRegion {}
 
 const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-6");
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -95,7 +95,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
 
   return (
     <>
-      <header className={`${navClass} w-full`}>
+      <header className="w-full bg-white">
         {/* First Row: Logo, Search, Icons */}
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-10 lg:px-16">
           {/* Text Logo */}
@@ -216,6 +216,9 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
         )}
       </header>
 
+      {/* Space below the navbar to ensure it doesn't overlap with the content */}
+      <div className="pt-24"></div>
+
       {/* Search Modal */}
       {showSearchModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
@@ -280,8 +283,8 @@ const IndexPage: React.FC = () => {
   return (
     <div className="relative">
       <Nav regions={regions} />
-      <div className="pt-24"></div> {/* Adjusted spacer to ensure more blank space above the hero section */}
-      {/* Hero section */}
+      {/* The rest of your page content */}
+      <div className="pt-24"></div> {/* Space below navbar */}
       <div className="hero-bg">
         {/* Your hero background content */}
       </div>
