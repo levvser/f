@@ -9,7 +9,7 @@ import {
   FiX,
   FiChevronLeft,
   FiChevronRight,
-  FiHome,  // Import icons from react-icons/fi
+  FiHome,
 } from "react-icons/fi"; // Use Feather icons from react-icons library
 import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
@@ -96,7 +96,14 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
     <>
       <header className="w-full bg-white">
         {/* First Row: Logo, Search, Icons */}
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-24 lg:px-32"> {/* Increased padding on left and right */}
+        <div
+          className="max-w-7xl mx-auto flex items-center justify-between h-16"
+          style={{
+            paddingTop: '20px',    // Custom top padding
+            paddingRight: '50px',  // Custom right padding for more white space
+            paddingLeft: '50px',   // Custom left padding for more white space
+          }}
+        >
           {/* Text Logo */}
           <div className="flex items-center">
             <LocalizedClientLink
@@ -145,7 +152,17 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
         </div>
 
         {/* Second Row: Links */}
-        <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6">
+        <div
+          className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6"
+          style={{
+            paddingLeft: '50px',   // Custom left padding for more white space
+            paddingRight: '50px',  // Custom right padding for more white space
+            borderColor: 'gray',
+            borderWidth: '1px',
+            maxWidth: '1200px',    // Contain width to control divider end
+            margin: '0 auto',      // Center it horizontally
+          }}
+        >
           {secondRowData.secondRow.map((link, index) => (
             <button
               key={index}
@@ -160,7 +177,15 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
 
         {/* Third Row: Scrollable Subsections */}
         <div
-          className="hidden md:flex items-center justify-between px-24 lg:px-32 py-4 border-t border-gray-200 relative"
+          className="hidden md:flex items-center justify-between py-4 border-t border-gray-200 relative"
+          style={{
+            paddingRight: '50px',
+            paddingLeft: '50px',
+            maxWidth: '1200px',
+            margin: '0 auto', // Center the third row
+            borderColor: 'gray',
+            borderWidth: '1px',
+          }}
           onMouseEnter={() => setShowArrows(true)}
           onMouseLeave={() => setShowArrows(false)}
         >
@@ -216,7 +241,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
       </header>
 
       {/* Adjusted padding for spacing */}
-      <div className="pt-32 pb-4 px-24 lg:px-32"></div>  {/* Significantly increased top, left, and right padding */}
+      <div className="pt-4 pb-2" style={{ paddingLeft: '50px', paddingRight: '50px' }}></div>
 
       {/* Search Modal */}
       {showSearchModal && (
