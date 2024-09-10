@@ -37,6 +37,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(true);
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
   const [activeContent, setActiveContent] = useState(secondRowData.secondRow[0].items); // Default state for the third row (first section)
+  const [activeIndex, setActiveIndex] = useState(0); // Track active element in second row
   const [showArrows, setShowArrows] = useState(false); // State to show/hide scroll arrows on hover
 
   const thirdRowRef = useRef<HTMLDivElement>(null); // Reference to third row for scrolling
@@ -77,8 +78,9 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   }, [isMobile, scrollTimeout]);
 
   // Handle click on second-row items to update the third row
-  const handleSecondRowClick = (items: any) => {
+  const handleSecondRowClick = (items: any, index: number) => {
     setActiveContent(items); // Trigger content update for the third row based on the clicked link
+    setActiveIndex(index); // Set the active element index
   };
 
   // Scroll the third row horizontally
@@ -145,12 +147,15 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
         </div>
 
         {/* Second Row: Links */}
-        <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6">
+        <div className="hidden md:flex justify-start py-3 border-t border-gray-200 text-sm font-medium space-x-6 px-10 lg:px-16">
+          {/* Align with the same x position of the "Artecucire" text */}
           {secondRowData.secondRow.map((link, index) => (
             <button
               key={index}
-              onClick={() => handleSecondRowClick(link.items)} // Change content in the third row on click
-              className="relative hover:text-gray-900 transition-colors duration-300 flex items-center space-x-2"
+              onClick={() => handleSecondRowClick(link.items, index)} // Change content in the third row on click
+              className={`relative transition-colors duration-300 flex items-center space-x-2 ${
+                activeIndex === index ? 'text-gray-900' : 'text-gray-500'
+              }`}
             >
               {React.createElement(require("react-icons/fi")[link.icon], { size: 20 })}
               <span>{link.label}</span>
