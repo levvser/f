@@ -96,7 +96,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
     <>
       <header className="w-full bg-white">
         {/* First Row: Logo, Search, Icons */}
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-20 lg:px-28 pt-16 pb-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-12 lg:px-16 py-4">
           {/* Text Logo */}
           <div className="flex items-center">
             <LocalizedClientLink
@@ -145,7 +145,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
         </div>
 
         {/* Second Row: Links */}
-        <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6">
+        <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6" style={{ paddingRight: '3rem', paddingLeft: '3rem' }}>
           {secondRowData.secondRow.map((link, index) => (
             <button
               key={index}
@@ -160,9 +160,10 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
 
         {/* Third Row: Scrollable Subsections */}
         <div
-          className="hidden md:flex items-center justify-between px-20 lg:px-28 py-4 border-t border-gray-200 relative"
+          className="hidden md:flex items-center justify-between px-12 lg:px-16 py-4 border-t border-gray-200 relative"
           onMouseEnter={() => setShowArrows(true)}
           onMouseLeave={() => setShowArrows(false)}
+          style={{ paddingRight: '3rem', paddingLeft: '3rem' }}  // Grey lines ending earlier
         >
           {/* Left Scroll Arrow */}
           {showArrows && (
@@ -216,7 +217,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
       </header>
 
       {/* Adjusted padding for spacing */}
-      <div className="pt-12 pb-2 px-20 lg:px-28"></div>
+      <div className="pt-8 pb-2 px-12 lg:px-16"></div>
 
       {/* Search Modal */}
       {showSearchModal && (
