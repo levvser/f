@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" data-mode="light">
-      <body>
+      <body className="px-12 lg:px-24 py-4"> {/* Add global padding */}
         <main className="relative">{props.children}</main>
       </body>
     </html>
