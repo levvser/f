@@ -1,13 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
-  FiSearch, FiUser, FiShoppingCart, FiMenu, FiX
-} from "react-icons/fi"; // Add FiX for "X" icon
+  FiSearch,
+  FiUser,
+  FiShoppingCart,
+  FiMenu,
+  FiX,
+  FiChevronLeft,
+  FiChevronRight,
+} from "react-icons/fi"; // Add FiX for "X" icon and Chevron icons for scroll
 import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
-import SideMenu from "@modules/layout/components/side-menu";
 import { Region as MedusaRegion } from "@medusajs/medusa";
 
 // Italian flag square SVG
@@ -26,12 +31,33 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ regions }) => {
-  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-6"); // Reduced top padding for mobile
+  const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-6");
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(true);
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  const thirdRowRef = useRef<HTMLDivElement>(null); // Reference to third row for scrolling
+
+  // Sample images and sublinks data
+  const sublinks = [
+    { href: "/collections/sublink1", label: "Sublink 1", img: "/images/img1.jpg" },
+    { href: "/collections/sublink2", label: "Sublink 2", img: "/images/img2.jpg" },
+    { href: "/collections/sublink3", label: "Sublink 3", img: "/images/img3.jpg" },
+    { href: "/collections/sublink4", label: "Sublink 4", img: "/images/img4.jpg" },
+  ];
+
+  // Navigation links (second row)
+  const collectionLinks = [
+    { href: "/collections/macchine-per-cucire", label: "Acquista i prodotti" },
+    { href: "/collections/macchine-per-ricamare", label: "Esplora gli ambienti" },
+    { href: "/collections/macchine-per-cucire-e-ricamare", label: "Offerte" },
+    { href: "/collections/scannerizza-taglia", label: "Ispirazione" },
+    { href: "/collections/termopresse", label: "IKEA for Business" },
+    { href: "/collections/stiro", label: "Servizi e progettazione" },
+    { href: "#", label: "Altro" },
+  ];
 
   // Handle screen size to check if it's mobile
   useEffect(() => {
@@ -45,7 +71,6 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (isMobile && window.scrollY > 10) {
-        // Delay the appearance/disappearance with a timeout for a smoother effect
         if (!scrollTimeout) {
           const timeout = setTimeout(() => {
             setShowMobileSearchBar(false);
@@ -58,7 +83,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           clearTimeout(scrollTimeout);
           setScrollTimeout(null);
         }
-        setShowMobileSearchBar(true); // Show mobile search bar with smooth animation
+        setShowMobileSearchBar(true);
       }
     };
 
@@ -83,28 +108,27 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
     };
   }, [isMobileMenuOpen]);
 
-  // Navigation links
-  const collectionLinks = [
-    { href: "/collections/macchine-per-cucire", label: "Acquista i prodotti" },
-    { href: "/collections/macchine-per-ricamare", label: "Esplora gli ambienti" },
-    { href: "/collections/macchine-per-cucire-e-ricamare", label: "Offerte" },
-    { href: "/collections/scannerizza-taglia", label: "Ispirazione" },
-    { href: "/collections/termopresse", label: "IKEA for Business" },
-    { href: "/collections/stiro", label: "Servizi e progettazione" },
-    { href: "#", label: "Altro" },
-  ];
+  // Scroll the third row horizontally
+  const scrollThirdRow = (direction: "left" | "right") => {
+    if (thirdRowRef.current) {
+      const scrollAmount = direction === "left" ? -300 : 300; // Adjust the scroll amount as needed
+      thirdRowRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <>
-      {/* First Line: Logo (Text), Search Bar, and Icons */}
       <header className={`${navClass} w-full`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-10 lg:px-16"> {/* Reduced height for mobile */}
-          {/* Text Logo: Artecucire on the left */}
+        {/* First Row: Logo, Search, Icons */}
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-10 lg:px-16">
+          {/* Text Logo */}
           <div className="flex items-center">
             <LocalizedClientLink
               href="/"
               className="text-2xl font-semibold tracking-tight text-gray-800"
-              data-testid="nav-store-link"
             >
               Artecucire
             </LocalizedClientLink>
@@ -112,18 +136,11 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
 
           {/* Mobile Icons (Search and Hamburger) */}
           <div className="flex items-center md:hidden space-x-4">
-            {/* Show search icon next to the hamburger */}
-            <button
-              className="flex items-center"
-              onClick={() => setShowSearchModal(true)}
-            >
+            <button onClick={() => setShowSearchModal(true)}>
               <FiSearch size={24} className="text-gray-700" />
             </button>
-            <button
-              className="flex items-center"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <FiX size={24} className="text-gray-700" /> : <FiMenu size={24} className="text-gray-700" />} {/* "X" icon when menu is open */}
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>
           </div>
 
@@ -131,70 +148,81 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
           <div className="hidden md:flex flex-1 justify-start ml-12">
             <button
               onClick={() => setShowSearchModal(true)}
-              className="flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg rounded-lg" // Restored size for desktop
+              className="flex items-center py-2 px-5 bg-gray-100 text-gray-600 shadow-none hover:bg-gray-200 transition w-full max-w-lg rounded-lg"
             >
               <FiSearch className="inline-block mr-2" />
-              <span>Cosa stai cercando?</span> {/* Search bar text on desktop */}
+              <span>Cosa stai cercando?</span>
             </button>
           </div>
 
-          {/* Icons on the right */}
+          {/* Desktop Icons */}
           <div className="hidden md:flex items-center space-x-8">
             <LocalizedClientLink
               className="hover:text-gray-700 flex items-center relative group"
               href="/account"
-              data-testid="nav-account-link"
             >
-              <span className="mr-1 font-medium">Accedi</span> {/* Less bold text */}
-              <div className="relative flex items-center">
-                <FiUser size={20} />
-                <div className="absolute inset-0 z-[-1] transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Hover effect placed behind text */}
-              </div>
+              <span className="mr-1 font-medium">Accedi</span>
+              <FiUser size={20} />
             </LocalizedClientLink>
-            <LocalizedClientLink
-              className="hover:text-gray-700 flex items-center relative group"
-              href="/cart"
-              data-testid="nav-cart-link"
-            >
-              <div className="relative flex items-center">
-                <FiShoppingCart size={20} />
-                <div className="absolute inset-0 z-[-1] transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></div> {/* Hover effect placed behind text */}
-              </div>
+            <LocalizedClientLink href="/cart">
+              <FiShoppingCart size={20} />
             </LocalizedClientLink>
-            <div className="hover:text-gray-700 flex items-center relative group">
-              <div className="relative flex items-center">
-                <ItalianFlagIcon /> {/* Flag icon */}
-              </div>
-            </div>
+            <ItalianFlagIcon />
           </div>
+        </div>
+
+        {/* Second Row: Links */}
+        <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6">
+          {collectionLinks.map((link) => (
+            <LocalizedClientLink key={link.href} href={link.href}>
+              {link.label}
+            </LocalizedClientLink>
+          ))}
+        </div>
+
+        {/* Third Row: Scrollable Subsections */}
+        <div className="hidden md:flex items-center justify-between px-10 lg:px-16 py-4 border-t border-gray-200">
+          {/* Left Scroll Arrow */}
+          <button onClick={() => scrollThirdRow("left")} className="p-2">
+            <FiChevronLeft size={24} />
+          </button>
+
+          {/* Scrollable Content */}
+          <div
+            className="flex space-x-4 overflow-x-auto no-scrollbar"
+            ref={thirdRowRef}
+            style={{ scrollBehavior: "smooth" }}
+          >
+            {sublinks.map((sublink) => (
+              <LocalizedClientLink
+                key={sublink.href}
+                href={sublink.href}
+                className="min-w-[200px] flex flex-col items-center"
+              >
+                <img src={sublink.img} alt={sublink.label} className="w-full h-auto" />
+                <span className="text-sm text-gray-600 mt-2">{sublink.label}</span>
+              </LocalizedClientLink>
+            ))}
+          </div>
+
+          {/* Right Scroll Arrow */}
+          <button onClick={() => scrollThirdRow("right")} className="p-2">
+            <FiChevronRight size={24} />
+          </button>
         </div>
 
         {/* Mobile Search Bar with Icon - Hide when hamburger is active */}
         {!isMobileMenuOpen && isMobile && showMobileSearchBar && (
-          <div className="md:hidden bg-white w-full px-4 py-2 border-t border-gray-200 text-gray-600 transition-opacity duration-500 ease-in-out opacity-100"> {/* Smooth fade in */}
+          <div className="md:hidden bg-white w-full px-4 py-2 border-t border-gray-200 text-gray-600 transition-opacity duration-500 ease-in-out opacity-100">
             <button
               onClick={() => setShowSearchModal(true)}
               className="flex items-center justify-center w-full bg-gray-100 py-2 rounded-lg"
             >
               <FiSearch className="mr-2" />
-              <span>Cosa stai cercando?</span> {/* Search text with icon */}
+              <span>Cosa stai cercando?</span>
             </button>
           </div>
         )}
-
-        {/* Second Line: Links Below Search Bar */}
-        <div className="hidden md:flex justify-center bg-transparent py-3 border-t border-gray-200 text-sm font-medium space-x-6 relative z-10 max-w-7xl mx-auto text-gray-400">
-          {collectionLinks.map((link) => (
-            <LocalizedClientLink
-              key={link.href}
-              href={link.href}
-              className="relative hover:text-gray-900 transition-colors duration-300"
-            >
-              <span>{link.label}</span>
-              <span className="absolute inset-0 transform translate-y-4 scale-0 group-hover:scale-150 group-hover:translate-y-0 bg-gray-100 rounded-full transition duration-300"></span> {/* Hover effect bigger and under text */}
-            </LocalizedClientLink>
-          ))}
-        </div>
       </header>
 
       {/* Search Modal */}
