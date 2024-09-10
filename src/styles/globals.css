@@ -47,34 +47,12 @@
   input[type="search"]::-webkit-search-results-decoration {
     -webkit-appearance: none;
   }
-
-  /* Adjust bottom padding */
-  .pb-smaller {
-    padding-bottom: 10px; /* Reduce bottom padding */
-  }
-
-  /* Adjust top padding */
-  .pt-larger {
-    padding-top: 50px; /* Increase top padding */
-  }
-
-  /* Increase left and right padding */
-  .px-wider {
-    padding-left: 60px; /* More padding on the left */
-    padding-right: 60px; /* More padding on the right */
-  }
-
-  /* Grey divider line like IKEA */
-  .divider-ikea {
-    border-bottom: 1px solid grey;
-    width: 80%; /* End way before the edges */
-    margin: 0 auto; /* Center the divider */
-  }
 }
 
 @layer components {
   .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-6 pt-larger pb-smaller px-wider;
+    @apply max-w-[1440px] w-full mx-auto px-10 lg:px-16;
+    /* Adjusting padding inside the content container for a more centered layout */
   }
 
   .contrast-btn {
