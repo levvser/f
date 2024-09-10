@@ -27,7 +27,7 @@ type CategoryKey =
   | "ikea-for-business"
   | "servizi-e-progettazione";
 
-// Define the product categories
+// Define the product categories (list of href links)
 const productCategories: Record<CategoryKey, { label: string; image: string; href: string }[] | string> = {
   "acquista-prodotti": [
     { label: "Per Cucire", image: "https://www.artecucire.com/image1.jpg", href: "/cucire" },
