@@ -28,11 +28,14 @@ type CategoryKey =
   | "servizi-e-progettazione";
 
 // Define the product categories
-const productCategories: Record<CategoryKey, { label: string; image: string }[] | string> = {
+const productCategories: Record<CategoryKey, { label: string; image: string; href: string }[] | string> = {
   "acquista-prodotti": [
-    { label: "Per Cucire", image: "https://www.artecucire.com/.../example1.jpg" },
-    { label: "Per Ricamare", image: "https://www.artecucire.com/.../example2.jpg" },
-    // Add other categories...
+    { label: "Per Cucire", image: "https://www.artecucire.com/image1.jpg", href: "/cucire" },
+    { label: "Per Ricamare", image: "https://www.artecucire.com/image2.jpg", href: "/ricamare" },
+    { label: "Per Cucire e Ricamare", image: "https://www.artecucire.com/image3.jpg", href: "/cucire-e-ricamare" },
+    { label: "Scan e Taglia", image: "https://www.artecucire.com/image4.jpg", href: "/scan-e-taglia" },
+    { label: "Termopresse", image: "https://www.artecucire.com/image5.jpg", href: "/termopresse" },
+    { label: "Stiro", image: "https://www.artecucire.com/image6.jpg", href: "/stiro" },
   ],
   "esplora-gli-ambienti": "Random content for 'Esplora gli ambienti'",
   "offerte": "Random content for 'Offerte'",
@@ -155,15 +158,17 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
       </header>
 
       <div className="bg-gray-100 p-4">
-        {/* Render product categories */}
+        {/* Render product categories as links */}
         {typeof productCategories[activeCategory] === "string" ? (
           <div>{productCategories[activeCategory]}</div>
         ) : (
           <div className="grid grid-cols-3 gap-4">
-            {(productCategories[activeCategory] as { label: string; image: string }[]).map((category, index) => (
+            {(productCategories[activeCategory] as { label: string; image: string; href: string }[]).map((category, index) => (
               <div key={index} className="flex flex-col items-center">
-                <img src={category.image} alt={category.label} className="w-20 h-20" />
-                <span>{category.label}</span>
+                <LocalizedClientLink href={category.href}>
+                  <img src={category.image} alt={category.label} className="w-20 h-20" />
+                  <span>{category.label}</span>
+                </LocalizedClientLink>
               </div>
             ))}
           </div>
