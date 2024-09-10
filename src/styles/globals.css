@@ -51,8 +51,8 @@
 
 @layer components {
   .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-10 lg:px-16;
-    /* Adjusting padding inside the content container for a more centered layout */
+    @apply max-w-[1440px] w-full mx-auto px-20 lg:px-40;
+    /* Increased padding for the content container */
   }
 
   .contrast-btn {

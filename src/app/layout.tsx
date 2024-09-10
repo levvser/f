@@ -11,8 +11,8 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" data-mode="light">
       <body>
-        {/* Adding global padding to the main layout */}
-        <main className="relative px-10 py-8 lg:px-16 lg:py-12">
+        {/* Further increasing the padding on the left and right */}
+        <main className="relative px-20 py-8 lg:px-40 lg:py-12">
           {props.children}
         </main>
       </body>
