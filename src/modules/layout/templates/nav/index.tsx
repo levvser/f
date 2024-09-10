@@ -26,6 +26,13 @@ const ItalianFlagIcon = () => (
 
 interface Region extends MedusaRegion {}
 
+// Random test links and image for the third row content
+const randomLinks = Array.from({ length: 10 }, (_, i) => ({
+  href: `https://artecucire.com/test${i + 1}`,
+  label: `Test Link ${i + 1}`,
+  img: "https://media.istockphoto.com/id/695750612/it/foto/sfondo-texture-metallica.jpg",
+}));
+
 const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-6");
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -33,26 +40,19 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(true);
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [activeContent, setActiveContent] = useState(randomLinks); // State for dynamic third row content
+  const [showArrows, setShowArrows] = useState(false); // State to show/hide scroll arrows on hover
 
   const thirdRowRef = useRef<HTMLDivElement>(null); // Reference to third row for scrolling
 
-  // Sample images and sublinks data
-  const sublinks = [
-    { href: "/collections/sublink1", label: "Sublink 1", img: "/images/img1.jpg" },
-    { href: "/collections/sublink2", label: "Sublink 2", img: "/images/img2.jpg" },
-    { href: "/collections/sublink3", label: "Sublink 3", img: "/images/img3.jpg" },
-    { href: "/collections/sublink4", label: "Sublink 4", img: "/images/img4.jpg" },
-  ];
-
   // Navigation links (second row)
   const collectionLinks = [
-    { href: "/collections/macchine-per-cucire", label: "Acquista i prodotti" },
-    { href: "/collections/macchine-per-ricamare", label: "Esplora gli ambienti" },
-    { href: "/collections/macchine-per-cucire-e-ricamare", label: "Offerte" },
-    { href: "/collections/scannerizza-taglia", label: "Ispirazione" },
-    { href: "/collections/termopresse", label: "IKEA for Business" },
-    { href: "/collections/stiro", label: "Servizi e progettazione" },
-    { href: "#", label: "Altro" },
+    { href: "#", label: "Acquista i prodotti" },
+    { href: "#", label: "Esplora gli ambienti" },
+    { href: "#", label: "Offerte" },
+    { href: "#", label: "Ispirazione" },
+    { href: "#", label: "IKEA for Business" },
+    { href: "#", label: "Servizi e progettazione" },
   ];
 
   // Handle screen size to check if it's mobile
@@ -103,6 +103,11 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMobileMenuOpen]);
+
+  // Handle click on second-row items to update the third row
+  const handleSecondRowClick = () => {
+    setActiveContent(randomLinks); // Trigger content update for the third row
+  };
 
   // Scroll the third row horizontally
   const scrollThirdRow = (direction: "left" | "right") => {
@@ -170,18 +175,24 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
         {/* Second Row: Links */}
         <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6">
           {collectionLinks.map((link) => (
-            <LocalizedClientLink key={link.href} href={link.href}>
+            <button key={link.label} onClick={handleSecondRowClick} className="relative hover:text-gray-900 transition-colors duration-300">
               {link.label}
-            </LocalizedClientLink>
+            </button>
           ))}
         </div>
 
         {/* Third Row: Scrollable Subsections */}
-        <div className="hidden md:flex items-center justify-between px-10 lg:px-16 py-4 border-t border-gray-200">
+        <div
+          className="hidden md:flex items-center justify-between px-10 lg:px-16 py-4 border-t border-gray-200 relative"
+          onMouseEnter={() => setShowArrows(true)}
+          onMouseLeave={() => setShowArrows(false)}
+        >
           {/* Left Scroll Arrow */}
-          <button onClick={() => scrollThirdRow("left")} className="p-2">
-            <FiChevronLeft size={24} />
-          </button>
+          {showArrows && (
+            <button onClick={() => scrollThirdRow("left")} className="absolute left-0 z-10 p-2">
+              <FiChevronLeft size={24} />
+            </button>
+          )}
 
           {/* Scrollable Content */}
           <div
@@ -189,22 +200,24 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
             ref={thirdRowRef}
             style={{ scrollBehavior: "smooth" }}
           >
-            {sublinks.map((sublink) => (
-              <LocalizedClientLink
-                key={sublink.href}
-                href={sublink.href}
+            {activeContent.map((item, index) => (
+              <a
+                key={index}
+                href={item.href}
                 className="min-w-[200px] flex flex-col items-center"
               >
-                <img src={sublink.img} alt={sublink.label} className="w-full h-auto" />
-                <span className="text-sm text-gray-600 mt-2">{sublink.label}</span>
-              </LocalizedClientLink>
+                <img src={item.img} alt={item.label} className="w-full h-auto" />
+                <span className="text-sm text-gray-600 mt-2">{item.label}</span>
+              </a>
             ))}
           </div>
 
           {/* Right Scroll Arrow */}
-          <button onClick={() => scrollThirdRow("right")} className="p-2">
-            <FiChevronRight size={24} />
-          </button>
+          {showArrows && (
+            <button onClick={() => scrollThirdRow("right")} className="absolute right-0 z-10 p-2">
+              <FiChevronRight size={24} />
+            </button>
+          )}
         </div>
 
         {/* Mobile Search Bar with Icon - Hide when hamburger is active */}
@@ -252,7 +265,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
             </LocalizedClientLink>
             {collectionLinks.map((link) => (
               <LocalizedClientLink
-                key={link.href}
+                key={link.label}
                 href={link.href}
                 className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
               >
