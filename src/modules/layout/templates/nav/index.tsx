@@ -158,33 +158,34 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
       </header>
 
       <div className="bg-gray-100 p-4">
-        {/* Render product categories as links */}
-        {typeof productCategories[activeCategory] === "string" ? (
-          <div>{productCategories[activeCategory]}</div>
-        ) : (
-          <div className="grid grid-cols-3 gap-4">
-            {(productCategories[activeCategory] as { label: string; image: string; href: string }[]).map((category, index) => (
-              <div key={index} className="flex flex-col items-center">
-                <LocalizedClientLink href={category.href}>
-                  <img src={category.image} alt={category.label} className="w-20 h-20" />
-                  <span>{category.label}</span>
-                </LocalizedClientLink>
-              </div>
-            ))}
+  {/* Render product categories as links */}
+  {typeof productCategories[activeCategory] === "string" ? (
+    <div>{productCategories[activeCategory]}</div>
+  ) : (
+    <div className="grid grid-cols-3 gap-4">
+      {(productCategories[activeCategory] as { label: string; image: string; href: string }[]).map((category, index) => (
+        <LocalizedClientLink key={index} href={category.href}>
+          <div className="flex flex-col items-center">
+            <img src={category.image} alt={category.label} className="w-20 h-20" />
+            <span>{category.label}</span>
           </div>
-        )}
-      </div>
+        </LocalizedClientLink>
+      ))}
+    </div>
+  )}
+</div>
 
-      {showSearchModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
-          <div className="bg-white p-4 w-full max-w-3xl mx-4 rounded-lg shadow-xl">
-            <input type="text" placeholder="Cosa stai cercando?" className="border border-gray-300 p-3 rounded-lg w-full" />
-            <button className="mt-2 px-4 py-2 bg-violet-600 text-white rounded-lg" onClick={() => setShowSearchModal(false)}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+{showSearchModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+    <div className="bg-white p-4 w-full max-w-3xl mx-4 rounded-lg shadow-xl">
+      <input type="text" placeholder="Cosa stai cercando?" className="border border-gray-300 p-3 rounded-lg w-full" />
+      <button className="mt-2 px-4 py-2 bg-violet-600 text-white rounded-lg" onClick={() => setShowSearchModal(false)}>
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
 
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-30 flex flex-col items-center justify-start pt-16">
