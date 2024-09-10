@@ -216,7 +216,7 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
       {/* Display the content based on the active category */}
       <div className="bg-gray-100 p-4">
         {/* Product Categories for 'Acquista i prodotti' */}
-        {activeCategory === "acquista-prodotti" && (
+        {activeCategory === "acquista-prodotti" && Array.isArray(productCategories[activeCategory]) && (
           <div className="grid grid-cols-3 gap-4">
             {(productCategories[activeCategory] as { label: string; image: string }[]).map((category, index) => (
               <div key={index} className="flex flex-col items-center">
@@ -228,8 +228,8 @@ const Nav: React.FC<NavProps> = ({ regions }) => {
         )}
 
         {/* Show random content for other categories */}
-        {activeCategory !== "acquista-prodotti" && (
-          <div>{typeof productCategories[activeCategory] === "string" && productCategories[activeCategory]}</div>
+        {typeof productCategories[activeCategory] === "string" && (
+          <div>{productCategories[activeCategory]}</div>
         )}
       </div>
 
