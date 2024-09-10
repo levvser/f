@@ -26,42 +26,6 @@ const ItalianFlagIcon = () => (
 
 interface Region extends MedusaRegion {}
 
-// Define the structure of a sublink
-interface Sublink {
-  href: string;
-  label: string;
-  img: string;
-}
-
-// Define the structure of the sublinkData object
-const sublinkData: { [key: string]: Sublink[] } = {
-  "Acquista i prodotti": [
-    { href: "/collections/product1", label: "Product 1", img: "/images/img1.jpg" },
-    { href: "/collections/product2", label: "Product 2", img: "/images/img2.jpg" },
-    { href: "/collections/product3", label: "Product 3", img: "/images/img3.jpg" },
-  ],
-  "Esplora gli ambienti": [
-    { href: "/collections/ambient1", label: "Ambient 1", img: "/images/img4.jpg" },
-    { href: "/collections/ambient2", label: "Ambient 2", img: "/images/img5.jpg" },
-  ],
-  Offerte: [
-    { href: "/collections/offer1", label: "Offer 1", img: "/images/img6.jpg" },
-    { href: "/collections/offer2", label: "Offer 2", img: "/images/img7.jpg" },
-  ],
-  Ispirazione: [
-    { href: "/collections/inspiration1", label: "Inspiration 1", img: "/images/img8.jpg" },
-    { href: "/collections/inspiration2", label: "Inspiration 2", img: "/images/img9.jpg" },
-  ],
-  "IKEA for Business": [
-    { href: "/collections/business1", label: "Business 1", img: "/images/img10.jpg" },
-    { href: "/collections/business2", label: "Business 2", img: "/images/img11.jpg" },
-  ],
-  "Servizi e progettazione": [
-    { href: "/collections/service1", label: "Service 1", img: "/images/img12.jpg" },
-    { href: "/collections/service2", label: "Service 2", img: "/images/img13.jpg" },
-  ],
-};
-
 const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-6");
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -69,9 +33,16 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(true);
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [activeSublinks, setActiveSublinks] = useState(sublinkData["Acquista i prodotti"]); // Default to first element
 
   const thirdRowRef = useRef<HTMLDivElement>(null); // Reference to third row for scrolling
+
+  // Sample images and sublinks data
+  const sublinks = [
+    { href: "/collections/sublink1", label: "Sublink 1", img: "/images/img1.jpg" },
+    { href: "/collections/sublink2", label: "Sublink 2", img: "/images/img2.jpg" },
+    { href: "/collections/sublink3", label: "Sublink 3", img: "/images/img3.jpg" },
+    { href: "/collections/sublink4", label: "Sublink 4", img: "/images/img4.jpg" },
+  ];
 
   // Navigation links (second row)
   const collectionLinks = [
@@ -81,6 +52,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
     { href: "/collections/scannerizza-taglia", label: "Ispirazione" },
     { href: "/collections/termopresse", label: "IKEA for Business" },
     { href: "/collections/stiro", label: "Servizi e progettazione" },
+    { href: "#", label: "Altro" },
   ];
 
   // Handle screen size to check if it's mobile
@@ -131,14 +103,6 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMobileMenuOpen]);
-
-  // Handle click on second-row items to update the third row
-  const handleSecondRowClick = (label: string) => {
-    const sublinks = sublinkData[label];
-    if (sublinks) {
-      setActiveSublinks(sublinks);
-    }
-  };
 
   // Scroll the third row horizontally
   const scrollThirdRow = (direction: "left" | "right") => {
@@ -206,13 +170,9 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
         {/* Second Row: Links */}
         <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6">
           {collectionLinks.map((link) => (
-            <button
-              key={link.label}
-              onClick={() => handleSecondRowClick(link.label)}
-              className="relative hover:text-gray-900 transition-colors duration-300"
-            >
+            <LocalizedClientLink key={link.href} href={link.href}>
               {link.label}
-            </button>
+            </LocalizedClientLink>
           ))}
         </div>
 
@@ -229,7 +189,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
             ref={thirdRowRef}
             style={{ scrollBehavior: "smooth" }}
           >
-            {activeSublinks.map((sublink) => (
+            {sublinks.map((sublink) => (
               <LocalizedClientLink
                 key={sublink.href}
                 href={sublink.href}
@@ -292,7 +252,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
             </LocalizedClientLink>
             {collectionLinks.map((link) => (
               <LocalizedClientLink
-                key={link.label}
+                key={link.href}
                 href={link.href}
                 className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
               >
@@ -306,4 +266,32 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   );
 };
 
-export default Nav;
+const IndexPage: React.FC = () => {
+  const [regions, setRegions] = useState<Region[]>([]);
+
+  useEffect(() => {
+    const fetchRegions = async () => {
+      try {
+        const response = await medusaClient.regions.list();  // Fetch regions from Medusa
+        setRegions(response.regions);
+      } catch (error) {
+        medusaError(error);  // Handle any errors
+      }
+    };
+
+    fetchRegions();
+  }, []);
+
+  return (
+    <div className="relative">
+      <Nav regions={regions} />
+      <div className="pt-24"></div> {/* Adjusted spacer to ensure more blank space above the hero section */}
+      {/* Hero section */}
+      <div className="hero-bg">
+        {/* Your hero background content */}
+      </div>
+    </div>
+  );
+};
+
+export default IndexPage;
