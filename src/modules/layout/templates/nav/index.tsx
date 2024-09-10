@@ -9,11 +9,15 @@ import {
   FiX,
   FiChevronLeft,
   FiChevronRight,
-} from "react-icons/fi"; // Add FiX for "X" icon and Chevron icons for scroll
+  FiHome,  // Import icons from react-icons/fi
+} from "react-icons/fi"; // Use Feather icons from react-icons library
 import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import { Region as MedusaRegion } from "@medusajs/medusa";
+
+// Import the JSON data
+import secondRowData from './secondRowData.json';  // Ensure you have the JSON file in the same directory
 
 // Italian flag square SVG
 const ItalianFlagIcon = () => (
@@ -26,13 +30,6 @@ const ItalianFlagIcon = () => (
 
 interface Region extends MedusaRegion {}
 
-// Random test links and image for the third row content
-const randomLinks = Array.from({ length: 10 }, (_, i) => ({
-  href: `https://artecucire.com/test${i + 1}`,
-  label: `Test Link ${i + 1}`,
-  img: "https://media.istockphoto.com/id/695750612/it/foto/sfondo-texture-metallica.jpg",
-}));
-
 const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   const [navClass, setNavClass] = useState("fixed top-0 bg-white z-50 pt-6");
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -40,20 +37,10 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(true);
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [activeContent, setActiveContent] = useState(randomLinks); // State for dynamic third row content
+  const [activeContent, setActiveContent] = useState(secondRowData.secondRow[0].items); // Default state for the third row (first section)
   const [showArrows, setShowArrows] = useState(false); // State to show/hide scroll arrows on hover
 
   const thirdRowRef = useRef<HTMLDivElement>(null); // Reference to third row for scrolling
-
-  // Navigation links (second row)
-  const collectionLinks = [
-    { href: "#", label: "Acquista i prodotti" },
-    { href: "#", label: "Esplora gli ambienti" },
-    { href: "#", label: "Offerte" },
-    { href: "#", label: "Ispirazione" },
-    { href: "#", label: "IKEA for Business" },
-    { href: "#", label: "Servizi e progettazione" },
-  ];
 
   // Handle screen size to check if it's mobile
   useEffect(() => {
@@ -90,23 +77,9 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
     };
   }, [isMobile, scrollTimeout]);
 
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (isMobileMenuOpen && !(event.target as HTMLElement).closest(".mobile-menu")) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMobileMenuOpen]);
-
   // Handle click on second-row items to update the third row
-  const handleSecondRowClick = () => {
-    setActiveContent(randomLinks); // Trigger content update for the third row
+  const handleSecondRowClick = (items: any) => {
+    setActiveContent(items); // Trigger content update for the third row based on the clicked link
   };
 
   // Scroll the third row horizontally
@@ -174,9 +147,14 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
 
         {/* Second Row: Links */}
         <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6">
-          {collectionLinks.map((link) => (
-            <button key={link.label} onClick={handleSecondRowClick} className="relative hover:text-gray-900 transition-colors duration-300">
-              {link.label}
+          {secondRowData.secondRow.map((link, index) => (
+            <button
+              key={index}
+              onClick={() => handleSecondRowClick(link.items)} // Change content in the third row on click
+              className="relative hover:text-gray-900 transition-colors duration-300 flex items-center space-x-2"
+            >
+              {React.createElement(require("react-icons/fi")[link.icon], { size: 20 })}
+              <span>{link.label}</span>
             </button>
           ))}
         </div>
@@ -206,7 +184,11 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
                 href={item.href}
                 className="min-w-[200px] flex flex-col items-center"
               >
-                <img src={item.img} alt={item.label} className="w-full h-auto" />
+                <img
+                  src={item.img}
+                  alt={item.label}
+                  className="w-full h-auto object-contain"
+                />
                 <span className="text-sm text-gray-600 mt-2">{item.label}</span>
               </a>
             ))}
@@ -263,10 +245,10 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
             >
               Accedi
             </LocalizedClientLink>
-            {collectionLinks.map((link) => (
+            {secondRowData.secondRow.map((link, index) => (
               <LocalizedClientLink
-                key={link.label}
-                href={link.href}
+                key={index}
+                href="#"
                 className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
               >
                 {link.label}
