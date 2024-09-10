@@ -10,7 +10,6 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiHome,  // Import icons from react-icons/fi
-
 } from "react-icons/fi"; // Use Feather icons from react-icons library
 import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
@@ -216,8 +215,8 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
         )}
       </header>
 
-      {/* Space below the navbar to ensure it doesn't overlap with the content */}
-      <div className="pt-24"></div>
+      {/* Adjusted padding for spacing */}
+      <div className="pt-12 pb-8 px-10 lg:px-16"></div>
 
       {/* Search Modal */}
       {showSearchModal && (
@@ -284,7 +283,6 @@ const IndexPage: React.FC = () => {
     <div className="relative">
       <Nav regions={regions} />
       {/* The rest of your page content */}
-      <div className="pt-24"></div> {/* Space below navbar */}
       <div className="hero-bg">
         {/* Your hero background content */}
       </div>
