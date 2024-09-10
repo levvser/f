@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities";
 
 @layer utilities {
-  /* Chrome, Safari and Opera */
+  /* Chrome, Safari and Opera - Hide scrollbar */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -17,6 +17,7 @@
     scrollbar-width: none; /* Firefox */
   }
 
+  /* Input field behavior for label animation */
   input:focus ~ label,
   input:not(:placeholder-shown) ~ label {
     @apply -translate-y-2 text-xsmall-regular;
@@ -26,6 +27,7 @@
     @apply left-0;
   }
 
+  /* Autofill input styles */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -41,6 +43,7 @@
     transition: background-color 5000s ease-in-out 0s;
   }
 
+  /* Remove extra decorations on search inputs */
   input[type="search"]::-webkit-search-decoration,
   input[type="search"]::-webkit-search-cancel-button,
   input[type="search"]::-webkit-search-results-button,
@@ -50,15 +53,18 @@
 }
 
 @layer components {
+  /* Content container with increased padding on all sides */
   .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 xl:px-24;
-    /* Increased padding for the content container */
+    @apply max-w-[1440px] w-full mx-auto px-12 sm:px-16 md:px-24 lg:px-32 xl:px-40;
+    /* Even larger padding to create more white space around the content */
   }
 
+  /* Contrast button styling */
   .contrast-btn {
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
   }
 
+  /* Text sizing utilities */
   .text-xsmall-regular {
     @apply text-[10px] leading-4 font-normal;
   }

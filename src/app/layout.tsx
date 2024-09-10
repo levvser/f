@@ -11,8 +11,8 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" data-mode="light">
       <body>
-        {/* Matching padding behavior similar to IKEA */}
-        <main className="relative px-6 sm:px-8 md:px-12 lg:px-16 xl:px-24 py-8">
+        {/* Significantly increased padding */}
+        <main className="relative px-16 sm:px-24 md:px-32 lg:px-40 xl:px-48 py-24"> 
           {props.children}
         </main>
       </body>
