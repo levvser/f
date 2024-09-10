@@ -9,8 +9,7 @@ import {
   FiX,
   FiChevronLeft,
   FiChevronRight,
-  FiHome,  // Import icons from react-icons/fi
-} from "react-icons/fi"; // Use Feather icons from react-icons library
+} from "react-icons/fi";
 import { medusaClient } from "@lib/config";
 import medusaError from "@lib/util/medusa-error";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
@@ -37,6 +36,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(true);
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
   const [activeContent, setActiveContent] = useState(secondRowData.secondRow[0].items); // Default state for the third row (first section)
+  const [activeIndex, setActiveIndex] = useState(0); // Track active element in second row
   const [showArrows, setShowArrows] = useState(false); // State to show/hide scroll arrows on hover
 
   const thirdRowRef = useRef<HTMLDivElement>(null); // Reference to third row for scrolling
@@ -77,8 +77,9 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
   }, [isMobile, scrollTimeout]);
 
   // Handle click on second-row items to update the third row
-  const handleSecondRowClick = (items: any) => {
+  const handleSecondRowClick = (items: any, index: number) => {
     setActiveContent(items); // Trigger content update for the third row based on the clicked link
+    setActiveIndex(index); // Set the active element index
   };
 
   // Scroll the third row horizontally
@@ -96,8 +97,8 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
     <>
       <header className="w-full bg-white">
         {/* First Row: Logo, Search, Icons */}
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-24 lg:px-32"> {/* Increased padding on left and right */}
-          {/* Text Logo */}
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-24 lg:px-40 py-4">
+          {/* Text Logo on the Left */}
           <div className="flex items-center">
             <LocalizedClientLink
               href="/"
@@ -128,7 +129,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
             </button>
           </div>
 
-          {/* Desktop Icons */}
+          {/* Desktop Icons on the Right */}
           <div className="hidden md:flex items-center space-x-8">
             <LocalizedClientLink
               className="hover:text-gray-700 flex items-center relative group"
@@ -145,12 +146,15 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
         </div>
 
         {/* Second Row: Links */}
-        <div className="hidden md:flex justify-center py-3 border-t border-gray-200 text-sm font-medium space-x-6">
+        <div className="hidden md:flex justify-start py-2 border-t border-gray-200 text-sm font-medium space-x-6 px-24 lg:px-40">
+          {/* Align with the left, bold and active styling */}
           {secondRowData.secondRow.map((link, index) => (
             <button
               key={index}
-              onClick={() => handleSecondRowClick(link.items)} // Change content in the third row on click
-              className="relative hover:text-gray-900 transition-colors duration-300 flex items-center space-x-2"
+              onClick={() => handleSecondRowClick(link.items, index)} // Change content in the third row on click
+              className={`relative transition-colors duration-300 flex items-center space-x-2 ${
+                activeIndex === index ? 'text-gray-900 font-bold' : 'text-gray-500'
+              }`}
             >
               {React.createElement(require("react-icons/fi")[link.icon], { size: 20 })}
               <span>{link.label}</span>
@@ -160,7 +164,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
 
         {/* Third Row: Scrollable Subsections */}
         <div
-          className="hidden md:flex items-center justify-between px-24 lg:px-32 py-4 border-t border-gray-200 relative" 
+          className="hidden md:flex items-center justify-between px-24 lg:px-40 py-2 border-t border-gray-200 relative"
           onMouseEnter={() => setShowArrows(true)}
           onMouseLeave={() => setShowArrows(false)}
         >
@@ -171,9 +175,9 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
             </button>
           )}
 
-          {/* Scrollable Content */}
+          {/* Scrollable Content with Scrollbar */}
           <div
-            className="flex space-x-4 overflow-x-auto no-scrollbar"
+            className="flex space-x-4 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
             ref={thirdRowRef}
             style={{ scrollBehavior: "smooth" }}
           >
@@ -216,7 +220,7 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
       </header>
 
       {/* Adjusted padding for spacing */}
-      <div className="pt-32 pb-4 px-24 lg:px-32"></div>  {/* Significantly increased top, left, and right padding */}
+      <div className="pt-12 pb-8 px-10 lg:px-16"></div>
 
       {/* Search Modal */}
       {showSearchModal && (
@@ -233,29 +237,6 @@ const Nav: React.FC<{ regions: Region[] }> = ({ regions }) => {
             >
               Close
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-30 flex flex-col items-center justify-start pt-16 mobile-menu">
-          <div className="w-full bg-white shadow-lg">
-            <LocalizedClientLink
-              href="/account"
-              className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
-            >
-              Accedi
-            </LocalizedClientLink>
-            {secondRowData.secondRow.map((link, index) => (
-              <LocalizedClientLink
-                key={index}
-                href="#"
-                className="block py-4 text-center border-b border-gray-200 w-full text-gray-900 font-medium"
-              >
-                {link.label}
-              </LocalizedClientLink>
-            ))}
           </div>
         </div>
       )}
@@ -282,7 +263,6 @@ const IndexPage: React.FC = () => {
   return (
     <div className="relative">
       <Nav regions={regions} />
-      {/* The rest of your page content */}
       <div className="hero-bg">
         {/* Your hero background content */}
       </div>
