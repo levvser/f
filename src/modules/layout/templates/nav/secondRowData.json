@@ -1,0 +1,116 @@
+{
+  "secondRow": [
+    {
+      "label": "Acquista i prodotti",
+      "icon": "FiShoppingCart", 
+      "items": [
+        {
+          "href": "https://artecucire.com/product1",
+          "label": "Prodotto 1",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product2",
+          "label": "Prodotto 2",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product3",
+          "label": "Prodotto 3",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product4",
+          "label": "Prodotto 4",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product5",
+          "label": "Prodotto 5",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product6",
+          "label": "Prodotto 6",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product7",
+          "label": "Prodotto 7",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product8",
+          "label": "Prodotto 8",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product9",
+          "label": "Prodotto 9",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/product10",
+          "label": "Prodotto 10",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        }
+      ]
+    },
+    {
+      "label": "Esplora gli ambienti",
+      "icon": "FiHome", 
+      "items": [
+        {
+          "href": "https://artecucire.com/ambient1",
+          "label": "Ambiente 1",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient2",
+          "label": "Ambiente 2",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient3",
+          "label": "Ambiente 3",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient4",
+          "label": "Ambiente 4",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient5",
+          "label": "Ambiente 5",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient6",
+          "label": "Ambiente 6",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient7",
+          "label": "Ambiente 7",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient8",
+          "label": "Ambiente 8",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient9",
+          "label": "Ambiente 9",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        },
+        {
+          "href": "https://artecucire.com/ambient10",
+          "label": "Ambiente 10",
+          "img": "https://ac-bucket.fra1.digitaloceanspaces.com/0105S-TAGLIACUCE-FAMIGLIA-1723733913518.png"
+        }
+      ]
+    }
+  ]
+}
